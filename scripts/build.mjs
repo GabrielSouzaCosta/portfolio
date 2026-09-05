@@ -143,6 +143,28 @@ assert.equal(html.slice(html.indexOf('<body')), originalHtml.slice(originalHtml.
   .replace(/<(?:link|img|source|image|script)\b[^>]*>/gi, tag => rewriteHtmlAssets(tag, asset)),
   'The build changed page content beyond asset URLs.');
 
+// Vercel runs hit routes only after finding a file. Cache misses must never
+// inherit immutable headers. Keep every generated asset covered by that phase.
+const hosting = JSON.parse(readFileSync(path.join(root, 'vercel.json'), 'utf8'));
+const immutablePatterns = [];
+const earlierCachePatterns = [];
+let phase = null;
+for (const route of hosting.routes || []) {
+  if (route.handle) phase = route.handle;
+  if (phase === null && Object.keys(route.headers || {}).some(key => key.toLowerCase() === 'cache-control')) {
+    earlierCachePatterns.push(new RegExp(route.src));
+  }
+  if (Object.values(route.headers || {}).some(value => value.includes('immutable'))) {
+    assert.equal(phase, 'hit', 'Immutable caching must apply only to existing files.');
+    assert.equal(route.continue, true, 'A cache header must not change file routing.');
+    immutablePatterns.push(new RegExp(route.src));
+  }
+}
+for (const url of emitted.keys()) {
+  assert(immutablePatterns.some(pattern => pattern.test(url)), `Built asset is missing immutable caching: ${url}`);
+  assert(!earlierCachePatterns.some(pattern => pattern.test(url)), `An earlier cache header shadows immutable caching: ${url}`);
+}
+
 const size = value => `${(Buffer.byteLength(value) / 1024).toFixed(1)} KiB`;
 console.log(`Built dist/: ${stylesheetTags.length} stylesheets → ${size(css.code)} CSS; ${scriptTags.length} scripts → ${size(js.code)} JS.`);
 console.log(`${emitted.size} fingerprinted files; HTML ${size(html)}; total ${size(Buffer.concat([...emitted.values(), Buffer.from(html)]))}.`);

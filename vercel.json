@@ -3,33 +3,23 @@
   "framework": null,
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "headers": [
+  "routes": [
     {
-      "source": "/assets/:path*",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
+      "src": "^/(?:index\\.html)?$",
+      "headers": {
+        "cache-control": "public, max-age=0, must-revalidate"
+      },
+      "continue": true
     },
     {
-      "source": "/",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        }
-      ]
+      "handle": "hit"
     },
     {
-      "source": "/index.html",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        }
-      ]
+      "src": "^/assets/[^/]+\\.[a-f0-9]{16}\\.(?:css|js|webp|woff2|svg|txt|json)$",
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable"
+      },
+      "continue": true
     }
   ]
 }

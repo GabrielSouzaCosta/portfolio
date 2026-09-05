@@ -47,7 +47,7 @@ function setPage(index, { focus = false, history = true, initial = false } = {})
   const nextPage = page === scenes.length - 1 ? 0 : page + 1;
   exploreCue.href = '#' + scenes[nextPage].id;
   exploreCue.querySelector('.cue-label').textContent = page === scenes.length - 1 ? 'Voltar' : 'Explore';
-  exploreCue.setAttribute('aria-label', page === scenes.length - 1 ? 'Voltar ao início' : 'Próxima seção: ' + navigation[nextPage].querySelector('.nav-name').firstChild.textContent);
+  exploreCue.setAttribute('aria-label', page === scenes.length - 1 ? 'Voltar ao início' : 'Explore: próxima seção, ' + navigation[nextPage].querySelector('.nav-name').firstChild.textContent);
 
   scenes.forEach((scene, i) => {
     scene.classList.toggle('is-active', i === page);
@@ -63,14 +63,18 @@ function setPage(index, { focus = false, history = true, initial = false } = {})
   });
   document.body.classList.remove('cat-pointer');
   if (changed) scenes[page].querySelector('.scene-scroll').scrollTop = 0;
+  updateScrollState();
   if (history && location.hash !== '#' + scenes[page].id) window.history.pushState(null, '', '#' + scenes[page].id);
   if (focus) scenes[page].querySelector('h1,h2').focus({ preventScroll: true });
   if (!initial) status.textContent = `${page + 1} de ${scenes.length}: ${navigation[page].querySelector('.nav-name').childNodes[0].textContent}`;
   lockedUntil = performance.now() + (reducedMotion.matches ? 180 : 900);
-  if (page === 0 && (changed || initial)) requestAnimationFrame(() => renderHeroPixels());
+  if (page === 0 && changed) requestAnimationFrame(() => renderHeroPixels());
   document.dispatchEvent(new CustomEvent('portfolio:sectionchange', { detail: { id: scenes[page].id, initial, changed } }));
 }
 function scrollContainer() { return scenes[page].querySelector('.scene-scroll'); }
+function updateScrollState() {
+  document.body.classList.toggle('scene-scrolled', scrollContainer().scrollTop > 0);
+}
 function canScroll(element, direction) {
   if (!element || element.scrollHeight <= element.clientHeight + 2) return false;
   return direction > 0 ? element.scrollTop + element.clientHeight < element.scrollHeight - 2 : element.scrollTop > 2;
@@ -83,6 +87,11 @@ function editableScroll(target, direction) {
 root.classList.add('enhanced');
 setPage(page, { history: false, initial: true });
 lockedUntil = 0;
+// Paint every chapter in its starting position before enabling navigation motion.
+requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('scene-transitions')));
+scenes.forEach(scene => scene.querySelector('.scene-scroll').addEventListener('scroll', () => {
+  if (scene === scenes[page]) updateScrollState();
+}, { passive: true }));
 
 // A new press is a fresh interaction, even if the previous swipe emitted no click.
 document.addEventListener('pointerdown', () => { navigationDrag = false; }, { passive: true });
@@ -94,6 +103,8 @@ document.addEventListener('click', event => {
   }
   const link = event.target.closest('a[href^="#"]');
   if (!link) return;
+  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey ||
+      link.hasAttribute('download') || (link.target && link.target !== '_self')) return;
   if (link.classList.contains('skip-link')) {
     event.preventDefault();
     scenes[page].querySelector('h1,h2').focus({ preventScroll: true });
@@ -477,11 +488,13 @@ const heroLoaded = new Promise(resolve => {
   engraving.onerror = () => resolve(false);
 });
 engraving.src = 'assets/images/hero.webp';
-const heroRequestedAt = performance.now();
 Promise.all([heroLoaded, document.fonts.ready]).then(([loaded]) => {
   heroReady = loaded;
-  // Slow fonts or imagery must not restart an entrance after reading has begun.
-  if (performance.now() - heroRequestedAt < 2500) renderHeroPixels();
+  // Only decorate the first paint when everything is already ready. A late image
+  // or font must never cover content that the visitor can already read.
+  const canObservePaint = window.PerformanceObserver?.supportedEntryTypes?.includes('paint');
+  const contentPainted = performance.getEntriesByName('first-contentful-paint', 'paint').length > 0;
+  if (canObservePaint && !contentPainted) renderHeroPixels();
 });
 window.addEventListener('resize', stopHeroResolution, { passive: true });
 heroSurface.addEventListener('pointerdown', stopHeroResolution, { passive: true });

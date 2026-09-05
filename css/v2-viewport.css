@@ -1,14 +1,23 @@
-/* One chapter per visible viewport; content adapts to the available height. */
+/* A chapter fills the viewport and grows when its content needs more room. */
 html.enhanced, .enhanced .stage { height: 100dvh; }
-.enhanced .scene-scroll { height: 100%; overflow: hidden; }
+.enhanced .scene-scroll { height: 100%; overflow-x: hidden; overflow-y: auto; }
 .enhanced .scene-scroll > :is(.hero-inner,.essence-inner,.studio-inner,.contact-inner) {
-  height: 100%;
-  min-height: 0;
+  height: auto;
+  min-height: 100%;
 }
+.scene-scroll .essence-inner > .essence-copy,
+.scene-scroll .studio-inner > .studio-grid,
+.scene-scroll .contact-inner > .contact-grid { flex-shrink: 0; }
+/* Match the first paint to the enhanced hero without hiding the no-JS page. */
+.hero-inner { min-height: 100dvh; }
 @media (max-width: 850px) {
   .enhanced .stage { height: 100dvh; padding-bottom: 0; }
+  .hero-inner,
   .enhanced .scene-scroll > :is(.hero-inner,.essence-inner,.studio-inner,.contact-inner) {
     padding: calc(82px + env(safe-area-inset-top, 0px)) 24px max(18px, env(safe-area-inset-bottom, 0px));
+  }
+  .enhanced .scene-scroll {
+    scroll-padding-block: calc(82px + env(safe-area-inset-top, 0px)) max(18px, env(safe-area-inset-bottom, 0px));
   }
   .hero-inner { align-items: flex-start; }
   .hero-copy { padding-right: 36px; }

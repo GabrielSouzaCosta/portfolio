@@ -51,7 +51,8 @@ body[data-section="estudio"] .section-link.active { color: #974e6a; }
 .hero-inner,.essence-inner,.studio-inner,.contact-inner { position: relative; isolation: isolate; min-height: 100svh; overflow: hidden; }
 .enhanced { overflow: hidden; height: 100svh; }
 .enhanced .stage { height: 100svh; overflow: hidden; }
-.enhanced .scene { position: absolute; inset: 0; height: 100%; transform: translate3d(0,calc((var(--order) - var(--page)) * 100% + var(--drag)),0); transition: transform .88s var(--ease); will-change: transform; }
+.enhanced .scene { position: absolute; inset: 0; height: 100%; transform: translate3d(0,calc((var(--order) - var(--page)) * 100% + var(--drag)),0); will-change: transform; }
+.enhanced.scene-transitions .scene { transition: transform .88s var(--ease); }
 .enhanced.dragging .scene { transition: none; }
 .enhanced .scene:not(.is-active) .scene-scroll { overflow: hidden; }
 .hero-inner { display: flex; align-items: center; padding: 50px clamp(40px,5vw,92px); background: var(--paper); }

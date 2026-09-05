@@ -20,6 +20,10 @@
     backdrop-filter: none;
     pointer-events: none;
   }
+  /* Keep scrolled content from showing through the fixed navigation. */
+  body.scene-scrolled[data-section] .sidebar { background: var(--paper); transition-property: color; }
+  body.scene-scrolled[data-section="essencia"] .sidebar { background: var(--forest); }
+  body.scene-scrolled[data-section="estudio"] .sidebar { background: #080808; }
   .sidebar:before { display: none; }
   .sidebar .brand {
     display: flex;

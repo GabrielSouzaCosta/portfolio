@@ -20,6 +20,8 @@ python3 -m http.server 4173 --bind 127.0.0.1 --directory dist
 
 O `vercel.json` configura automaticamente o comando de build e a pasta `dist/`. CSS e JavaScript são combinados e minificados; os assets têm nomes baseados no conteúdo e cache de um ano. O HTML é revalidado para receber novas versões. Edite os arquivos de origem, nunca `dist/`. Não é necessário mudar manualmente versões de arquivos para invalidar o cache.
 
+O cache imutável é aplicado na fase `hit` da Vercel, somente depois de encontrar o arquivo. Um asset inexistente mantém o tratamento padrão de 404. O build verifica se todos os arquivos gerados estão cobertos pela regra de cache. A URL canônica da página é `https://gabriel.goiabalunar.tech/`.
+
 ## Estrutura
 
 ```text
@@ -47,6 +49,8 @@ A configuração está no início de `js/v2.js`. `studioUrl` aponta temporariame
 `contactEndpoint` ainda está vazio. Para receber mensagens, configure um endpoint HTTPS que aceite POST JSON com `name`, `email` e `message`. O servidor deve validar os campos; uma resposta de sucesso deve indicar recebimento real. Até a configuração, o formulário informa que o canal ainda não recebe mensagens e preserva os campos preenchidos.
 
 As fontes Instrument Serif, Manrope e VT323 são servidas localmente em WOFF2, com as licenças em `assets/fonts/`. A página respeita `prefers-reduced-motion`.
+
+As cenas assumem sua posição inicial antes de habilitar transições. O efeito pixelado de entrada só inicia antes da primeira pintura de conteúdo; recursos que carregam mais tarde não cobrem uma página já legível. Em telas baixas, cada seção permite rolagem interna antes de avançar para a próxima, e o cabeçalho mobile recebe fundo durante a rolagem.
 
 As imagens exibidas usam WebP: gravura na resolução original, logo sem perda de pixels e gato com variantes para telas de alta densidade. Os PNGs originais continuam em `assets/images/`. A gravura e as fontes da primeira tela têm prioridade de carregamento; as imagens do estúdio usam carregamento adiado. Veja as medições e os comandos de reprodução em [docs/performance.md](docs/performance.md).
 
