@@ -56,9 +56,31 @@
 .cat-cursor.is-sleeping .morfeu-sleep { animation: morfeu-dream 2600ms ease-in-out infinite; }
 .cat-cursor.is-sleeping .morfeu-body { animation-duration: 3400ms; }
 .cat-cursor, .cat-cursor * { animation-play-state: paused !important; }
+.cat-cursor.morfeu-companion {
+  position: absolute;
+  top: auto;
+  left: auto;
+  right: 10px;
+  bottom: calc(100% - 5px);
+  width: 64px;
+  height: 70px;
+  z-index: 4;
+}
+.morfeu-companion .morfeu-position { width: 64px; height: 70px; transform: none; }
+.morfeu-companion .morfeu-sprite { width: 64px; height: 70px; }
+@media (hover: none), (pointer: coarse) {
+  .morfeu-companion.is-visible { visibility: visible; }
+  @media (prefers-reduced-motion: no-preference) {
+    .morfeu-companion.is-visible, .morfeu-companion.is-visible * { animation-play-state: running !important; }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .morfeu-companion * { animation: none !important; transition: none !important; }
+  .morfeu-companion.is-sleeping .morfeu-sleep { opacity: .85; }
+}
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   body.cat-pointer .studio, body.cat-pointer .studio * { cursor: none !important; }
-  body.cat-pointer .cat-cursor { visibility: visible; }
+  body.cat-pointer .cat-cursor:not(.morfeu-companion) { visibility: visible; }
   body.cat-pointer .cat-cursor, body.cat-pointer .cat-cursor * { animation-play-state: running !important; }
 }
 @keyframes morfeu-breathe { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.035); } }

@@ -7,6 +7,40 @@
 
   const fine = matchMedia('(hover: hover) and (pointer: fine)');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const cta = studio.querySelector('.studio-cta');
+  const companion = cta ? cursor.cloneNode(true) : null;
+  let companionTimer = 0;
+  let companionVisible = false;
+  let ctaVisible = false;
+  if (companion) {
+    companion.classList.add('morfeu-companion');
+    companion.querySelector('.morfeu-pointer').remove();
+    cta.append(companion);
+  }
+
+  function syncCompanion() {
+    if (!companion) return;
+    const visible = !fine.matches && !document.hidden && ctaVisible &&
+      document.body.dataset.section === 'estudio';
+    if (visible === companionVisible) return;
+    companionVisible = visible;
+    clearTimeout(companionTimer);
+    companion.classList.toggle('is-visible', visible);
+    companion.classList.remove('is-sleeping');
+    if (visible) {
+      companionTimer = setTimeout(() => companion.classList.add('is-sleeping'), 4800);
+    }
+  }
+
+  if (companion) {
+    new IntersectionObserver(entries => {
+      ctaVisible = entries[0].isIntersecting;
+      syncCompanion();
+    }).observe(cta);
+    document.addEventListener('portfolio:sectionchange', syncCompanion);
+    document.addEventListener('visibilitychange', syncCompanion);
+    fine.addEventListener('change', syncCompanion);
+  }
   const position = cursor.querySelector('.morfeu-position');
   const pupils = cursor.querySelector('.morfeu-pupils');
   const eyes = cursor.querySelector('.morfeu-blink');
