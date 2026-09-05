@@ -1,0 +1,79 @@
+/* One chapter per visible viewport; content adapts to the available height. */
+html.enhanced, .enhanced .stage { height: 100dvh; }
+.enhanced .scene-scroll { height: 100%; overflow: hidden; }
+.enhanced .scene-scroll > :is(.hero-inner,.essence-inner,.studio-inner,.contact-inner) {
+  height: 100%;
+  min-height: 0;
+}
+@media (max-width: 850px) {
+  .enhanced .stage { height: 100dvh; padding-bottom: 0; }
+  .enhanced .scene-scroll > :is(.hero-inner,.essence-inner,.studio-inner,.contact-inner) {
+    padding: calc(82px + env(safe-area-inset-top, 0px)) 24px max(18px, env(safe-area-inset-bottom, 0px));
+  }
+  .hero-inner { align-items: flex-start; }
+  .hero-copy { padding-right: 36px; }
+  .hero-copy h1 { font-size: clamp(36px, 6.4dvh, 62px); }
+  .hero-description { margin: 18px 0; font-size: 13px; line-height: 1.65; }
+  .hero-art { background-size: auto 76dvh; }
+  .hero-inner { --veil-stop: 33%; --veil-clear: 68%; }
+
+  .essence-inner { justify-content: center; gap: clamp(8px, 1.6dvh, 18px); }
+  .essence-figure { width: min(190px, 26dvh); flex: 0 0 auto; }
+  .essence-emblem { width: 100%; height: clamp(88px, 19dvh, 160px); }
+  .essence-bow-control { height: clamp(88px, 19dvh, 160px); }
+  .essence-caption { font-size: 9px; }
+  .essence-instruction { margin-top: 4px; font-size: 10px; }
+  .essence-replay { min-height: 28px; padding: 3px 8px; margin: 0 auto; }
+  .essence h2 { font-size: clamp(34px, 6dvh, 54px); }
+  .essence-body { margin-top: 12px; }
+  .essence-body p { font-size: 12px; line-height: 1.55; }
+  .essence-body .essence-secondary { font-size: 11px; margin-top: 8px; }
+  .essence-body p br { display: none; }
+  .essence .text-link { margin-top: 8px; padding-block: 8px; min-height: 36px; font-size: 11px; }
+
+  .studio .studio-inner { justify-content: center; }
+  .studio .studio-grid { gap: clamp(12px, 2dvh, 24px); }
+  .studio .studio-wordmark { font-size: clamp(36px, 6.6dvh, 62px); margin-bottom: 12px; }
+  .studio h2 { font-size: clamp(28px, 4.8dvh, 43px); }
+  #estudio .studio-copy>p:not(.portal-info) { margin-top: 12px; font-size: 12px; line-height: 1.6; }
+  .studio .studio-copy { padding-right: 24px; }
+  .studio-cta { margin-top: 38px; }
+  .studio .button-pink { min-height: 48px; font-size: 11px; gap: 12px; padding: 5px 7px 5px 14px; }
+  .studio .button-icon { width: 32px; height: 34px; }
+  .studio .button-tabby { width: 76px; }
+  .studio .lunar-system { width: min(210px, 26dvh); margin-inline: auto; }
+  .studio .moon-caption { font-size: 12px; }
+  .studio .portal-info { font-size: 10px; margin-top: 8px; }
+
+  .contact-grid { flex: 1 1 auto; min-height: 0; grid-template-columns: 1fr; align-content: center; gap: 14px; padding: 0; }
+  .contact-copy { padding-right: 42px; }
+  .contact h2 { font-size: clamp(34px, 6.2dvh, 52px); }
+  .contact-copy>p { margin-top: 8px; font-size: 12px; line-height: 1.5; }
+  .contact-seal,.contact .letter-heading,.contact .letter-recipient { display: none; }
+  .contact-form { padding: 14px 16px 12px; gap: 10px; }
+  .contact-form label { gap: 3px; font-size: 10px; }
+  .contact-form input,.contact-form textarea { font-size: 16px; line-height: 1.4; padding: 3px 0 6px; }
+  .contact-form textarea { height: clamp(50px, 9dvh, 82px); min-height: 0; max-height: none; resize: none; }
+  .contact-form input:focus,.contact-form textarea:focus { padding-bottom: 5px; }
+  .form-bottom { margin: 0; }
+  .form-bottom>span { display: none; }
+  .form-bottom .button { min-height: 44px; width: 100%; padding: 5px 7px 5px 14px; }
+  .form-bottom .button-icon { height: 32px; }
+  .contact-footer { flex: 0 0 auto; margin-top: 12px; padding-top: 0; font-size: 8px; gap: 6px; }
+  .contact-footer a { gap: 4px; }
+  .form-status { font-size: 10px; line-height: 1.4; min-height: 0; }
+}
+@media (min-width: 851px) and (max-height: 760px) {
+  .contact .contact-inner { padding-block: 24px; }
+  .contact-grid { padding-block: 12px; min-height: 0; }
+  .contact-form { padding: 18px 24px 14px; gap: 12px; }
+  .letter-heading>span:first-child { font-size: 26px; }
+  .letter-stamp { width: 48px; height: 54px; }
+  .letter-stamp svg { width: 24px; height: 24px; }
+  .letter-recipient { padding-bottom: 8px; }
+  .contact-form label { gap: 4px; }
+  .contact-form input,.contact-form textarea { padding-bottom: 6px; }
+  .contact-form textarea { min-height: 65px; height: 65px; resize: none; }
+  .contact-form input:focus,.contact-form textarea:focus { padding-bottom: 5px; }
+  .contact-footer { padding-top: 0; }
+}

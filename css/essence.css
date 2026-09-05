@@ -1,0 +1,71 @@
+/* Optical atmosphere and an elastic bow, contained within Essência. */
+.essence-inner { --essence-scene-ink: #e4e0c9; --essence-field: #092c25; }
+.essence-inner::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(ellipse at 25% 45%, #7b94601c, transparent 57%), radial-gradient(ellipse at 100% 100%, #00150e45, transparent 75%); }
+.essence-color-field { display: none; position: absolute; inset: 0; pointer-events: none; background: var(--essence-field); z-index: -1; }
+.essence.is-unfolding .essence-color-field { display: block; }
+.essence-atmosphere { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; color: var(--essence-scene-ink); mask-image: linear-gradient(90deg, #000 0%, #000 34%, rgb(0 0 0 / var(--essence-mask-fade, .13)) 58%, rgb(0 0 0 / var(--essence-mask-edge, 0)) 76%); }
+.essence-optics { opacity: .075; }
+.essence-dust { opacity: .2; }
+.essence.has-bow .essence-motion { display: block; color: var(--essence-scene-ink); }
+.essence.has-bow .essence-emblem { visibility: hidden; }
+.essence-motion { z-index: 2; }
+.essence-copy { z-index: 3; }
+.essence-nock-indicator { opacity: 0; transition: opacity .2s; }
+.essence.is-aiming .essence-nock-indicator,
+.essence:has(.essence-bow-control:hover) .essence-nock-indicator,
+.essence:has(.essence-bow-control:focus-visible) .essence-nock-indicator { opacity: .7; }
+.essence-figure { z-index: 4; }
+.essence-bow-control { position: absolute; inset: 0 0 auto; width: 100%; aspect-ratio: 440 / 460; padding: 0; border: 0; background: transparent; border-radius: 45%; color: #c0cda8; cursor: grab; touch-action: none; -webkit-tap-highlight-color: transparent; user-select: none; }
+.essence-bow-control:active { cursor: grabbing; }
+.essence-bow-control:focus-visible { outline: none; }
+.essence:has(.essence-bow-control:focus-visible) .essence-nock-indicator { stroke-width: 1.5; stroke-dasharray: none; opacity: 1; }
+.essence-caption { margin-top: 4px; }
+.essence-bow-control[hidden] { display: none; }
+.essence.is-unfolding .essence-bow-control { pointer-events: none; }
+body[data-section="essencia"] .sidebar { color: var(--essence-chrome-ink, #eee7d8); }
+body[data-section="essencia"] .sidebar .brand,
+body[data-section="essencia"] .sidebar .section-link { color: inherit; }
+body[data-essence-transition] .sidebar { transition: none; }
+@media (max-width: 850px) {
+  .essence-inner { gap: 24px; padding-inline: 27px; padding-top: calc(88px + env(safe-area-inset-top, 0px)); }
+  .essence-figure { width: 224px; }
+  .essence-emblem { width: 224px; height: 188px; }
+  .essence-bow-control { aspect-ratio: auto; height: 188px; }
+  .essence-caption { margin-top: 0; }
+  .essence-atmosphere { mask-image: linear-gradient(#000 0%, #000 29%, rgb(0 0 0 / var(--essence-mask-edge, 0)) 66%); }
+}
+@media (max-width: 370px) {
+  .essence-inner { gap: 16px; padding-inline: 23px; padding-top: calc(82px + env(safe-area-inset-top, 0px)); }
+  .essence-figure { width: 194px; }
+  .essence-emblem { width: 194px; height: 154px; }
+  .essence-bow-control { height: 154px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .essence-color-field,.essence-ripples { display: none; }
+  .essence.is-unfolding .essence-figure { opacity: 1; }
+  .essence.has-bow .essence-motion { display: block; }
+}
+
+/* A finite flight through a larger world; the reading layout stays still. */
+.essence-flight-scene { pointer-events: none; }
+.essence.is-unfolding .essence-figure { opacity: var(--essence-figure-reveal, 0); }
+.essence.is-unfolding .essence-line,
+.essence.is-unfolding .essence-body,
+.essence.is-unfolding .essence-copy>.text-link { clip-path: none; transform: translateY(calc((1 - var(--essence-reveal, 0)) * 7px)); }
+@media (prefers-reduced-motion: reduce) { .essence-flight-scene { display: none; } }
+
+/* Cut ink separates along the actual crossing, then settles back into type. */
+.essence-cut-word { position: relative; display: inline-block; }
+.essence-word-half { position: absolute; inset: 0; pointer-events: none; visibility: hidden; }
+.essence-cut-word.is-cut .essence-word-original { opacity: 0; }
+.essence-cut-word.is-cut .essence-word-half { visibility: visible; animation: essence-ink-cut 1.05s both; }
+.essence-word-top { clip-path: polygon(0 0,100% 0,100% var(--cut-right,50%),0 var(--cut-left,50%)); --cut-x: 5px; --cut-y: -7px; --cut-turn: -1.5deg; }
+.essence-word-bottom { clip-path: polygon(0 var(--cut-left,50%),100% var(--cut-right,50%),100% 100%,0 100%); --cut-x: -3px; --cut-y: 9px; --cut-turn: 1deg; }
+@keyframes essence-ink-cut {
+  0% { transform: none; }
+  17%,38% { transform: translate(var(--cut-x),var(--cut-y)) rotate(var(--cut-turn)); animation-timing-function: cubic-bezier(.16,1,.3,1); }
+  100% { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .essence-cut-word.is-cut .essence-word-half { animation: none; }
+}

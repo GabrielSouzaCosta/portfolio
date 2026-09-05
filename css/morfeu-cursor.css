@@ -1,0 +1,78 @@
+/* A tiny pixel companion, with a precise click point independent of his motion. */
+.cat-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  z-index: 100;
+  pointer-events: none;
+  visibility: hidden;
+  --morfeu-tilt: 0deg;
+  --morfeu-look-x: 0px;
+  --morfeu-look-y: 0px;
+}
+.cat-cursor * { pointer-events: none; }
+.morfeu-pointer { position: absolute; left: -6px; top: -6px; width: 12px; height: 12px; overflow: visible; }
+.morfeu-position { position: absolute; left: 0; top: 0; width: 80px; height: 87px; transform: translate(10px, 8px); }
+.morfeu-lean { transform: rotate(var(--morfeu-tilt)); transform-origin: 45% 80%; transition: transform 180ms ease-out; }
+.morfeu-sprite { display: block; width: 80px; height: 87px; overflow: visible; stroke: none; filter: drop-shadow(1px 3px 2px #061e2660); }
+.morfeu-head-look { transform: translate(var(--morfeu-look-x), var(--morfeu-look-y)); transition: transform 160ms ease-out; }
+.morfeu-head { transform-origin: 42px 54px; transition: transform 180ms ease-out; }
+.morfeu-body { transform-origin: 44px 90px; animation: morfeu-breathe 2600ms ease-in-out infinite; }
+.morfeu-tail { transform-origin: 64px 88px; animation: morfeu-tail 1800ms ease-in-out infinite; }
+.morfeu-ear-left { transform-origin: 24px 26px; animation: morfeu-ear 7200ms ease-in-out infinite; }
+.morfeu-ear-right { transform-origin: 60px 26px; animation: morfeu-ear 8700ms 1200ms ease-in-out infinite reverse; }
+.morfeu-blink { transform-origin: 43px 39px; animation: morfeu-blink 4900ms infinite; }
+.morfeu-pupils { transition: transform 120ms ease-out; }
+.morfeu-paw { transform-origin: 44px 78px; transition: transform 180ms ease-out; }
+.morfeu-facing { transform-origin: 0 0; }
+.morfeu-walk { display: none; }
+.morfeu-walk-front-near { transform-origin: 36px 74px; }
+.morfeu-walk-front-far { transform-origin: 44px 74px; }
+.morfeu-walk-hind-near { transform-origin: 68px 75px; }
+.morfeu-walk-hind-far { transform-origin: 66px 75px; }
+.morfeu-love, .morfeu-sleep { opacity: 0; }
+.morfeu-love { transform-origin: 84px 30px; }
+.cat-cursor.is-curious .morfeu-head { transform: rotate(-7deg) translateY(-2px); }
+.cat-cursor.is-curious .morfeu-tail { animation-duration: 850ms; }
+.cat-cursor.is-petting .morfeu-ear, .cat-cursor.is-petting .morfeu-blink { animation: none; }
+.cat-cursor.is-moving .morfeu-seated { display: none; }
+.cat-cursor.is-moving .morfeu-walk { display: inline; }
+.cat-cursor.is-moving.is-facing-right .morfeu-facing { transform: translateX(96px) scaleX(-1); }
+.cat-cursor.is-moving .morfeu-head-look { transform: translate(-9px, 9px); }
+.cat-cursor.is-moving .morfeu-head { transform: none; }
+.cat-cursor.is-moving .morfeu-tail { animation: morfeu-walk-tail 1800ms ease-in-out infinite; }
+/* Four separate footfalls: long grounded sweep, short lifted return. No body hop. */
+.cat-cursor.is-moving .morfeu-walk-leg { animation: morfeu-walk-step 660ms linear infinite; }
+.cat-cursor.is-moving .morfeu-walk-hind-near { animation-delay: 0ms; }
+.cat-cursor.is-moving .morfeu-walk-front-near { animation-delay: -495ms; }
+.cat-cursor.is-moving .morfeu-walk-hind-far { animation-delay: -330ms; }
+.cat-cursor.is-moving .morfeu-walk-front-far { animation-delay: -165ms; }
+.cat-cursor.is-sleeping .morfeu-head { transform: translateY(4px) rotate(5deg); }
+.cat-cursor.is-sleeping .morfeu-blink { animation: none; transform: scaleY(.09); }
+.cat-cursor.is-sleeping .morfeu-tail { animation-duration: 4200ms; }
+.cat-cursor.is-sleeping .morfeu-ear { animation: none; }
+.cat-cursor.is-sleeping .morfeu-sleep { animation: morfeu-dream 2600ms ease-in-out infinite; }
+.cat-cursor.is-sleeping .morfeu-body { animation-duration: 3400ms; }
+.cat-cursor, .cat-cursor * { animation-play-state: paused !important; }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  body.cat-pointer .studio, body.cat-pointer .studio * { cursor: none !important; }
+  body.cat-pointer .cat-cursor { visibility: visible; }
+  body.cat-pointer .cat-cursor, body.cat-pointer .cat-cursor * { animation-play-state: running !important; }
+}
+@keyframes morfeu-breathe { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.035); } }
+@keyframes morfeu-tail { 0%, 100% { transform: rotate(-7deg); } 50% { transform: rotate(10deg); } }
+@keyframes morfeu-ear { 0%, 86%, 94%, 100% { transform: rotate(0); } 89%, 92% { transform: rotate(-12deg); } }
+@keyframes morfeu-blink { 0%, 42%, 46%, 49%, 53%, 100% { transform: scaleY(1); } 44%, 51% { transform: scaleY(.08); } }
+@keyframes morfeu-walk-step {
+  0%, 100% { transform: translate(-3px, 0) rotate(7deg); }
+  60% { transform: translate(3px, 0) rotate(-7deg); }
+  72% { transform: translate(2px, -2px) rotate(-3deg); }
+  85% { transform: translate(-1px, -4px) rotate(7deg); }
+}
+@keyframes morfeu-walk-tail {
+  0%, 100% { transform: translate(6px, -12px) scale(.8) rotate(-4deg); }
+  50% { transform: translate(6px, -12px) scale(.8) rotate(5deg); }
+}
+@keyframes morfeu-dream { 0% { opacity: 0; transform: translateY(3px); } 25%, 65% { opacity: .85; } 100% { opacity: 0; transform: translateY(-6px); } }

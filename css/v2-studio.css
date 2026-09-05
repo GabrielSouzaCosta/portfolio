@@ -1,0 +1,134 @@
+/* Studio-only adjustments keep the existing two-column composition intact. */
+.studio-inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  isolation: isolate;
+  background: linear-gradient(135deg, #080808 0%, #181818 48%, #050505 100%);
+  min-height: 100svh;
+  overflow: hidden;
+  padding: 30px clamp(44px, 5vw, 88px) 20px clamp(125px, 11.4vw, 185px);
+}
+.studio .studio-nebula {
+  background:
+    radial-gradient(ellipse at 85% 30%, #ffffff0d, transparent 43%),
+    radial-gradient(ellipse at 7% 82%, #00000080, transparent 50%);
+}
+.studio .moon-halo { background: radial-gradient(ellipse, #ffffff0a, transparent 69%); }
+.studio .studio-grid { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; gap: 0; width: 100%; max-width: 1100px; margin: 0 auto; text-align: left; }
+.studio .studio-copy { width: auto; min-width: 0; }
+.studio .lunar-system { width: 100%; max-width: 440px; }
+.studio .moon-caption { bottom: -3%; font-size: 18px; transform: rotate(-5deg); }
+.moon-link {
+  display: block;
+  position: relative;
+  z-index: 2;
+  width: 76%;
+  border-radius: 50%;
+  -webkit-tap-highlight-color: transparent;
+}
+.moon-link .moon-logo { display: block; width: 100%; image-rendering: pixelated; }
+.moon-link:focus-visible { outline: 2px solid var(--pink); outline-offset: 9px; }
+.moon-link:is(:hover, :focus-visible) .moon-logo { animation-play-state: paused; }
+.studio-portal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  overflow: hidden;
+  isolation: isolate;
+  touch-action: none;
+  cursor: progress;
+}
+.studio-portal-field {
+  position: absolute;
+  border-radius: 50%;
+  background: linear-gradient(180deg,
+    #334b88 0%,
+    #334b88 var(--portal-blue-stop, 48%),
+    #aa468b var(--portal-pink-stop, 60%),
+    #aa468b 100%);
+  transform-origin: center;
+  will-change: transform;
+}
+.studio-portal-logo {
+  position: absolute;
+  display: block;
+  max-width: none;
+  border-radius: 50%;
+  image-rendering: pixelated;
+  mask-image: radial-gradient(circle closest-side, #000 84%, transparent 100%);
+  transform-origin: center;
+  will-change: transform;
+}
+.studio-departing .moon-logo { visibility: hidden; animation-play-state: paused; }
+.studio-departing .cat-cursor { display: none; }
+#estudio .studio-copy>p:not(.portal-info) { margin: 24px 0 0; max-width: none; font-size: 15px; line-height: 1.65; }
+.studio .studio-wordmark { width: 100%; max-width: none; margin: 0 0 20px; font-size: clamp(56px, 7vw, 104px); text-align: left; }
+.studio .studio-pixel-word {
+  color: #a9d7aa;
+  font-family: "VT323", monospace;
+  font-size: 1.2em;
+  font-weight: 400;
+  letter-spacing: -.025em;
+}
+.studio h2 em { color: inherit; }
+.studio-signature { position: static; display: inline; transform: none; font-family: "VT323", monospace; font-size: inherit; font-weight: 400; word-spacing: -.2em; }
+.studio-signature em { font-style: normal; }
+.studio-wordmark::before { content: none; }
+.studio .studio-cta { margin-top: 62px; }
+.studio .button-pink {
+  isolation: isolate;
+  overflow: hidden;
+}
+.studio .button-pink > span:first-child {
+  font-family: "VT323", monospace;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: .015em;
+}
+.studio .button-pink::before {
+  content: "";
+  position: absolute;
+  inset: -100% -50%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 22% 35%, #a9d7aa 0 20%, transparent 52%),
+    radial-gradient(ellipse at 78% 70%, #efabc3 0 22%, transparent 54%),
+    linear-gradient(120deg, #efabc3 10%, #b9ddad 48%, #efabc3 85%);
+  opacity: 0;
+  transition: opacity 180ms ease-out;
+  animation: studio-button-waves 4s ease-in-out infinite paused;
+}
+.studio .button-pink:is(:hover, :focus-visible)::before {
+  opacity: 1;
+  animation-play-state: running;
+}
+@keyframes studio-button-waves {
+  0%, 100% { transform: translate(-8%, -6%) rotate(-9deg) scale(1); }
+  50% { transform: translate(8%, 6%) rotate(9deg) scale(1.12); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .studio .button-pink::before { animation: none; transition: none; }
+  .studio-departing .moon-logo { visibility: visible; }
+}
+@media (min-width: 851px) {
+  .studio .studio-cta { margin-top: 72px; }
+  .studio h2 { line-height: .98; }
+  .studio .button-tabby { bottom: calc(100% - 16px); }
+}
+@media (max-width: 850px) {
+  .studio .button-pink > span:first-child { font-size: 22px; }
+  .studio-inner { min-height: 965px; padding: 100px 27px 112px; justify-content: flex-start; }
+  .studio .studio-grid { grid-template-columns: 1fr; gap: 20px; }
+  .studio .lunar-system { max-width: 310px; }
+  .studio .moon-caption { font-size: 16px; }
+  #estudio .studio-copy>p:not(.portal-info) { font-size: 14px; }
+  .studio .studio-wordmark { margin: 0 0 24px; font-size: clamp(50px, 13vw, 72px); text-align: left; }
+}
+@media (max-width: 370px) {
+  .studio-inner { padding-inline: 23px; }
+  #estudio h2 { font-size: 32px; }
+}
