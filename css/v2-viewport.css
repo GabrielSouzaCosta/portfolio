@@ -27,15 +27,17 @@ html.enhanced, .enhanced .stage { height: 100dvh; }
   .hero-inner { --veil-stop: 33%; --veil-clear: 68%; }
 
   .essence-inner { justify-content: center; gap: clamp(8px, 1.6dvh, 18px); }
-  .essence-figure { width: min(190px, 26dvh); flex: 0 0 auto; }
-  .essence-emblem { width: 100%; height: clamp(88px, 19dvh, 160px); }
-  .essence-bow-control { height: clamp(88px, 19dvh, 160px); }
+  .essence-figure { order: 1; width: min(220px, 28svh, 100%); flex: 0 0 auto; }
+  .essence-emblem { width: 100%; height: auto; aspect-ratio: 440 / 460; transform: rotate(-90deg); }
+  .essence-bow-control { height: auto; aspect-ratio: 440 / 460; }
   .essence-caption { font-size: 9px; }
   .essence-instruction { margin-top: 4px; font-size: 10px; }
   .essence-replay { min-height: 28px; padding: 3px 8px; margin: 0 auto; }
   .essence h2 { font-size: clamp(34px, 6dvh, 54px); }
   .essence-body { margin-top: 12px; }
   .essence-body p { font-size: 12px; line-height: 1.55; }
+  .essence-work + .essence-work { margin-top: 16px; padding-top: 14px; }
+  .essence-work h3 { font-size: 13px; }
   .essence-body .essence-secondary { font-size: 11px; margin-top: 8px; }
   .essence-body p br { display: none; }
   .essence .text-link { margin-top: 8px; padding-block: 8px; min-height: 36px; font-size: 11px; }

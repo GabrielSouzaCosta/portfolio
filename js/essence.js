@@ -142,11 +142,11 @@
   }).join(''));
 
   function measure() {
-    const bounds=surface.getBoundingClientRect(), art=emblem.getBoundingClientRect();
+    const bounds=surface.getBoundingClientRect(), art=control.getBoundingClientRect();
     const scale=Math.min(art.width/440,art.height/460);
     geometry={width:bounds.width,height:bounds.height,scale,
-      x:art.left-bounds.left+art.width/2-45*scale,
-      y:art.top-bounds.top+art.height/2-10*scale,
+      x:art.left-bounds.left+art.width/2-(innerWidth<=850?79:45)*scale,
+      y:art.top-bounds.top+art.height/2+(innerWidth<=850?34:-10)*scale,
       startX:innerWidth<=850?bounds.width/2:(bounds.width+70)/2,
       startY:innerWidth<=850?art.top-bounds.top+art.height/2:Math.min(bounds.height,innerHeight)/2,
       startScale:innerWidth<=850?.66:Math.min(1.08,bounds.width/1100)};
@@ -224,12 +224,14 @@
     renderBow();
   }
 
-  function drawShape(shape,turn=1,opening=1,x=geometry.x,y=geometry.y,scale=geometry.scale) {
+  function restingAngle() { return aim.value+(innerWidth<=850?-Math.PI/2:0); }
+
+  function drawShape(shape,turn=1,opening=1,x=geometry.x,y=geometry.y,scale=geometry.scale,angle=restingAngle()) {
     const top=turn===1?shape.limb:blend(eyeTop,shape.limb,turn);
     const bottom=turn===1?shape.string:blend(eyeBottom,shape.string,turn);
     const d=path(top);
     if(turn===1) {
-      morph.setAttribute('transform',`translate(${x+79*scale} ${y}) rotate(${aim.value*180/Math.PI}) scale(${scale}) translate(-79 0) rotate(90)`);
+      morph.setAttribute('transform',`translate(${x+79*scale} ${y}) rotate(${angle*180/Math.PI}) scale(${scale}) translate(-79 0) rotate(90)`);
     } else morph.setAttribute('transform',`translate(${x} ${y}) scale(${scale}) rotate(${turn*90}) scale(1 ${opening})`);
     limb.setAttribute('d',d);
     const profile=limbProfile(top);
@@ -241,7 +243,7 @@
     string.setAttribute('d',path(bottom)); string.style.opacity=String(1-turn*.22);
     grip.style.opacity=String(smooth(ramp(turn,.65,.35)));
   }
-  function nockPosition(draw=tension.value, angle=aim.value) {
+  function nockPosition(draw=tension.value, angle=restingAngle()) {
     const distance=(-79-draw)*geometry.scale;
     return {x:geometry.x+79*geometry.scale+Math.cos(angle)*distance,y:geometry.y+Math.sin(angle)*distance};
   }
@@ -251,7 +253,7 @@
     drawShape(P.bowState(tension.value,flex.value,vibration));
     morph.style.opacity='1'; iris.style.opacity='0';
     const nock=nockPosition();
-    arrow.setAttribute('transform',`translate(${nock.x} ${nock.y}) rotate(${aim.value*180/Math.PI}) scale(${geometry.scale})`);
+    arrow.setAttribute('transform',`translate(${nock.x} ${nock.y}) rotate(${restingAngle()*180/Math.PI}) scale(${geometry.scale})`);
     arrow.style.opacity=String(reloadAt?out(clamp((now-reloadAt)/180)):.86);
     indicator.setAttribute('cx',nock.x); indicator.setAttribute('cy',nock.y);
     indicator.setAttribute('r',Math.max(10,13*geometry.scale));
@@ -273,7 +275,7 @@
       tension.value=0; tension.velocity=0; flex.value=0; flex.velocity=0;
       renderBow(); return;
     }
-    const pos=nockPosition(strength), velocity=P.launch(strength,aim.value,geometry.scale);
+    const pos=nockPosition(strength), velocity=P.launch(strength,restingAngle(),geometry.scale);
     const group=node('g',{'stroke':'url(#essence-arrow-ink)',fill:'none'},projectileLayer);
     const dart=node('g',{},group); node('use',{href:'#essence-arrow-shape'},dart);
     shots.push({element:group,dart,x:pos.x,y:pos.y,vx:velocity.vx,vy:velocity.vy,scale:geometry.scale,age:0,hit:new Set()});
@@ -486,7 +488,7 @@
       arrow.style.opacity=String(smooth(ramp(t,revealAt+.12,.65))*.86);
       optics.style.opacity=String(.075*reveal);
     } else {
-      drawShape(P.bowState(tension.value,flex.value,flex.velocity*.002),turn,mix(opening,1,turn),x-camera.x,y-camera.y,scale);
+      drawShape(P.bowState(tension.value,flex.value,flex.velocity*.002),turn,mix(opening,1,turn),x-camera.x,y-camera.y,scale,aim.value);
       morph.style.opacity=String(out(ramp(preparation,0,.22)));
       iris.style.opacity=String(1-smooth(ramp(preparation,.75,.36)));
       iris.setAttribute('transform',`translate(${Math.sin(ramp(preparation,.1,.6)*Math.PI)*6} 0)`);
@@ -548,8 +550,9 @@
     if(held?.kind!=='pointer' || held.id!==event.pointerId) return;
     const dx=held.x-event.clientX, dy=held.y-event.clientY;
     held.distance=Math.max(held.distance,Math.hypot(dx,dy));
-    pullTarget=clamp(12+dx/geometry.scale,0,105);
-    aimTarget=clamp(dy/(220*geometry.scale),-.85,innerWidth<=850?1.3:.85);
+    const mobile=innerWidth<=850;
+    pullTarget=clamp(12+(mobile?-dy:dx)/geometry.scale,0,105);
+    aimTarget=clamp((mobile?dx:dy)/(220*geometry.scale),-.85,mobile?1.3:.85);
     wake();
   });
   control.addEventListener('pointerup',event=>{
@@ -589,9 +592,9 @@
   document.addEventListener('visibilitychange',()=>{if(document.hidden)suspend();else if(active()){measure();renderBow();}});
   preference.addEventListener('change',()=>{suspend();measure();renderBow();});
 
+  control.hidden=false;
   measure();
   section.classList.add('has-bow');
-  control.hidden=false;
   renderBow();
   document.fonts?.ready.then(()=>{measure();if(!intro)renderBow();});
   beginIntro({initial:true});

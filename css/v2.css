@@ -545,6 +545,10 @@ body[data-section="estudio"] .identity-symbol .g-cut { stroke: #112f29; }
 .essence-line { display: block; }
 .essence-body { margin-top: 32px; max-width: 440px; }
 .essence-body p { font-size: 14px; line-height: 1.85; color: #e3e6d8; }
+.essence-work + .essence-work { margin-top: 22px; padding-top: 20px; border-top: 1px solid #b7c4b440; }
+.essence-work h3 { margin: 0 0 6px; font-family: var(--font-body, 'Manrope', sans-serif); font-size: 14px; font-weight: 600; line-height: 1.5; color: #e3e6d8; }
+.essence-body .essence-work-meta { margin-bottom: 8px; font-size: 11px; line-height: 1.65; color: #b7c4b4; }
+.essence-work-meta span { display: inline-block; }
 .essence .text-link { min-height: 44px; margin-top: 24px; padding-block: 12px; gap: 30px; font-size: 12px; border-bottom-color: #b7c4b46b; transition: color .2s, border-color .2s; }
 .essence .text-link svg { transition: transform .25s var(--ease); }
 .essence .text-link:hover { color: #c0cda8; border-bottom-color: currentColor; }
