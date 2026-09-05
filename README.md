@@ -1,63 +1,79 @@
-# Gabriel Souza Costa — portfólio
+# Gabriel Souza Costa — Portfólio
 
-A versão final está em `index.html`. Site estático em HTML, CSS e JavaScript. Os arquivos de origem funcionam sem build; a publicação na Vercel usa um build leve com esbuild para minificação e cache.
+Meu portfólio como desenvolvedor de software: uma experiência interativa que apresenta meu trabalho, minha visão de produto e o **Goiaba Lunar**, meu estúdio de desenvolvimento.
+
+**[Visite o portfólio →](https://gabriel.goiabalunar.tech/)**
+
+## Sobre o projeto
+
+Construído com HTML, CSS e JavaScript, sem framework de interface. O site combina tipografia editorial, ilustrações e elementos em pixel art em uma navegação por quatro seções: apresentação, essência, estúdio e contato.
+
+- Layout responsivo, com navegação por mouse, toque e teclado.
+- Animações e interações próprias, incluindo arco e flecha, ciclope e cursor do estúdio.
+- Suporte à preferência de movimento reduzido (`prefers-reduced-motion`).
+- Fontes hospedadas localmente e imagens otimizadas em WebP.
+- Build de produção com esbuild e publicação na Vercel.
 
 ## Executar localmente
+
+Os arquivos de origem funcionam sem instalação de dependências ou etapa de build. Com Python 3 disponível, execute na raiz do repositório:
 
 ```sh
 python3 -m http.server 4173 --bind 127.0.0.1
 ```
 
-Acesse [o portfólio](http://127.0.0.1:4173/index.html).
+Abra [localhost:4173](http://127.0.0.1:4173).
 
-## Produção na Vercel
+## Build e testes
+
+Com Node.js e npm instalados:
 
 ```sh
 npm ci
+npm test
 npm run build
+```
+
+Os testes verificam a física e o voo da flecha. O build valida referências a arquivos, combina e minifica CSS e JavaScript e gera os arquivos de produção em `dist/`, com nomes baseados no conteúdo para controle de cache.
+
+Para conferir o resultado localmente:
+
+```sh
 python3 -m http.server 4173 --bind 127.0.0.1 --directory dist
 ```
 
-O `vercel.json` configura automaticamente o comando de build e a pasta `dist/`. CSS e JavaScript são combinados e minificados; os assets têm nomes baseados no conteúdo e cache de um ano. O HTML é revalidado para receber novas versões. Edite os arquivos de origem, nunca `dist/`. Não é necessário mudar manualmente versões de arquivos para invalidar o cache.
-
-O cache imutável é aplicado na fase `hit` da Vercel, somente depois de encontrar o arquivo. Um asset inexistente mantém o tratamento padrão de 404. O build verifica se todos os arquivos gerados estão cobertos pela regra de cache. A URL canônica da página é `https://gabriel.goiabalunar.tech/`.
+Edite os arquivos de origem; `dist/` é gerado automaticamente e não é versionado.
 
 ## Estrutura
 
 ```text
-portfolio/
-├── index.html          # Página final
-├── css/             # Estilos gerais, responsivos e das seções
-├── js/              # Navegação, formulário e animações
+.
+├── index.html        # Conteúdo e estrutura da página
+├── css/              # Estilos, seções e layouts responsivos
+├── js/               # Navegação, formulário e interações
 ├── assets/
-│   ├── favicon.svg
-│   └── images/      # Gravura, logo e gato do estúdio
-├── scripts/build.mjs # Build de produção e validação de referências
-├── vercel.json      # Publicação e política de cache
-├── docs/
-│   └── assets.md    # Origem das imagens
-├── tests/           # Testes de física e voo
-└── README.md
+│   ├── fonts/        # Fontes locais e suas licenças
+│   ├── images/       # Ilustrações, logo e versões otimizadas
+│   └── favicon.svg
+├── scripts/build.mjs # Build e validações de produção
+├── tests/            # Testes da física e do voo da flecha
+├── docs/             # Documentação técnica e origem dos assets
+└── vercel.json       # Configuração de deploy e cache
 ```
 
-Os arquivos mantêm seus nomes dentro de `css/` e `js/`. Os módulos `essence*` cuidam do arco e da flecha; `contact*`, do ciclope; `morfeu-cursor*`, do cursor do estúdio; e `studio-portal.js`, da transição para o estúdio.
+## Configuração
 
-## Destinos e formulário
+As opções de integração ficam no início de [`js/v2.js`](js/v2.js):
 
-A configuração está no início de `js/v2.js`. `studioUrl` aponta temporariamente para `https://cindra.app`; ao alterá-lo, atualize também os dois links `data-studio-portal` em `index.html`, usados sem JavaScript.
+- **Estúdio (`studioUrl`):** aponta atualmente para `https://cindra.app`. Ao trocar o destino, atualize também os dois links com `data-studio-portal` em `index.html`, usados quando o JavaScript está desabilitado.
+- **Contato (`contactEndpoint`):** ainda não está configurado. O formulário informa essa condição e preserva os campos preenchidos. Para habilitar o envio, configure um endpoint HTTPS que aceite `POST` com JSON contendo `name`, `email` e `message`, valide os dados no servidor e só retorne sucesso após o recebimento real da mensagem.
 
-`contactEndpoint` ainda está vazio. Para receber mensagens, configure um endpoint HTTPS que aceite POST JSON com `name`, `email` e `message`. O servidor deve validar os campos; uma resposta de sucesso deve indicar recebimento real. Até a configuração, o formulário informa que o canal ainda não recebe mensagens e preserva os campos preenchidos.
+## Publicação
 
-As fontes Instrument Serif, Manrope e VT323 são servidas localmente em WOFF2, com as licenças em `assets/fonts/`. A página respeita `prefers-reduced-motion`.
+O [`vercel.json`](vercel.json) define `npm run build` como comando de build e `dist/` como diretório de saída. Os assets gerados recebem cache imutável de um ano, enquanto o HTML é revalidado a cada acesso.
 
-As cenas assumem sua posição inicial antes de habilitar transições. O efeito pixelado de entrada só inicia antes da primeira pintura de conteúdo; recursos que carregam mais tarde não cobrem uma página já legível. Em telas baixas, cada seção permite rolagem interna antes de avançar para a próxima, e o cabeçalho mobile recebe fundo durante a rolagem.
+## Assets e créditos
 
-As imagens exibidas usam WebP: gravura na resolução original, logo sem perda de pixels e gato com variantes para telas de alta densidade. Os PNGs originais continuam em `assets/images/`. A gravura e as fontes da primeira tela têm prioridade de carregamento; as imagens do estúdio usam carregamento adiado. Veja as medições e os comandos de reprodução em [docs/performance.md](docs/performance.md).
+As fontes **Instrument Serif**, **Manrope** e **VT323** são distribuídas com suas licenças SIL Open Font License em [`assets/fonts/`](assets/fonts/).
 
-## Verificar
-
-Com Node.js disponível:
-
-```sh
-node --test tests/*.test.cjs
-```
+A origem das imagens e os detalhes dos arquivos visuais estão em [`docs/assets.md`](docs/assets.md). As medições de desempenho e os comandos para reproduzi-las estão em [`docs/performance.md`](docs/performance.md).
