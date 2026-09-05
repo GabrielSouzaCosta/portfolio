@@ -218,37 +218,40 @@ function resizeStars() {
   const ratio = Math.min(devicePixelRatio, 2);
   canvas.width = Math.round(starWidth * ratio); canvas.height = Math.round(starHeight * ratio);
   context.setTransform(ratio, 0, 0, ratio, 0, 0);
+  startStars();
 }
 function drawStars(time) {
   starFrame = 0;
-  if (document.hidden) return;
-  if (page === 2 || reducedMotion.matches) {
-    context.clearRect(0, 0, starWidth, starHeight);
-    const seconds = reducedMotion.matches ? 0 : time * .001;
-    for (const star of stars) {
-      const alpha = .2 + (Math.sin(seconds * star.speed + star.phase) + 1) * .25;
-      context.fillStyle = star.pink ? `rgba(242,175,206,${alpha})` : `rgba(202,224,164,${alpha})`;
-      const x = (star.x * starWidth + seconds * star.speed * 1.4) % starWidth;
-      const y = star.y * starHeight;
-      context.fillRect(x, y, star.size, star.size);
-      if (star.size > 1.66) { context.fillRect(x - 2, y + .5, 5, .5); context.fillRect(x + .5, y - 2, .5, 5); }
-    }
-    const trail = seconds % 13;
-    if (!reducedMotion.matches && trail < 1.4) {
-      const x = starWidth * (.5 + trail * .23), y = starHeight * (.03 + trail * .14);
-      const gradient = context.createLinearGradient(x - 95, y - 48, x, y);
-      gradient.addColorStop(0, 'rgba(239,171,195,0)'); gradient.addColorStop(1, 'rgba(239,171,195,.6)');
-      context.strokeStyle = gradient; context.lineWidth = 1;
-      context.beginPath(); context.moveTo(x - 95, y - 48); context.lineTo(x, y); context.stroke();
-    }
+  if (document.hidden || page !== 2) return;
+  context.clearRect(0, 0, starWidth, starHeight);
+  const seconds = reducedMotion.matches ? 0 : time * .001;
+  for (const star of stars) {
+    const alpha = .2 + (Math.sin(seconds * star.speed + star.phase) + 1) * .25;
+    context.fillStyle = star.pink ? `rgba(242,175,206,${alpha})` : `rgba(202,224,164,${alpha})`;
+    const x = (star.x * starWidth + seconds * star.speed * 1.4) % starWidth;
+    const y = star.y * starHeight;
+    context.fillRect(x, y, star.size, star.size);
+    if (star.size > 1.66) { context.fillRect(x - 2, y + .5, 5, .5); context.fillRect(x + .5, y - 2, .5, 5); }
+  }
+  const trail = seconds % 13;
+  if (!reducedMotion.matches && trail < 1.4) {
+    const x = starWidth * (.5 + trail * .23), y = starHeight * (.03 + trail * .14);
+    const gradient = context.createLinearGradient(x - 95, y - 48, x, y);
+    gradient.addColorStop(0, 'rgba(239,171,195,0)'); gradient.addColorStop(1, 'rgba(239,171,195,.6)');
+    context.strokeStyle = gradient; context.lineWidth = 1;
+    context.beginPath(); context.moveTo(x - 95, y - 48); context.lineTo(x, y); context.stroke();
   }
   if (!reducedMotion.matches) starFrame = requestAnimationFrame(drawStars);
 }
-function startStars() { if (!starFrame) starFrame = requestAnimationFrame(drawStars); }
+function stopStars() { cancelAnimationFrame(starFrame); starFrame = 0; }
+function startStars() {
+  if (!starFrame && page === 2 && !document.hidden) starFrame = requestAnimationFrame(drawStars);
+}
 resizeStars(); startStars();
 new ResizeObserver(resizeStars).observe(canvas.parentElement);
-reducedMotion.addEventListener('change', () => { cancelAnimationFrame(starFrame); starFrame = 0; resetPull(); startStars(); });
-document.addEventListener('visibilitychange', () => { if (!document.hidden) startStars(); });
+reducedMotion.addEventListener('change', () => { stopStars(); resetPull(); startStars(); });
+document.addEventListener('portfolio:sectionchange', () => { stopStars(); startStars(); });
+document.addEventListener('visibilitychange', () => { stopStars(); startStars(); });
 
 document.querySelectorAll('[data-studio-portal]').forEach(link => {
   if (config.studioUrl) link.href = config.studioUrl;
@@ -473,7 +476,7 @@ const heroLoaded = new Promise(resolve => {
   engraving.onload = () => resolve(true);
   engraving.onerror = () => resolve(false);
 });
-engraving.src = 'assets/images/hero.png';
+engraving.src = 'assets/images/hero.webp';
 const heroRequestedAt = performance.now();
 Promise.all([heroLoaded, document.fonts.ready]).then(([loaded]) => {
   heroReady = loaded;

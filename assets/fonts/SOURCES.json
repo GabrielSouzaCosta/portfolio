@@ -1,0 +1,102 @@
+{
+  "stylesheet": "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&family=VT323&display=swap",
+  "retrieved": "2026-09-05",
+  "fonts": [
+    {
+      "family": "Instrument Serif",
+      "style": "italic",
+      "subset": "latin-ext",
+      "file": "instrument-serif-italic-latin-ext.woff2",
+      "source": "https://fonts.gstatic.com/s/instrumentserif/v5/jizHRFtNs2ka5fXjeivQ4LroWlx-6zAjgn7Motmp5r61.woff2"
+    },
+    {
+      "family": "Instrument Serif",
+      "style": "italic",
+      "subset": "latin",
+      "file": "instrument-serif-italic-latin.woff2",
+      "source": "https://fonts.gstatic.com/s/instrumentserif/v5/jizHRFtNs2ka5fXjeivQ4LroWlx-6zAjjH7Motmp5g.woff2"
+    },
+    {
+      "family": "Instrument Serif",
+      "style": "normal",
+      "subset": "latin-ext",
+      "file": "instrument-serif-normal-latin-ext.woff2",
+      "source": "https://fonts.gstatic.com/s/instrumentserif/v5/jizBRFtNs2ka5fXjeivQ4LroWlx-6zsTjnTLgNuZ5w.woff2"
+    },
+    {
+      "family": "Instrument Serif",
+      "style": "normal",
+      "subset": "latin",
+      "file": "instrument-serif-normal-latin.woff2",
+      "source": "https://fonts.gstatic.com/s/instrumentserif/v5/jizBRFtNs2ka5fXjeivQ4LroWlx-6zUTjnTLgNs.woff2"
+    },
+    {
+      "family": "Manrope",
+      "style": "normal",
+      "subset": "cyrillic-ext",
+      "file": "manrope-normal-cyrillic-ext.woff2",
+      "source": "https://fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggqxSvfedN62Zw.woff2"
+    },
+    {
+      "family": "Manrope",
+      "style": "normal",
+      "subset": "cyrillic",
+      "file": "manrope-normal-cyrillic.woff2",
+      "source": "https://fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggOxSvfedN62Zw.woff2"
+    },
+    {
+      "family": "Manrope",
+      "style": "normal",
+      "subset": "greek",
+      "file": "manrope-normal-greek.woff2",
+      "source": "https://fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggSxSvfedN62Zw.woff2"
+    },
+    {
+      "family": "Manrope",
+      "style": "normal",
+      "subset": "vietnamese",
+      "file": "manrope-normal-vietnamese.woff2",
+      "source": "https://fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggixSvfedN62Zw.woff2"
+    },
+    {
+      "family": "Manrope",
+      "style": "normal",
+      "subset": "latin-ext",
+      "file": "manrope-normal-latin-ext.woff2",
+      "source": "https://fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggmxSvfedN62Zw.woff2"
+    },
+    {
+      "family": "Manrope",
+      "style": "normal",
+      "subset": "latin",
+      "file": "manrope-normal-latin.woff2",
+      "source": "https://fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggexSvfedN4.woff2"
+    },
+    {
+      "family": "VT323",
+      "style": "normal",
+      "subset": "vietnamese",
+      "file": "vt323-normal-vietnamese.woff2",
+      "source": "https://fonts.gstatic.com/s/vt323/v18/pxiKyp0ihIEF2isQFJXUdVNFKPY.woff2"
+    },
+    {
+      "family": "VT323",
+      "style": "normal",
+      "subset": "latin-ext",
+      "file": "vt323-normal-latin-ext.woff2",
+      "source": "https://fonts.gstatic.com/s/vt323/v18/pxiKyp0ihIEF2isRFJXUdVNFKPY.woff2"
+    },
+    {
+      "family": "VT323",
+      "style": "normal",
+      "subset": "latin",
+      "file": "vt323-normal-latin.woff2",
+      "source": "https://fonts.gstatic.com/s/vt323/v18/pxiKyp0ihIEF2isfFJXUdVNF.woff2"
+    }
+  ],
+  "licenses": {
+    "Instrument Serif": "https://raw.githubusercontent.com/google/fonts/main/ofl/instrumentserif/OFL.txt",
+    "Manrope": "https://raw.githubusercontent.com/google/fonts/main/ofl/manrope/OFL.txt",
+    "VT323": "https://raw.githubusercontent.com/google/fonts/main/ofl/vt323/OFL.txt"
+  }
+}

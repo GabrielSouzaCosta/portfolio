@@ -18,7 +18,7 @@ h1,h2 { font-family: var(--serif); font-weight: 400; }
 .skip-link { position: fixed; left: 20px; top: -90px; z-index: 100; background: var(--green); color: var(--paper); padding: 14px; }
 .skip-link:focus { top: 20px; }
 .sidebar { position: fixed; inset: 0 auto 0 0; width: var(--aside); display: flex; flex-direction: column; padding: 38px 26px 25px; background: #e8e4d8; border-right: 1px solid #28543c25; z-index: 20; color: var(--green); transition: background .7s,color .7s; }
-.sidebar:before { content: ""; position: absolute; inset: 0; background: url('../assets/images/hero.png') left top/1200% auto; opacity: .1; pointer-events: none; mix-blend-mode: multiply; }
+.sidebar:before { content: ""; position: absolute; inset: 0; background: url('../assets/images/hero.webp') left top/1200% auto; opacity: .1; pointer-events: none; mix-blend-mode: multiply; }
 .brand { display: flex; flex-direction: column; align-items: center; position: relative; }
 .brand-mark { font-family: var(--serif); font-size: 96px; line-height: 1; width: 87px; height: 100px; letter-spacing: -.05em; display: block; position: relative; padding-left: 13px; }
 .brand-dot { position: absolute; left: 66px; top: 67px; width: 9px; height: 9px; background: currentColor; border-radius: 50%; animation: dot-orbit 8s ease-in-out infinite; }
@@ -56,8 +56,8 @@ body[data-section="estudio"] .section-link.active { color: #974e6a; }
 .enhanced .scene:not(.is-active) .scene-scroll { overflow: hidden; }
 .hero-inner { display: flex; align-items: center; padding: 50px clamp(40px,5vw,92px); background: var(--paper); }
 .hero-art,.hero-etch,.hero-wash { position: absolute; inset: 0; z-index: -3; }
-.hero-art { background: url('../assets/images/hero.png') 64% center/cover; }
-.hero-etch { z-index: -2; background: url('../assets/images/hero.png') 64% center/cover; opacity: .22; filter: contrast(1.5) sepia(.3); mix-blend-mode: multiply; mask-image: linear-gradient(90deg,transparent 0%,#000 45%,transparent 100%); mask-size: 30% 100%; mask-repeat: no-repeat; animation: ink-light 15s ease-in-out infinite; }
+.hero-art { background: url('../assets/images/hero.webp') 64% center/cover; }
+.hero-etch { z-index: -2; background: url('../assets/images/hero.webp') 64% center/cover; opacity: .22; filter: contrast(1.5) sepia(.3); mix-blend-mode: multiply; mask-image: linear-gradient(90deg,transparent 0%,#000 45%,transparent 100%); mask-size: 30% 100%; mask-repeat: no-repeat; animation: ink-light 15s ease-in-out infinite; }
 .hero-wash { z-index: -1; background: linear-gradient(90deg,#eee7d7a6, #eee7d721 45%,transparent 67%); }
 .hero.is-active .hero-art { animation: hero-print 1.65s cubic-bezier(.2,.6,.25,1) both; }
 .reveal-edge { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg,transparent,#e4dcbd55,transparent); width: 9%; opacity: 0; }
@@ -86,7 +86,7 @@ h1 em { font-size: 1.32em; line-height: .95; color: var(--green); font-weight: 4
 .studio-inner { background: #112f29; color: #f4e9dd; padding: 30px clamp(35px,4.4vw,78px) 20px; display: flex; flex-direction: column; justify-content: center; }
 .starfield { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -2; }
 .studio-nebula { position: absolute; inset: -15%; z-index: -3; background: radial-gradient(ellipse at 85% 30%,#bb51723d,transparent 43%),radial-gradient(ellipse at 7% 82%,#274f34a8,transparent 50%),radial-gradient(ellipse at 66% 93%,#bc577829,transparent 37%); animation: nebula-shift 22s ease-in-out infinite alternate; }
-.studio-texture { position: absolute; inset: 0; z-index: -1; background: url('../assets/images/hero.png') 0 0/950% auto; mix-blend-mode: soft-light; opacity: .13; pointer-events: none; }
+.studio-texture { position: absolute; inset: 0; z-index: -1; background: url('../assets/images/hero.webp') 0 0/950% auto; mix-blend-mode: soft-light; opacity: .13; pointer-events: none; }
 .studio-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 3%; margin-top: 15px; }
 .studio-copy { position: relative; z-index: 3; }
 .studio h2 { font-size: clamp(45px,4.1vw,65px); line-height: .98; letter-spacing: -.02em; }
@@ -108,7 +108,7 @@ h1 em { font-size: 1.32em; line-height: .95; color: var(--green); font-weight: 4
 .studio-wordmark em { color: #edafc7; font-weight: 400; }
 .studio-wordmark svg { width: .25em; height: .25em; margin-left: 25px; fill: var(--pink); stroke: none; vertical-align: middle; }
 .contact-inner { background: #f0e9d9; padding: 40px clamp(38px,5vw,92px) 27px; display: flex; flex-direction: column; }
-.paper-texture { position: absolute; inset: 0; background: url('../assets/images/hero.png') 0 0/750% auto; opacity: .36; z-index: -1; mix-blend-mode: multiply; }
+.paper-texture { position: absolute; inset: 0; background: url('../assets/images/hero.webp') 0 0/750% auto; opacity: .36; z-index: -1; mix-blend-mode: multiply; }
 .contact-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 10%; align-items: center; flex: 1; padding: 60px 0 45px; }
 .contact h2 { font-size: clamp(59px,5.6vw,92px); line-height: 1.01; letter-spacing: -.02em; color: var(--green); }
 .contact-copy>p { margin-top: 25px; font-size: 13px; line-height: 1.85; }

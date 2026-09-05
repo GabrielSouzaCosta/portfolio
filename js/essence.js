@@ -289,14 +289,19 @@
     const angle=Math.atan2(shot.vy,shot.vx);
     return {x:shot.x+230*shot.scale*Math.cos(angle),y:shot.y+230*shot.scale*Math.sin(angle)};
   }
-  function cutWords(shot,from,to,now,bounds) {
-    for(const word of words) {
-      if(shot.hit.has(word)) continue;
+  function measureWords() {
+    const bounds=surface.getBoundingClientRect();
+    return words.map(word=>{
       const box=word.getBoundingClientRect();
-      const left=box.left-bounds.left, top=box.top-bounds.top;
+      return {word,left:box.left-bounds.left,top:box.top-bounds.top,width:box.width,height:box.height};
+    });
+  }
+  function cutWords(shot,from,to,now,wordBoxes) {
+    for(const {word,left,top,width,height} of wordBoxes) {
+      if(shot.hit.has(word)) continue;
       // Swept tip/box intersection avoids tunnelling during fast shots.
       let enter=0, exit=1;
-      for(const [origin,delta,min,max] of [[from.x,to.x-from.x,left,left+box.width],[from.y,to.y-from.y,top,top+box.height]]) {
+      for(const [origin,delta,min,max] of [[from.x,to.x-from.x,left,left+width],[from.y,to.y-from.y,top,top+height]]) {
         if(Math.abs(delta)<.0001) {if(origin<min || origin>max) {exit=-1;break;}}
         else {
           const a=(min-origin)/delta, b=(max-origin)/delta;
@@ -307,16 +312,15 @@
       shot.hit.add(word);
       if(cuts.has(word)) continue;
       const slope=(to.y-from.y)/Math.max(.001,to.x-from.x);
-      const edge=x=>clamp((from.y+slope*(x-from.x)-top)/box.height*100,12,88);
-      const l=edge(left), r=edge(left+box.width);
+      const edge=x=>clamp((from.y+slope*(x-from.x)-top)/height*100,12,88);
+      const l=edge(left), r=edge(left+width);
       word.style.setProperty('--cut-left',`${l}%`);
       word.style.setProperty('--cut-right',`${r}%`);
       word.classList.add('is-cut'); cuts.set(word,now);
       status.textContent=`Flecha ${shotCount}: corte em ${word.firstChild.textContent}.`;
     }
   }
-  function updateFlights(dt,now) {
-    const bounds=shots.length?surface.getBoundingClientRect():null;
+  function updateFlights(dt,now,wordBoxes) {
     for(let i=shots.length-1;i>=0;i--) {
       const shot=shots[i];
       // Small exact ballistic steps also sample the rotating tip for collision.
@@ -327,7 +331,7 @@
         shot.x+=shot.vx*h; shot.y+=shot.vy*h+.5*gravity*h*h;
         shot.vy+=gravity*h; shot.age+=h;
         const tip=arrowTip(shot);
-        cutWords(shot,previous,tip,now,bounds);
+        cutWords(shot,previous,tip,now,wordBoxes);
       }
       shot.dart.setAttribute('transform',`translate(${shot.x} ${shot.y}) rotate(${Math.atan2(shot.vy,shot.vx)*180/Math.PI}) scale(${shot.scale})`);
       if(shot.x>geometry.width+300 || shot.y>geometry.height+300 || shot.age>5) {shot.element.remove(); shots.splice(i,1);}
@@ -507,6 +511,9 @@
     const dt=lastTime?clamp((now-lastTime)/1000,0,.05):1/60;
     lastTime=now;
     try {
+      // Read each text box once, before any SVG/style writes. All arrows and
+      // physics substeps in this frame share the same layout snapshot.
+      const wordBoxes=shots.length?measureWords():null;
       if(intro) drawIntro(now,dt);
       else {
         if(held?.kind==='keyboard') pullTarget=clamp((now-held.start)/650)*105;
@@ -518,7 +525,7 @@
         }
         renderBow(now);
       }
-      updateFlights(dt,now);
+      updateFlights(dt,now,wordBoxes);
       if(reloadAt && now>reloadAt+200) reloadAt=0;
       const moving=[tension,flex,aim].some(s=>Math.abs(s.velocity)>.02) || Math.abs(tension.value-pullTarget)>.015 || Math.abs(flex.value-tension.value*.15)>.015 || Math.abs(aim.value-aimTarget)>.001;
       if(intro || held || shots.length || cuts.size || ripples.length || reloadAt || (!preference.matches && moving)) wake();

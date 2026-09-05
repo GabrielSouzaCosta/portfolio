@@ -10,10 +10,20 @@
   let departure = null;
   if (!moon || !links.length) return;
 
+  const guardedEvents = ['click', 'wheel', 'touchmove', 'keydown'];
+  const guardOptions = { capture: true, passive: false };
+  function guardDeparture(event) {
+    if (!departure || event.metaKey || event.ctrlKey || event.altKey) return;
+    if (event.type === 'keydown' && event.key === 'Escape' && !departure.navigating) reset({ focus: true });
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
+
   function reset({ focus = false } = {}) {
     if (!departure) return;
     const state = departure;
     departure = null;
+    guardedEvents.forEach(type => window.removeEventListener(type, guardDeparture, guardOptions));
     clearTimeout(state.safetyTimer);
     clearTimeout(state.arrivalTimer);
     state.animations.forEach(animation => animation.cancel());
@@ -106,6 +116,9 @@
         ], timing));
       }
       state.surfaces.forEach(([element]) => { element.inert = true; });
+      // Block gestures only while the portal owns navigation. Ordinary page
+      // scrolling does not need these non-passive capture listeners.
+      guardedEvents.forEach(type => window.addEventListener(type, guardDeparture, guardOptions));
       root.classList.add('studio-departing');
       document.body.classList.remove('cat-pointer');
       if (status) status.textContent = 'Abrindo o Goiaba Lunar…';
@@ -120,14 +133,6 @@
   }
 
   links.forEach(link => link.addEventListener('click', openPortal));
-  for (const type of ['click', 'wheel', 'touchmove', 'keydown']) {
-    window.addEventListener(type, event => {
-      if (!departure || event.metaKey || event.ctrlKey || event.altKey) return;
-      if (event.type === 'keydown' && event.key === 'Escape' && !departure.navigating) reset({ focus: true });
-      event.preventDefault();
-      event.stopImmediatePropagation();
-    }, { capture: true, passive: false });
-  }
   window.addEventListener('resize', () => { if (departure && !departure.navigating) reset({ focus: true }); });
   document.addEventListener('portfolio:sectionchange', () => reset());
   reduced.addEventListener('change', () => { if (departure && !departure.navigating) reset({ focus: true }); });

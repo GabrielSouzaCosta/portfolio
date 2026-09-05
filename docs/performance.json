@@ -1,0 +1,228 @@
+{
+  "date": "2026-09-05",
+  "environment": {
+    "browser": "ego-browser / Chromium",
+    "viewport": "390 x 844, DPR 3",
+    "cpuSlowdown": 4,
+    "latencyMs": 150,
+    "downloadBytesPerSecond": 200000,
+    "uploadBytesPerSecond": 100000,
+    "cache": "disabled; browser cache cleared",
+    "server": "Python http.server on localhost, HTTP/1.0 without Brotli/gzip",
+    "scope": "single local lab run per variant; not field Core Web Vitals or a Lighthouse score"
+  },
+  "runs": {
+    "before": {
+      "lcpMs": 24956,
+      "fcpMs": 1188,
+      "cls": 0.0018098367329102544,
+      "documentReadyMs": 1840.0999999940395,
+      "loadEventMs": 23477.40000000596,
+      "observedPayloadBytes": 4566303,
+      "observedRequests": 20,
+      "longTasksMs": [
+        53,
+        56,
+        118,
+        104,
+        98,
+        77
+      ],
+      "resources": [
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&family=VT323&display=swap",
+          "size": 1193,
+          "encoded": 893,
+          "duration": 183.90000000596046
+        },
+        {
+          "url": "http://127.0.0.1:4174/css/v2.css",
+          "size": 46816,
+          "encoded": 46516,
+          "duration": 909.2000000029802
+        },
+        {
+          "url": "http://127.0.0.1:4174/css/v2-studio.css?portal=5",
+          "size": 5226,
+          "encoded": 4926,
+          "duration": 325.8999999910593
+        },
+        {
+          "url": "http://127.0.0.1:4174/css/essence.css",
+          "size": 5196,
+          "encoded": 4896,
+          "duration": 332.3999999910593
+        },
+        {
+          "url": "http://127.0.0.1:4174/css/v2-viewport.css",
+          "size": 4752,
+          "encoded": 4452,
+          "duration": 338.5
+        },
+        {
+          "url": "http://127.0.0.1:4174/css/v2-mobile-nav.css",
+          "size": 4724,
+          "encoded": 4424,
+          "duration": 347.3999999910593
+        },
+        {
+          "url": "http://127.0.0.1:4174/css/morfeu-cursor.css",
+          "size": 5402,
+          "encoded": 5102,
+          "duration": 624.5
+        },
+        {
+          "url": "http://127.0.0.1:4174/css/contact.css",
+          "size": 9541,
+          "encoded": 9241,
+          "duration": 707.3999999910593
+        },
+        {
+          "url": "http://127.0.0.1:4174/js/v2.js",
+          "size": 23741,
+          "encoded": 23441,
+          "duration": 939.0999999940395
+        },
+        {
+          "url": "http://127.0.0.1:4174/js/studio-portal.js?portal=5",
+          "size": 6486,
+          "encoded": 6186,
+          "duration": 691.7000000029802
+        },
+        {
+          "url": "http://127.0.0.1:4174/js/morfeu-cursor.js",
+          "size": 7286,
+          "encoded": 6986,
+          "duration": 752.5999999940395
+        },
+        {
+          "url": "http://127.0.0.1:4174/js/essence-physics.js",
+          "size": 5885,
+          "encoded": 5585,
+          "duration": 863.9000000059605
+        },
+        {
+          "url": "http://127.0.0.1:4174/js/essence-flight.js",
+          "size": 2672,
+          "encoded": 2372,
+          "duration": 901.6000000089407
+        },
+        {
+          "url": "http://127.0.0.1:4174/js/contact.js",
+          "size": 11680,
+          "encoded": 11380,
+          "duration": 1052.1000000089407
+        },
+        {
+          "url": "http://127.0.0.1:4174/js/essence.js",
+          "size": 30150,
+          "encoded": 29850,
+          "duration": 1643.7000000029802
+        },
+        {
+          "url": "http://127.0.0.1:4174/assets/images/goiaba-lunar.png",
+          "size": 76454,
+          "encoded": 76154,
+          "duration": 2465.9000000059605
+        },
+        {
+          "url": "http://127.0.0.1:4174/assets/images/tabby-v2.png",
+          "size": 1449504,
+          "encoded": 1449204,
+          "duration": 16229.5
+        },
+        {
+          "url": "http://127.0.0.1:4174/assets/images/hero.png",
+          "size": 2814206,
+          "encoded": 2813906,
+          "duration": 22293.59999999404
+        },
+        {
+          "url": "http://127.0.0.1:4174/assets/favicon.svg?v=ink-2",
+          "size": 11082,
+          "encoded": 10782,
+          "duration": 219.20000000298023
+        }
+      ]
+    },
+    "production": {
+      "lcpMs": 4760,
+      "fcpMs": 1760,
+      "cls": 0,
+      "documentReadyMs": 1741.7999999970198,
+      "loadEventMs": 6238.29999999702,
+      "observedPayloadBytes": 816545,
+      "observedRequests": 11,
+      "longTasksMs": [
+        57,
+        53,
+        109,
+        92,
+        125,
+        73
+      ],
+      "resources": [
+        {
+          "url": "http://127.0.0.1:4175/assets/hero.8bb5727f861a1a74.webp",
+          "size": 452204,
+          "encoded": 451904,
+          "duration": 4058.300000011921
+        },
+        {
+          "url": "http://127.0.0.1:4175/assets/instrument-serif-normal-latin.60c06664b5a95c7d.woff2",
+          "size": 15340,
+          "encoded": 15040,
+          "duration": 622.1000000089407
+        },
+        {
+          "url": "http://127.0.0.1:4175/assets/instrument-serif-italic-latin.6ee678c33f388dd7.woff2",
+          "size": 15984,
+          "encoded": 15684,
+          "duration": 628.7999999970198
+        },
+        {
+          "url": "http://127.0.0.1:4175/assets/manrope-normal-latin.e310b55a7fd9677f.woff2",
+          "size": 24876,
+          "encoded": 24576,
+          "duration": 793.7999999970198
+        },
+        {
+          "url": "http://127.0.0.1:4175/assets/site.a387432aff1ed1a3.css",
+          "size": 71975,
+          "encoded": 71675,
+          "duration": 1490.7999999970198
+        },
+        {
+          "url": "http://127.0.0.1:4175/assets/site.3130054ba7f52296.js",
+          "size": 52729,
+          "encoded": 52429,
+          "duration": 1535.7999999970198
+        },
+        {
+          "url": "http://127.0.0.1:4175/assets/vt323-normal-latin.043a60145af2ddbc.woff2",
+          "size": 7492,
+          "encoded": 7192,
+          "duration": 223.5
+        },
+        {
+          "url": "http://127.0.0.1:4175/assets/tabby-v2-330.a8938e6501394f48.webp",
+          "size": 54816,
+          "encoded": 54516,
+          "duration": 974.0999999940395
+        },
+        {
+          "url": "http://127.0.0.1:4175/assets/goiaba-lunar.33977c5f81798f93.webp",
+          "size": 63094,
+          "encoded": 62794,
+          "duration": 1055.5999999940395
+        },
+        {
+          "url": "http://127.0.0.1:4175/assets/favicon.51e5b0e6701102ec.svg",
+          "size": 11082,
+          "encoded": 10782,
+          "duration": 215.79999999701977
+        }
+      ]
+    }
+  }
+}
