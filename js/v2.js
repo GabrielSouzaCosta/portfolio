@@ -1,7 +1,7 @@
 'use strict';
 
 // Temporary studio destination; replace with its landing page when ready.
-const config = { studioUrl: 'https://cindra.app', contactEndpoint: '' };
+const config = { studioUrl: 'https://goiabalunar.tech', contactEndpoint: '' };
 const root = document.documentElement;
 const scenes = [...document.querySelectorAll('.scene')];
 const navigation = [...document.querySelectorAll('.section-link')];
