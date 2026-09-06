@@ -88,8 +88,8 @@ export function createPlanet(THREE, world) {
   // its fresnel edge breathing on hover.
   function glass(radius, tint, opacity = .12) {
     const paint = new THREE.MeshPhysicalMaterial({
-      color: tint, roughness: .13, metalness: 0, transmission: .88, thickness: .35,
-      transparent: true, opacity: .3, depthWrite: false, clearcoat: 1, clearcoatRoughness: .18,
+      color: tint, roughness: .13, metalness: 0,
+      transparent: true, opacity, depthWrite: false, clearcoat: 1, clearcoatRoughness: .18,
     });
     const shell = sphere(radius, paint, 72);
     shell.name = 'glass-shell';
