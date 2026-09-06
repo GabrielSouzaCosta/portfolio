@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 180">
+<g stroke="#263d42" stroke-width="3" stroke-linejoin="round">
+<path fill="#9bcfd0" d="M32 111 6 113l21-10-14-7 27-2m4 41-20 7 6-13-21 1 29-16" stroke="none"/>
+<path fill="#9bafaa" d="m116 111-58-62 28 3 92 60-16 28Z"/>
+<path fill="#dae1cf" d="m87 74 95 38-49 5Z"/>
+<path fill="#e69578" d="m66 55 31 7 19 14-32-10Z" stroke="none"/>
+<path fill="#7d9999" d="M51 49 35 33l4-7 22 12 31 29-12 7Z"/>
+<path fill="#bad1c5" d="m149 115-39 50 38-5 59-38Z"/>
+<path fill="#f1e7cd" d="m157 123-29 31 15-2 37-26Z" stroke="none"/>
+<path fill="#dbe0cf" d="M44 102 112 82l51 12 74 32-77 20-71-10-48-18Z"/>
+<path fill="#8ca6a1" d="m44 114 62 8 50 14 80-10-76 20-71-10-48-18Z"/>
+<path fill="#e9a18c" d="m188 107 49 19-34 9-41-28Z" stroke="none"/>
+<path fill="#314e52" d="m103 104 2-34q5-28 32-26 32 3 41 52l-19 23Z"/>
+</g>
+<g transform="translate(101 47) scale(.76)" shape-rendering="crispEdges">
+          <g class="morfeu-ear morfeu-ear-left">
+            <path fill="#493426" d="M10 30V6H14V2H18V6H22V10H26V14H30V28Z"/>
+            <path fill="#ed973f" d="M14 26V8H18V12H22V16H26V26Z"/>
+            <path fill="#eba392" d="M16 24V14H20V18H24V26Z"/>
+          </g>
+          <g class="morfeu-ear morfeu-ear-right">
+            <path fill="#493426" d="M54 28V14H58V10H62V6H66V2H70V6H74V30Z"/>
+            <path fill="#ed973f" d="M58 26V16H62V12H66V8H70V26Z"/>
+            <path fill="#eba392" d="M60 26V18H64V14H68V24Z"/>
+          </g>
+          <path fill="#493426" d="M26 14H58V18H66V22H72V28H76V46H72V52H66V58H58V62H26V58H18V54H12V48H8V30H12V24H18V18H26Z"/>
+          <path fill="#f1a34b" d="M28 18H56V22H64V26H68V30H72V44H68V50H62V54H56V58H28V54H20V50H16V46H12V32H16V28H20V22H28Z"/>
+          <path fill="#fff4dc" d="M36 18H44V26H48V30H56V34H68V42H72V44H68V50H62V54H56V58H28V54H20V50H16V46H12V38H20V34H28V30H32V26H36Z"/>
+          <path fill="#bd622e" d="M26 20H30V28H26ZM48 20H52V28H48ZM54 22H58V28H54ZM12 32H20V36H12ZM64 30H72V34H64Z"/>
+          <path fill="#ffd185" d="M20 24H24V28H20ZM60 26H64V30H60Z"/>
+          <g class="morfeu-blink">
+            <path fill="#493426" d="M22 28H34V30H38V34H40V44H36V48H22V46H18V32H22ZM50 28H62V30H66V34H68V44H64V48H50V46H46V32H50Z"/>
+            <path fill="#d9a84e" d="M22 32H34V34H36V42H32V46H24V44H20V34H22ZM50 32H62V34H64V42H60V46H52V44H48V34H50Z"/>
+            <g class="morfeu-pupils">
+              <path fill="#241c18" d="M24 30H32V32H36V42H32V44H24V42H22V32H24ZM52 30H60V32H64V42H60V44H52V42H50V32H52Z"/>
+              <path fill="#fffaf0" d="M24 31H30V37H24ZM52 31H58V37H52ZM32 40H34V42H32ZM60 40H62V42H60Z"/>
+            </g>
+          </g>
+          <path fill="#e9a091" d="M18 46H24V50H18ZM62 46H68V50H62ZM38 46H46V48H44V50H40V48H38Z"/>
+          <path fill="#694334" d="M40 50H44V52H48V50H50V54H44V52H40V54H34V50H36V52H40Z"/>
+          <path fill="#493426" d="M4 42H14V44H4ZM6 50H16V52H6ZM70 42H80V44H70ZM68 50H78V52H68Z"/>
+        </g>
+<path d="M104 104V70q5-28 32-26 33 3 42 53" fill="none" stroke="#9bc4bb" stroke-width="3"/>
+<path d="m149 54 9 6 6 11" fill="none" stroke="#e1f5df" stroke-width="3" stroke-linecap="round"/>
+<path d="m105 103 56 16 19-15-43 4Z" fill="#91aaa0" stroke="#263d42" stroke-width="2"/>
+<path d="m95 131-44 23 29 8 85-19" fill="#dce2cf" stroke="#263d42" stroke-width="3" stroke-linejoin="round"/>
+<path d="m57 151-28 8 1 7 41-6 23-11" fill="#8baaaa" stroke="#263d42" stroke-width="3"/>
+<path d="m196 128 61-4 26 5-28 4-63 2" fill="#f1e7d0" stroke="#263d42" stroke-width="3" stroke-linejoin="round"/>
+<path d="m73 108 11-4m7 15 8 2m74 13 6-2" fill="none" stroke="#4f7774" stroke-width="3" stroke-linecap="round"/>
+</svg>

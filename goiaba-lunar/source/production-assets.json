@@ -1,0 +1,212 @@
+{
+  "date": "2026-09-06",
+  "export": "Native art exported with cwebp quality 85, 960px planets and 1000px ship; background original WebP quality88. Alpha preserved where provided. Cindra and Morfeu use native black-background corrections, optically composited with screen and CSS edge masks; no bitmap background removal.",
+  "files": [
+    {
+      "file": "assets/art/cindra.webp",
+      "bytes": 157964,
+      "sha256": "303d7ae1342b8dea4daa6273df2998831c536ab7b7959e7b0095e1252e2adfba"
+    },
+    {
+      "file": "assets/art/commissionmatch.webp",
+      "bytes": 327178,
+      "sha256": "0117c3a1b2f544c22e32bc15c92495079dc39898608215992c783d63658b60a8"
+    },
+    {
+      "file": "assets/art/galaxy-background.webp",
+      "bytes": 181924,
+      "sha256": "87c561656af646756e000c6595ce3adfe2a4fb12396c58b6e51ce0225a4ccff9"
+    },
+    {
+      "file": "assets/art/mangue.webp",
+      "bytes": 381366,
+      "sha256": "d29d86a2037d0ee81df5f2c6002bddda977d75b9fddbc905ecc8170678dc7c25"
+    },
+    {
+      "file": "assets/art/morfeu.webp",
+      "bytes": 66068,
+      "sha256": "419bad61d03465a0b7ccbf8de1ae3ab632d52bb5a54ccfdaef03f353e72fdf8e"
+    },
+    {
+      "file": "assets/audio/cindra-hearth.mp3",
+      "bytes": 220830,
+      "sha256": "fbf0010cd17088df59e38a1b23b5494bffc6588dc4355e21341aa13115b22a7c"
+    },
+    {
+      "file": "assets/audio/commissionmatch-atelier.mp3",
+      "bytes": 200715,
+      "sha256": "31ed878c6b7e256fdcd64e80c90460f46d2059d8e9d4aa77708314337565a217"
+    },
+    {
+      "file": "assets/audio/galaxy-cabin.mp3",
+      "bytes": 200715,
+      "sha256": "fed57755ef3ea7d94bf799ad2a96a70c3f66d539c9283acf0fb3d7085ca155cc"
+    },
+    {
+      "file": "assets/audio/mangue-water-leaves.mp3",
+      "bytes": 240683,
+      "sha256": "098c195f7b2bfefeb937d9c5a9b2a16c4656aee1c65850a3295ddc1538d5f93e"
+    },
+    {
+      "file": "assets/audio/organize.mp3",
+      "bytes": 5058,
+      "sha256": "6ca54a4585d3515cc31634eec608e92a0697be556fc558572e57811ebe76888d"
+    },
+    {
+      "file": "assets/audio/paper.mp3",
+      "bytes": 5842,
+      "sha256": "ad3c0b0cffb35412658ef7978167e531d7ced25b979d49846f38dcf0ed326997"
+    },
+    {
+      "file": "assets/audio/ship.mp3",
+      "bytes": 8454,
+      "sha256": "d71653010be8a548d459fc795d86a4e34e4516f4db92a1c1a11fdd1f2b76816d"
+    },
+    {
+      "file": "assets/audio/tap.mp3",
+      "bytes": 1662,
+      "sha256": "e203618324d2b9bcba8087dbc674183abc6fa0df69ca1c9acfd7ca14d5050fc2"
+    },
+    {
+      "file": "assets/audio/warp.mp3",
+      "bytes": 18642,
+      "sha256": "ee31a6df7d6c24f64b112a6aa35bd21735ba91ba9f8aaf41ec46dbd6563fe7e6"
+    },
+    {
+      "file": "assets/audio/water-choice.mp3",
+      "bytes": 6626,
+      "sha256": "c467d672a3831e86c3b6c4034cb64f092fbac91f34a610158f8a11785048a69c"
+    },
+    {
+      "file": "assets/brand/cindra-dark.png",
+      "bytes": 50385,
+      "sha256": "f61f75e60035bf92bca86eb23fc4c1f546787e915c0d45c13b5d949284e9e983"
+    },
+    {
+      "file": "assets/brand/cindra-light.png",
+      "bytes": 51340,
+      "sha256": "028e049efb0b323bad0e9ef98eea81f509ecdd8b79ccd8738c7c68ce6a5689d3"
+    },
+    {
+      "file": "assets/brand/commissionmatch.svg",
+      "bytes": 6361,
+      "sha256": "c13c9bc763c3171352169f46486d11f98db6854fdcd3e96b1bbad77eeef5508e"
+    },
+    {
+      "file": "assets/brand/ember.png",
+      "bytes": 420,
+      "sha256": "90b61d9d0dca508b605410f059bd55bd42fb0859bfc348a8e0bfdbcf8e19248d"
+    },
+    {
+      "file": "assets/brand/favicon.svg",
+      "bytes": 10782,
+      "sha256": "51e5b0e6701102ec2f667f0086c738f34aaa3afbd7b6b096ac1df5b410cef2e1"
+    },
+    {
+      "file": "assets/brand/goiaba-lunar.webp",
+      "bytes": 62794,
+      "sha256": "33977c5f81798f93cc03b2e58331bbfa0366a53cdb87365f3026710c88eef91e"
+    },
+    {
+      "file": "assets/brand/mangue-night.png",
+      "bytes": 66976,
+      "sha256": "6a15cc948468ea37bad9f5e7ad557c8c9e89902e99d1342c68d3090810adf5b6"
+    },
+    {
+      "file": "assets/brand/studio-dark.svg",
+      "bytes": 11381,
+      "sha256": "9cefc74dc928ff48e9ad27e0cfaf7a8e273a6e66ffd52bfb403241a90037c427"
+    },
+    {
+      "file": "assets/brand/studio-light.svg",
+      "bytes": 11381,
+      "sha256": "da1da081fee8618449adf993bbfd9c7e2e87d9209914e44c924e4d00ae71f116"
+    },
+    {
+      "file": "assets/fonts/Alegreya-OFL.txt",
+      "bytes": 4395,
+      "sha256": "f6f60d5d4cf4f4b1fc4e41353c897a2f5a16e6396c0cd8fa8bdfd2f4586a9a68"
+    },
+    {
+      "file": "assets/fonts/IM-Fell-English-OFL.txt",
+      "bytes": 4452,
+      "sha256": "2a3ca501fc4d5efcad9798531e3e06962b1e20c60e464f6cbd6c17630112c773"
+    },
+    {
+      "file": "assets/fonts/Newsreader-OFL.txt",
+      "bytes": 4394,
+      "sha256": "fdfad38143ec470553cae82a1e45320bdd1b9ec70415d37bd0171051d8a4ded8"
+    },
+    {
+      "file": "assets/fonts/Sora-OFL.txt",
+      "bytes": 4385,
+      "sha256": "ba0b9729c9428ba79a0459ab8ec575791b51509dbec213e383d0316d37fec299"
+    },
+    {
+      "file": "assets/fonts/alegreya-latin.woff2",
+      "bytes": 43476,
+      "sha256": "2431eca3ed8ed66e713cf7093d170d77a083a793a5f19a615506d63770abd973"
+    },
+    {
+      "file": "assets/fonts/im-fell-english-latin.woff2",
+      "bytes": 59880,
+      "sha256": "248300df1647bec49155a5cada1d65f719ae633ef48564d1f19b135a8a5b7f5f"
+    },
+    {
+      "file": "assets/fonts/instrument-serif-OFL.txt",
+      "bytes": 4405,
+      "sha256": "129ed7618959716959f2941fdd5b49e0ad6e6c1d78726761786a00253d865521"
+    },
+    {
+      "file": "assets/fonts/instrument-serif-italic.woff2",
+      "bytes": 15684,
+      "sha256": "6ee678c33f388dd7ba59700ebea635deb98821baafd817b09891f7927177f702"
+    },
+    {
+      "file": "assets/fonts/instrument-serif.woff2",
+      "bytes": 15040,
+      "sha256": "60c06664b5a95c7de6cc3e00d1f9034d78bd1e40b564016b241674449a067d4d"
+    },
+    {
+      "file": "assets/fonts/manrope-OFL.txt",
+      "bytes": 4384,
+      "sha256": "e01b637272e0cbdfb240184dd98ea5cc671556d9894dae2668d92ab2c906787c"
+    },
+    {
+      "file": "assets/fonts/manrope.woff2",
+      "bytes": 24576,
+      "sha256": "e310b55a7fd9677f5e3555e6c6c4d064fa1f1d24393f0ddbe217cea12a8c432f"
+    },
+    {
+      "file": "assets/fonts/sora-latin.woff2",
+      "bytes": 25240,
+      "sha256": "3902474d3ece89c8580d5ef3325cf58753e6e45a86f9957b4dacc4fce2e7fde1"
+    },
+    {
+      "file": "assets/fonts/vt323-OFL.txt",
+      "bytes": 4367,
+      "sha256": "27d9af34210253e7ca1251fbace86c6f65b40031d6ce1a75493a1b2093631298"
+    },
+    {
+      "file": "assets/fonts/vt323.woff2",
+      "bytes": 7192,
+      "sha256": "043a60145af2ddbcd0a6452625cb0bfc4e18b222c76dcd1d4a0106715472faba"
+    },
+    {
+      "file": "assets/product/commission-character.webp",
+      "bytes": 80942,
+      "sha256": "1c0104971b9cb21577de507868bdf1a50df8bbd8fc6295cc7ba2aa458b029dbd"
+    },
+    {
+      "file": "assets/product/commission-fantasy.webp",
+      "bytes": 71404,
+      "sha256": "1db37544087538fea5df302fbc8d1913685e405dbfafa6faa0c2bfb7886eeede"
+    },
+    {
+      "file": "assets/product/commission-nature.webp",
+      "bytes": 41534,
+      "sha256": "c5a4f4b855b6221a7f3f2211e4592ef67a635681f89d0854d43e57f6f80a77e8"
+    }
+  ],
+  "revision": "2 — smaller map planets, distinct product experiences, vector studio wordmark; no new raster generation."
+}

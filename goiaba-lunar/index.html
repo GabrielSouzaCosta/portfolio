@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#091016">
+  <meta name="description" content="Goiaba Lunar. Um pequeno estúdio de grandes ideias. Explore Cindra, CommissionMatch e Mangue em uma viagem com Morfeu.">
+  <meta property="og:title" content="Goiaba Lunar — ideias fora de órbita">
+  <meta property="og:description" content="Três projetos, três destinos. Escolha um caminho e venha explorar com Morfeu.">
+  <meta property="og:type" content="website">
+  <title>Goiaba Lunar — ideias fora de órbita</title>
+  <link rel="icon" href="assets/brand/goiaba-lunar.webp" type="image/webp">
+  <link rel="preload" href="assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="drawn.css">
+  <script defer src="js/studio.js"></script>
+</head>
+<body data-world="galaxy">
+  <a class="skip-link" href="#main-content">Pular para a experiência</a>
+  <div class="space-backdrop" aria-hidden="true"></div>
+  <div class="world-color" aria-hidden="true"></div>
+  <canvas id="space-canvas" aria-hidden="true"></canvas>
+
+  <header class="site-header">
+    <a class="studio-brand" href="#galaxia" aria-label="Goiaba Lunar, voltar à galáxia">
+      <img class="brand-original" src="assets/brand/goiaba-lunar.webp" width="512" height="512" alt="">
+      <span class="brand-name">Goiaba<br>Lunar</span>
+    </a>
+    <a class="knight-link" href="https://gabriel.goiabalunar.tech/" target="_blank" rel="noopener noreferrer" aria-label="Gabriel Souza Costa, visitar meu portfólio (abre em outra aba)">
+      <span class="knight-model model-viewport" data-model="knight" aria-hidden="true"><img src="assets/drawn/knight.svg" width="180" height="240" alt=""></span>
+      <span class="knight-caption">Gabriel<span class="knight-destination">Meu portfólio <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></span></span>
+    </a>
+    <div class="global-controls">
+      <button id="motion-toggle" class="icon-button" type="button" aria-label="Pausar movimento" aria-pressed="false" title="Pausar movimento"><svg viewBox="0 0 24 24" aria-hidden="true" class="pause-icon"><path d="M9 5v14M15 5v14"/></svg><svg viewBox="0 0 24 24" aria-hidden="true" class="play-icon"><path d="m8 5 10 7-10 7Z"/></svg></button>
+    </div>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <section id="galaxia" class="galaxy-view" aria-labelledby="galaxy-title">
+      <div class="galaxy-intro"><h1 id="galaxy-title" tabindex="-1">Ideias fora<br><em>de órbita.</em></h1><p>Um pequeno estúdio.<br>Escolha um mundo para descobrir.</p></div>
+      <div class="galaxy-map" aria-label="Escolha um projeto para explorar">
+        <svg class="orbit-lines" viewBox="0 0 1200 600" preserveAspectRatio="none" aria-hidden="true"><path d="M100 465C240 430 300 320 390 340S560 185 694 225 898 440 1040 400"/><path class="orbit-dashed" d="M160 405C270 175 825 80 1070 320"/></svg>
+        <a class="planet planet-cindra" href="#cindra" data-planet="cindra" aria-label="Explorar Cindra, organização da vida, disponível"><span class="planet-art model-viewport" data-model="cindra" aria-hidden="true"><img src="assets/drawn/cindra.svg" width="960" height="960" alt="" fetchpriority="high"></span><span class="planet-label"><span class="planet-name">Cindra<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></span><span class="planet-description">Um lugar para organizar a vida</span><span class="planet-status"><i></i>Disponível</span></span></a>
+        <a class="planet planet-commissionmatch" href="#commissionmatch" data-planet="commissionmatch" aria-label="Explorar CommissionMatch, descoberta de artistas, em prévia"><span class="planet-art model-viewport" data-model="commissionmatch" aria-hidden="true"><img src="assets/drawn/commissionmatch.svg" width="960" height="960" alt="" fetchpriority="high"></span><span class="planet-label"><span class="planet-name">CommissionMatch<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></span><span class="planet-description">O encontro entre ideias e artistas</span><span class="planet-status"><i></i>Em prévia</span></span></a>
+        <a class="planet planet-mangue" href="#mangue" data-planet="mangue" aria-label="Explorar Mangue, histórias com escolhas, em desenvolvimento"><span class="planet-art model-viewport" data-model="mangue" aria-hidden="true"><img src="assets/drawn/mangue.svg" width="960" height="960" alt="" fetchpriority="high"></span><span class="planet-label"><span class="planet-name">Mangue<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></span><span class="planet-description">Histórias que criam caminhos</span><span class="planet-status"><i></i>Em desenvolvimento</span></span></a>
+      </div>
+      <div class="galaxy-note"><span>Três mundos. Uma viagem.</span><button type="button" id="replay-arrival" class="text-button">Rever a chegada<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10a8 8 0 1 1 1 8M4 4v6h6"/></svg></button></div>
+    </section>
+
+    <section id="cindra" class="world-view cindra-view" data-view="cindra" aria-labelledby="cindra-title" hidden>
+      <div class="cindra-heading"><img src="assets/brand/cindra-light.png" width="150" height="38" alt="Cindra"><h2 id="cindra-title" tabindex="-1">Um lugar para <em>o que importa.</em></h2><a class="product-exit" href="https://cindra.app/" target="_blank" rel="noopener noreferrer">Usar o Cindra<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a></div>
+      <div class="cindra-workspace" id="cindra-demo" data-phase="idle" aria-label="Demonstração do Cindra com dados de exemplo">
+        <div class="ember-welcome"><img src="assets/brand/ember.png" width="48" height="48" alt="Ember, a pequena chama do Cindra"><div><p>O que está passando pela sua cabeça?</p><span>Escolha um pensamento. A gente encontra um lugar.</span></div></div>
+        <div class="capture-sheet">
+          <div class="capture-entry">
+            <div class="thought-switch" role="group" aria-label="Escolher um pensamento de exemplo"><button class="active" type="button" data-thought="day" aria-pressed="true">Um dia cheio</button><button type="button" data-thought="project" aria-pressed="false">Uma ideia nova</button><span class="sample-label">Exemplo</span></div>
+            <blockquote id="thought-copy">Amanhã tenho uma reunião às 10h. Gastei R$ 32 no almoço e quero estudar espanhol esta semana.</blockquote>
+            <button id="organize-thought" type="button" class="cindra-action">Encontrar um lugar<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></button>
+          </div>
+          <div id="thought-review" class="thought-review" hidden><p>Você decide o que fica.</p><div id="review-items"></div><button type="button" class="cindra-action" id="save-thought">Guardar os selecionados<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></button></div>
+          <div class="capture-finished"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg><p>Um pouco mais<br><em>de espaço para pensar.</em></p></div>
+        </div>
+        <div class="organization-paths" aria-hidden="true"><svg viewBox="0 0 720 60" preserveAspectRatio="none"><path d="M360 0V18Q360 27 350 27H130Q120 27 120 37V60M360 0V60M360 0V18Q360 27 370 27H590Q600 27 600 37V60"/></svg></div>
+        <div class="life-areas" id="life-areas"><div data-area="0"><span class="area-mark plum"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v4m8-4v4M4 11h16"/></svg></span><h3>Agenda</h3><p>Um espaço no seu dia.</p></div><div data-area="1"><span class="area-mark sage"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15 8h-4a2 2 0 0 0 0 4h2a2 2 0 0 1 0 4H9m3-10v12"/></svg></span><h3>Finanças</h3><p>Cada detalhe no lugar.</p></div><div data-area="2"><span class="area-mark gold"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5q5-2 9 1v15q-4-3-9-1ZM12 6q4-3 9-1v15q-5-2-9 1"/></svg></span><h3>Aprendizado</h3><p>Um pouco, todos os dias.</p></div></div>
+        <div class="cindra-feedback"><p class="demo-status" id="cindra-status" role="status">Uma pequena experiência de organização, com dados de exemplo.</p><button class="text-button" id="reset-cindra" type="button" hidden>Experimentar de novo</button></div>
+      </div>
+    </section>
+
+    <section id="commissionmatch" class="world-view commission-view" data-view="commissionmatch" aria-labelledby="commission-title" hidden>
+      <div class="atelier-heading"><p class="commission-wordmark"><img src="assets/brand/commissionmatch.svg" width="30" height="30" alt="">CommissionMatch</p><a class="product-exit" href="https://commissionmatch.art/#preview" target="_blank" rel="noopener noreferrer">Visitar a prévia<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a></div>
+      <div class="atelier-title"><h2 id="commission-title" tabindex="-1">Sua ideia. <em>O traço de alguém.</em></h2><p>Um encontro que começa pela arte. Explore os traços da nossa prévia.</p></div>
+      <div class="atelier-gallery" aria-label="Amostra visual da prévia de CommissionMatch">
+        <div class="gallery-deck" id="gallery-deck">
+          <button class="artwork-piece" type="button" data-artwork="0" data-position="center" aria-pressed="true" aria-label="Ver gravura de fantasia"><span class="artwork-mat"><img src="assets/product/commission-fantasy.webp" width="640" height="287" alt="Gravura de uma figura alada sobre um dragão, referência de CommissionMatch."></span><span class="artwork-category">Fantasia</span></button>
+          <button class="artwork-piece" type="button" data-artwork="1" data-position="right" aria-pressed="false" aria-label="Ver gravura de personagem"><span class="artwork-mat"><img src="assets/product/commission-character.webp" width="400" height="500" alt="Gravura de um cavaleiro com armadura, referência de CommissionMatch."></span><span class="artwork-category">Personagens</span></button>
+          <button class="artwork-piece" type="button" data-artwork="2" data-position="left" aria-pressed="false" aria-label="Ver gravura de natureza"><span class="artwork-mat"><img src="assets/product/commission-nature.webp" width="400" height="500" alt="Gravura de uma águia de asas abertas, referência de CommissionMatch."></span><span class="artwork-category">Natureza</span></button>
+        </div>
+        <div class="gallery-caption"><button type="button" class="gallery-arrow" id="previous-artwork" aria-label="Gravura anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m5-5-5 5 5 5"/></svg></button><div aria-live="polite"><h3 id="gallery-title">Mundos imaginados</h3><p id="gallery-description">Fantasia em cada detalhe.</p></div><button type="button" class="gallery-arrow" id="next-artwork" aria-label="Próxima gravura"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></button></div>
+        <div class="gallery-footnote"><span class="gallery-index" id="gallery-index">1 / 3</span><p>Gravuras de referência. Em prévia.<br><span>Designed by rawpixel.com / <a href="https://www.freepik.com/" target="_blank" rel="noopener noreferrer">Freepik</a></span></p></div>
+      </div>
+    </section>
+
+    <section id="mangue" class="world-view mangue-view" data-view="mangue" data-map-open="false" aria-labelledby="mangue-title" hidden>
+      <div class="mangue-intro"><img src="assets/brand/mangue-night.png" width="156" height="36" alt="Mangue"><h2 id="mangue-title" tabindex="-1">Toda escolha <br><em>cria uma história.</em></h2><p>Escreva mundos. Conecte possibilidades.<br>Descubra o próprio caminho.</p><span class="world-state"><i></i>Em desenvolvimento</span></div>
+      <div id="story-map" class="story-map" aria-label="Mapa da história">
+        <svg viewBox="0 0 460 300" role="img" aria-labelledby="map-title"><title id="map-title">Da carta partem caminhos para ler ou levar ao farol, que resultam em dois finais.</title><g class="map-edges"><path data-edge="opened" d="M230 45C230 88 115 90 115 125"/><path data-edge="carried" d="M230 45C230 88 345 90 345 125"/><path data-edge="light" d="M115 145V225"/><path data-edge="letter" d="M345 145V225"/></g><g data-node="start"><circle cx="230" cy="38" r="8"/><text x="230" y="17">A carta</text></g><g data-node="opened"><circle cx="115" cy="133" r="8"/><text x="115" y="167">Ler a mensagem</text></g><g data-node="carried"><circle cx="345" cy="133" r="8"/><text x="345" y="167">Levar ao farol</text></g><g data-node="light"><circle cx="115" cy="232" r="8"/><text x="115" y="268">Uma nova luz</text></g><g data-node="letter"><circle cx="345" cy="232" r="8"/><text x="345" y="268">Uma velha amizade</text></g></svg>
+        <p>O caminho aparece<br>quando você escolhe.</p>
+      </div>
+      <div class="story-book">
+        <div class="book-topline"><span>A carta entre as raízes</span><button id="story-map-toggle" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="4" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M12 6v6M5 17v-5h14v5"/></svg><span>Ver caminhos</span></button></div>
+        <div id="story-reader"><span class="story-chapter" id="story-chapter">À margem</span><h3 id="story-title" tabindex="-1">Uma carta espera por você.</h3><div id="story-text" class="story-text"></div><div id="story-choices" class="story-choices"></div></div>
+        <div class="book-footer"><button type="button" id="restart-story" class="text-button">Recomeçar</button><span>Uma história de exemplo</span></div><p id="story-status" class="sr-only" role="status"></p>
+      </div>
+    </section>
+  </main>
+
+  <nav class="journey-rail" aria-label="Rota pelos projetos">
+    <a class="route-home" href="#galaxia" aria-label="Voltar ao mapa da galáxia"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="5" transform="rotate(-28 12 12)"/></svg><span>Galáxia</span></a>
+    <div class="route-planets"><a href="#cindra" data-route="cindra" aria-label="Explorar Cindra"><span class="route-model model-viewport" data-model="cindra" aria-hidden="true"><img src="assets/drawn/cindra.svg" width="32" height="32" alt=""></span><span class="route-name">Cindra</span></a><a href="#commissionmatch" data-route="commissionmatch" aria-label="Explorar CommissionMatch"><span class="route-model model-viewport" data-model="commissionmatch" aria-hidden="true"><img src="assets/drawn/commissionmatch.svg" width="32" height="32" alt=""></span><span class="route-name">CommissionMatch</span></a><a href="#mangue" data-route="mangue" aria-label="Explorar Mangue"><span class="route-model model-viewport" data-model="mangue" aria-hidden="true"><img src="assets/drawn/mangue.svg" width="32" height="32" alt=""></span><span class="route-name">Mangue</span></a></div>
+    <a id="route-next" class="route-next" href="#cindra"><span id="route-next-label">Começar por Cindra</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></a>
+  </nav>
+  <div class="morfeu-companion" id="morfeu"><button id="morfeu-button" type="button" aria-label="Fazer carinho no Morfeu"><span class="ship-model model-viewport" data-model="ship" aria-hidden="true"><img src="assets/drawn/morfeu-ship.svg" width="300" height="180" alt=""></span></button><p id="morfeu-message">Escolha um mundo.<br>Eu vou com você.</p></div>
+  <div class="arrival" id="arrival" hidden><div class="arrival-text"><div class="arrival-brand"><img src="assets/brand/goiaba-lunar.webp" width="96" height="96" alt=""><span>Goiaba Lunar</span></div><p>Tem um universo esperando por você.</p></div><button id="skip-arrival" type="button">Pular viagem<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 5 8 7-8 7m10-14v14"/></svg></button></div>
+  <div class="travel-wash" id="travel-wash" aria-hidden="true"></div>
+  <p class="flight-caption" id="flight-caption" aria-hidden="true" hidden></p>
+  <button class="skip-flight" id="skip-flight" type="button" hidden>Chegar ao destino<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 5 8 7-8 7m10-14v14"/></svg></button>
+  <p id="navigation-status" class="sr-only" role="status"></p>
+  <noscript><style>body{height:auto;overflow:auto}.world-view[hidden]{display:block!important}#main-content{position:relative;top:auto;bottom:auto;height:auto;margin-top:var(--head);overflow:visible}.world-view{height:auto;min-height:90vh;margin-block:3rem}.global-controls,.morfeu-companion,.cindra-workspace,.atelier-gallery,.story-book,.story-map,.journey-rail,#replay-arrival{display:none!important}.planet-art{animation:none}.galaxy-view{height:80vh}.cindra-heading{display:block}.cindra-heading>*{margin-block:1rem}.mangue-intro{display:block}</style><p class="noscript-note">As experiências usam JavaScript. Os projetos e seus destinos disponíveis continuam acessíveis.</p></noscript>
+</body>
+</html>

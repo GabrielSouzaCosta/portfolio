@@ -1,0 +1,530 @@
+{
+  "title": "Goiaba Lunar — original sound set",
+  "version": "1.0.0",
+  "date": "2026-09-06",
+  "origin": "Original procedural synthesis created specifically for the owner of Goiaba Lunar using this script.",
+  "external_sources": [],
+  "authorization": "Produced under the site owner’s authorization for this project; no third-party samples or melodies.",
+  "attribution_required": false,
+  "toolchain": "Python 3, NumPy FFT/noise/envelopes; ffmpeg libmp3lame.",
+  "generator_prompt": "No generative media model was used. Full reproducible sound recipes are in generate.py.",
+  "assets": [
+    {
+      "name": "galaxy-cabin",
+      "planning_id": "A02",
+      "seed": 6501,
+      "loop": true,
+      "description_pt": "Ventilação macia, vibração ampla e abafada, pequenos respiros de cabine.",
+      "stats": {
+        "duration_seconds": 20.0,
+        "sample_rate_hz": 44100,
+        "channels": 2,
+        "sample_peak_dbfs": -25.0,
+        "estimated_true_peak_dbfs": -24.999,
+        "rms_dbfs": -38.894,
+        "mono_rms_dbfs": -38.902,
+        "mono_peak_dbfs": -25.134,
+        "mono_fold_down_loss_db": -0.008,
+        "channel_correlation": 0.996614,
+        "dc_offset": [
+          -0.0,
+          -0.0
+        ],
+        "head_10ms_rms_dbfs": -38.167,
+        "tail_10ms_rms_dbfs": -39.878,
+        "trailing_below_minus70db_seconds": 0.0,
+        "loop_boundary_delta_dbfs": -68.685,
+        "clipped_samples": 0
+      },
+      "files": {
+        "wav_master": {
+          "path": "masters/galaxy-cabin.wav",
+          "bytes": 3528044,
+          "sha256": "1402243ca300ece4f587b1dbfea6aef02a4cb87331d9fd12858de9006ec40247"
+        },
+        "mp3_web": {
+          "path": "web/galaxy-cabin.mp3",
+          "bytes": 200715,
+          "sha256": "fed57755ef3ea7d94bf799ad2a96a70c3f66d539c9283acf0fb3d7085ca155cc"
+        }
+      },
+      "playback_gain": 1.0,
+      "level_note": "Relative ambience/effect balance is baked into the files."
+    },
+    {
+      "name": "cindra-hearth",
+      "planning_id": "A06",
+      "seed": 6502,
+      "loop": true,
+      "description_pt": "Ar doméstico quente, brasa branda e quatro assentamentos minúsculos de madeira.",
+      "stats": {
+        "duration_seconds": 22.0,
+        "sample_rate_hz": 44100,
+        "channels": 2,
+        "sample_peak_dbfs": -25.312,
+        "estimated_true_peak_dbfs": -25.311,
+        "rms_dbfs": -38.0,
+        "mono_rms_dbfs": -38.013,
+        "mono_peak_dbfs": -25.357,
+        "mono_fold_down_loss_db": -0.013,
+        "channel_correlation": 0.994062,
+        "dc_offset": [
+          -0.0,
+          -0.0
+        ],
+        "head_10ms_rms_dbfs": -39.785,
+        "tail_10ms_rms_dbfs": -38.504,
+        "trailing_below_minus70db_seconds": 0.0,
+        "loop_boundary_delta_dbfs": -54.891,
+        "clipped_samples": 0
+      },
+      "files": {
+        "wav_master": {
+          "path": "masters/cindra-hearth.wav",
+          "bytes": 3880844,
+          "sha256": "71278665766d76ef16dede00f49f3364c2c8a33b7f33862742014a2a5e18fc36"
+        },
+        "mp3_web": {
+          "path": "web/cindra-hearth.mp3",
+          "bytes": 220830,
+          "sha256": "fbf0010cd17088df59e38a1b23b5494bffc6588dc4355e21341aa13115b22a7c"
+        }
+      },
+      "playback_gain": 1.0,
+      "level_note": "Relative ambience/effect balance is baked into the files."
+    },
+    {
+      "name": "commissionmatch-atelier",
+      "planning_id": "A08",
+      "seed": 6503,
+      "loop": true,
+      "description_pt": "Ar seco de ateliê; folhas espessas se movem raramente e à distância.",
+      "stats": {
+        "duration_seconds": 20.0,
+        "sample_rate_hz": 44100,
+        "channels": 2,
+        "sample_peak_dbfs": -26.0,
+        "estimated_true_peak_dbfs": -25.998,
+        "rms_dbfs": -39.852,
+        "mono_rms_dbfs": -39.889,
+        "mono_peak_dbfs": -26.139,
+        "mono_fold_down_loss_db": -0.037,
+        "channel_correlation": 0.982784,
+        "dc_offset": [
+          -0.0,
+          -0.0
+        ],
+        "head_10ms_rms_dbfs": -39.379,
+        "tail_10ms_rms_dbfs": -36.804,
+        "trailing_below_minus70db_seconds": 0.0,
+        "loop_boundary_delta_dbfs": -62.525,
+        "clipped_samples": 0
+      },
+      "files": {
+        "wav_master": {
+          "path": "masters/commissionmatch-atelier.wav",
+          "bytes": 3528044,
+          "sha256": "cc3fe77ebf00c1a9d07e3afaebb710978fb902201efbdff4eee04d8433f86fa2"
+        },
+        "mp3_web": {
+          "path": "web/commissionmatch-atelier.mp3",
+          "bytes": 200715,
+          "sha256": "31ed878c6b7e256fdcd64e80c90460f46d2059d8e9d4aa77708314337565a217"
+        }
+      },
+      "playback_gain": 1.0,
+      "level_note": "Relative ambience/effect balance is baked into the files."
+    },
+    {
+      "name": "mangue-water-leaves",
+      "planning_id": "A10",
+      "seed": 6504,
+      "loop": true,
+      "description_pt": "Água baixa entre raízes, sopros úmidos, folhas esparsas e bolhas discretas.",
+      "stats": {
+        "duration_seconds": 24.0,
+        "sample_rate_hz": 44100,
+        "channels": 2,
+        "sample_peak_dbfs": -25.0,
+        "estimated_true_peak_dbfs": -24.999,
+        "rms_dbfs": -38.819,
+        "mono_rms_dbfs": -38.841,
+        "mono_peak_dbfs": -25.315,
+        "mono_fold_down_loss_db": -0.022,
+        "channel_correlation": 0.989595,
+        "dc_offset": [
+          -0.0,
+          -0.0
+        ],
+        "head_10ms_rms_dbfs": -39.828,
+        "tail_10ms_rms_dbfs": -35.411,
+        "trailing_below_minus70db_seconds": 0.0,
+        "loop_boundary_delta_dbfs": -79.595,
+        "clipped_samples": 0
+      },
+      "files": {
+        "wav_master": {
+          "path": "masters/mangue-water-leaves.wav",
+          "bytes": 4233644,
+          "sha256": "512b8fd206b59389abc38a036afa924f659aacbc92f854505a8ffed8092262c7"
+        },
+        "mp3_web": {
+          "path": "web/mangue-water-leaves.mp3",
+          "bytes": 240683,
+          "sha256": "098c195f7b2bfefeb937d9c5a9b2a16c4656aee1c65850a3295ddc1538d5f93e"
+        }
+      },
+      "playback_gain": 1.0,
+      "level_note": "Relative ambience/effect balance is baked into the files."
+    },
+    {
+      "name": "warp",
+      "planning_id": "A01",
+      "seed": 6601,
+      "loop": false,
+      "description_pt": "Ar que comprime e desacelera, corpo macio de cabine, chegada sem impacto.",
+      "stats": {
+        "duration_seconds": 1.8,
+        "sample_rate_hz": 44100,
+        "channels": 2,
+        "sample_peak_dbfs": -23.166,
+        "estimated_true_peak_dbfs": -23.166,
+        "rms_dbfs": -32.0,
+        "mono_rms_dbfs": -32.0,
+        "mono_peak_dbfs": -23.166,
+        "mono_fold_down_loss_db": 0.0,
+        "channel_correlation": 1.0,
+        "dc_offset": [
+          -2.07e-07,
+          -2.07e-07
+        ],
+        "head_10ms_rms_dbfs": -83.118,
+        "tail_10ms_rms_dbfs": -85.559,
+        "trailing_below_minus70db_seconds": 0.113469,
+        "loop_boundary_delta_dbfs": -240.0,
+        "clipped_samples": 0
+      },
+      "files": {
+        "wav_master": {
+          "path": "masters/warp.wav",
+          "bytes": 317564,
+          "sha256": "256fea0edf6830f0e2df173fd392bc11593d719cf705af46e6b890f971795856"
+        },
+        "mp3_web": {
+          "path": "web/warp.mp3",
+          "bytes": 18642,
+          "sha256": "ee31a6df7d6c24f64b112a6aa35bd21735ba91ba9f8aaf41ec46dbd6563fe7e6"
+        }
+      },
+      "playback_gain": 1.0,
+      "level_note": "Relative ambience/effect balance is baked into the files."
+    },
+    {
+      "name": "ship",
+      "planning_id": "A03",
+      "seed": 6602,
+      "loop": false,
+      "description_pt": "Impulso redondo de propulsão; pequeno mecanismo abafado na cauda.",
+      "stats": {
+        "duration_seconds": 0.78,
+        "sample_rate_hz": 44100,
+        "channels": 2,
+        "sample_peak_dbfs": -23.405,
+        "estimated_true_peak_dbfs": -23.405,
+        "rms_dbfs": -32.0,
+        "mono_rms_dbfs": -32.0,
+        "mono_peak_dbfs": -23.405,
+        "mono_fold_down_loss_db": 0.0,
+        "channel_correlation": 0.999999,
+        "dc_offset": [
+          -7.67e-07,
+          -7.68e-07
+        ],
+        "head_10ms_rms_dbfs": -60.183,
+        "tail_10ms_rms_dbfs": -81.341,
+        "trailing_below_minus70db_seconds": 0.05542,
+        "loop_boundary_delta_dbfs": -240.0,
+        "clipped_samples": 0
+      },
+      "files": {
+        "wav_master": {
+          "path": "masters/ship.wav",
+          "bytes": 137636,
+          "sha256": "4cff109ebd9c34339598b00bddeaacc3ae4986e793dd0ed7c8b5b604ff3331f0"
+        },
+        "mp3_web": {
+          "path": "web/ship.mp3",
+          "bytes": 8454,
+          "sha256": "d71653010be8a548d459fc795d86a4e34e4516f4db92a1c1a11fdd1f2b76816d"
+        }
+      },
+      "playback_gain": 1.0,
+      "level_note": "Relative ambience/effect balance is baked into the files."
+    },
+    {
+      "name": "tap",
+      "planning_id": "A04",
+      "seed": 6603,
+      "loop": false,
+      "description_pt": "Contato seco e acolchoado de cabine, sem bip ou tom de notificação.",
+      "stats": {
+        "duration_seconds": 0.085011,
+        "sample_rate_hz": 44100,
+        "channels": 2,
+        "sample_peak_dbfs": -22.311,
+        "estimated_true_peak_dbfs": -22.311,
+        "rms_dbfs": -32.034,
+        "mono_rms_dbfs": -32.034,
+        "mono_peak_dbfs": -22.311,
+        "mono_fold_down_loss_db": 0.0,
+        "channel_correlation": 1.0,
+        "dc_offset": [
+          9.4946e-05,
+          9.4946e-05
+        ],
+        "head_10ms_rms_dbfs": -27.283,
+        "tail_10ms_rms_dbfs": -63.921,
+        "trailing_below_minus70db_seconds": 0.003764,
+        "loop_boundary_delta_dbfs": -240.0,
+        "clipped_samples": 0
+      },
+      "files": {
+        "wav_master": {
+          "path": "masters/tap.wav",
+          "bytes": 15040,
+          "sha256": "16a93f4ebe6f2ed58a958a9e4668323e1519a81c99db7380cc9619349d18c9ba"
+        },
+        "mp3_web": {
+          "path": "web/tap.mp3",
+          "bytes": 1662,
+          "sha256": "e203618324d2b9bcba8087dbc674183abc6fa0df69ca1c9acfd7ca14d5050fc2"
+        }
+      },
+      "playback_gain": 1.0,
+      "level_note": "Relative ambience/effect balance is baked into the files."
+    },
+    {
+      "name": "organize",
+      "planning_id": "A07",
+      "seed": 6604,
+      "loop": false,
+      "description_pt": "Folha desliza e assenta junto de um toque oco e curto de cerâmica.",
+      "stats": {
+        "duration_seconds": 0.43,
+        "sample_rate_hz": 44100,
+        "channels": 2,
+        "sample_peak_dbfs": -16.114,
+        "estimated_true_peak_dbfs": -16.104,
+        "rms_dbfs": -26.0,
+        "mono_rms_dbfs": -26.004,
+        "mono_peak_dbfs": -16.147,
+        "mono_fold_down_loss_db": -0.004,
+        "channel_correlation": 0.998341,
+        "dc_offset": [
+          1.625e-06,
+          1.573e-06
+        ],
+        "head_10ms_rms_dbfs": -77.809,
+        "tail_10ms_rms_dbfs": -80.242,
+        "trailing_below_minus70db_seconds": 0.048299,
+        "loop_boundary_delta_dbfs": -240.0,
+        "clipped_samples": 0
+      },
+      "files": {
+        "wav_master": {
+          "path": "masters/organize.wav",
+          "bytes": 75896,
+          "sha256": "e5d5504a29d0fefb69e053ae2610aed7fe87c4098c79d4325452cb6eaad7eeb2"
+        },
+        "mp3_web": {
+          "path": "web/organize.mp3",
+          "bytes": 5058,
+          "sha256": "6ca54a4585d3515cc31634eec608e92a0697be556fc558572e57811ebe76888d"
+        }
+      },
+      "playback_gain": 1.0,
+      "level_note": "Relative ambience/effect balance is baked into the files."
+    },
+    {
+      "name": "paper",
+      "planning_id": "A09",
+      "seed": 6605,
+      "loop": false,
+      "description_pt": "Folha espessa desliza e se desdobra; fibras arredondadas e pouca cauda.",
+      "stats": {
+        "duration_seconds": 0.52,
+        "sample_rate_hz": 44100,
+        "channels": 2,
+        "sample_peak_dbfs": -16.633,
+        "estimated_true_peak_dbfs": -16.6,
+        "rms_dbfs": -26.0,
+        "mono_rms_dbfs": -26.0,
+        "mono_peak_dbfs": -16.633,
+        "mono_fold_down_loss_db": 0.0,
+        "channel_correlation": 1.0,
+        "dc_offset": [
+          9.72e-07,
+          9.72e-07
+        ],
+        "head_10ms_rms_dbfs": -46.49,
+        "tail_10ms_rms_dbfs": -72.497,
+        "trailing_below_minus70db_seconds": 0.005125,
+        "loop_boundary_delta_dbfs": -240.0,
+        "clipped_samples": 0
+      },
+      "files": {
+        "wav_master": {
+          "path": "masters/paper.wav",
+          "bytes": 91772,
+          "sha256": "6fac6e761df295034acbd8ba5704edc3ab3c7a6345a776b92e08e7734330818f"
+        },
+        "mp3_web": {
+          "path": "web/paper.mp3",
+          "bytes": 5842,
+          "sha256": "ad3c0b0cffb35412658ef7978167e531d7ced25b979d49846f38dcf0ed326997"
+        }
+      },
+      "playback_gain": 1.0,
+      "level_note": "Relative ambience/effect balance is baked into the files."
+    },
+    {
+      "name": "water-choice",
+      "planning_id": "A11",
+      "seed": 6606,
+      "loop": false,
+      "description_pt": "Deslocamento breve de água, três bolhas pequenas e recuo suave.",
+      "stats": {
+        "duration_seconds": 0.58,
+        "sample_rate_hz": 44100,
+        "channels": 2,
+        "sample_peak_dbfs": -17.139,
+        "estimated_true_peak_dbfs": -17.139,
+        "rms_dbfs": -26.0,
+        "mono_rms_dbfs": -26.0,
+        "mono_peak_dbfs": -17.139,
+        "mono_fold_down_loss_db": 0.0,
+        "channel_correlation": 1.0,
+        "dc_offset": [
+          -8e-07,
+          -8e-07
+        ],
+        "head_10ms_rms_dbfs": -77.371,
+        "tail_10ms_rms_dbfs": -83.575,
+        "trailing_below_minus70db_seconds": 0.020522,
+        "loop_boundary_delta_dbfs": -240.0,
+        "clipped_samples": 0
+      },
+      "files": {
+        "wav_master": {
+          "path": "masters/water-choice.wav",
+          "bytes": 102356,
+          "sha256": "fccc5c65024c11588247c7c902b0c2fc7eb90fd27fe412f72d1eb92c1562f1ab"
+        },
+        "mp3_web": {
+          "path": "web/water-choice.mp3",
+          "bytes": 6626,
+          "sha256": "c467d672a3831e86c3b6c4034cb64f092fbac91f34a610158f8a11785048a69c"
+        }
+      },
+      "playback_gain": 1.0,
+      "level_note": "Relative ambience/effect balance is baked into the files."
+    }
+  ],
+  "omitted": [
+    {
+      "planning_id": "A05",
+      "reason": "Optional feline cue omitted; a convincing cat gesture is better reserved for a future natural recording."
+    }
+  ],
+  "preview": {
+    "file": "preview-20s.mp3",
+    "stats": {
+      "duration_seconds": 20.0,
+      "sample_rate_hz": 44100,
+      "channels": 2,
+      "sample_peak_dbfs": -14.486,
+      "estimated_true_peak_dbfs": -14.435,
+      "rms_dbfs": -33.085,
+      "mono_rms_dbfs": -33.091,
+      "mono_peak_dbfs": -14.599,
+      "mono_fold_down_loss_db": -0.006,
+      "channel_correlation": 0.99725,
+      "dc_offset": [
+        3.52e-07,
+        2.29e-07
+      ],
+      "head_10ms_rms_dbfs": -110.889,
+      "tail_10ms_rms_dbfs": -112.289,
+      "trailing_below_minus70db_seconds": 0.057188,
+      "loop_boundary_delta_dbfs": -240.0,
+      "clipped_samples": 0
+    },
+    "world_timeline_seconds": [
+      [
+        "galaxy-cabin",
+        0,
+        5.4
+      ],
+      [
+        "cindra-hearth",
+        4.6,
+        5.4
+      ],
+      [
+        "commissionmatch-atelier",
+        9.2,
+        5.4
+      ],
+      [
+        "mangue-water-leaves",
+        13.8,
+        6.2
+      ]
+    ],
+    "cue_timeline_seconds": [
+      [
+        "warp",
+        0.6
+      ],
+      [
+        "tap",
+        3.15
+      ],
+      [
+        "ship",
+        4.45
+      ],
+      [
+        "organize",
+        6.9
+      ],
+      [
+        "paper",
+        11.65
+      ],
+      [
+        "water-choice",
+        16.25
+      ],
+      [
+        "water-choice",
+        18.0
+      ]
+    ],
+    "mix": "Uses final file levels and unity master gain. Site master should start at 0.35 as proposed in audio.md."
+  },
+  "integration": {
+    "preferred_codec": "audio/mpeg",
+    "loop_method": "Decode the complete MP3 into a Web Audio AudioBuffer; loopStart=0, loopEnd=buffer.duration. LAME delay/padding metadata is present; decoded frame count was audited. Prefer Web Audio for the loop, since HTMLMediaElement looping is not guaranteed gapless.",
+    "gain_warning": "Do not apply the ambient -12 to -18 dB offset again; it is baked into assets. All per-file gain values are 1.0 before master.",
+    "recommended_master_gain": 0.35,
+    "environment_crossfade_seconds": 0.75,
+    "initial_ambient_fade_seconds": 0.4,
+    "mute_ramp_seconds": 0.02,
+    "duck_ambient_db": -4,
+    "duck_release_seconds": 0.6,
+    "quiet_start_required": true,
+    "load_only_after_opt_in": true
+  },
+  "validation_limit": "Measured signal/codec/seam/mono audits are supplied. Final artistic listening on physical speakers and in the UI remains necessary; no claim of device-level acoustic safety is made."
+}

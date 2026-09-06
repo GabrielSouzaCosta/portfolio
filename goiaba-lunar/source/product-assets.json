@@ -1,0 +1,109 @@
+[
+  {
+    "file": "cindra/wordmark-light.png",
+    "source": "/Volumes/SSD/Documents/cindra/src/lib/assets/brand/logo-light-text.png",
+    "bytes": 51340,
+    "sha256": "028e049efb0b323bad0e9ef98eea81f509ecdd8b79ccd8738c7c68ce6a5689d3",
+    "width": 414,
+    "height": 105,
+    "colorType": 6,
+    "alpha": true
+  },
+  {
+    "file": "cindra/wordmark-dark.png",
+    "source": "/Volumes/SSD/Documents/cindra/src/lib/assets/brand/logo-dark-text.png",
+    "bytes": 50385,
+    "sha256": "f61f75e60035bf92bca86eb23fc4c1f546787e915c0d45c13b5d949284e9e983",
+    "width": 412,
+    "height": 104,
+    "colorType": 6,
+    "alpha": true
+  },
+  {
+    "file": "cindra/ember.png",
+    "source": "/Volumes/SSD/Documents/cindra/static/companions/push/ember.png",
+    "bytes": 420,
+    "sha256": "90b61d9d0dca508b605410f059bd55bd42fb0859bfc348a8e0bfdbcf8e19248d",
+    "width": 96,
+    "height": 96,
+    "colorType": 6,
+    "alpha": true
+  },
+  {
+    "file": "commissionmatch/symbol-light.svg",
+    "source": "/Users/mac/Documents/commission-match/apps/web/src/assets/logo.svg",
+    "bytes": 6361,
+    "sha256": "48225f980cb84ca6a6fe9dd4a06c1652e176081eb513e79332a19a8908a5a004"
+  },
+  {
+    "file": "commissionmatch/preview-engraving.webp",
+    "source": "/Users/mac/Documents/commission-match/apps/web/src/assets/images/featured-artist-640.webp",
+    "bytes": 71404,
+    "sha256": "1db37544087538fea5df302fbc8d1913685e405dbfafa6faa0c2bfb7886eeede"
+  },
+  {
+    "file": "mangue/wordmark-light.png",
+    "source": "/Users/mac/Documents/pathfork/static/brand/logo-mangue-full.png",
+    "bytes": 85857,
+    "sha256": "fadef2c28e8ef34abcce48ff208722a661dbad6d38b98a1ed2a206b57c4bf82f",
+    "width": 809,
+    "height": 185,
+    "colorType": 6,
+    "alpha": true
+  },
+  {
+    "file": "mangue/wordmark-dark.png",
+    "source": "/Users/mac/Documents/pathfork/static/brand/logo-mangue-full-night.png",
+    "bytes": 66976,
+    "sha256": "6a15cc948468ea37bad9f5e7ad557c8c9e89902e99d1342c68d3090810adf5b6",
+    "width": 809,
+    "height": 185,
+    "colorType": 6,
+    "alpha": true
+  },
+  {
+    "file": "fonts/sora-latin.woff2",
+    "source": "/Volumes/SSD/Documents/cindra/static/fonts/sora-latin.woff2",
+    "bytes": 25240,
+    "sha256": "3902474d3ece89c8580d5ef3325cf58753e6e45a86f9957b4dacc4fce2e7fde1"
+  },
+  {
+    "file": "fonts/alegreya-latin.woff2",
+    "source": "/Users/mac/Documents/commission-match/apps/web/src/assets/fonts/alegreya-latin.woff2",
+    "bytes": 43476,
+    "sha256": "2431eca3ed8ed66e713cf7093d170d77a083a793a5f19a615506d63770abd973"
+  },
+  {
+    "file": "fonts/im-fell-english-latin.woff2",
+    "source": "/Users/mac/Documents/commission-match/apps/web/src/assets/fonts/im-fell-english-latin.woff2",
+    "bytes": 59880,
+    "sha256": "248300df1647bec49155a5cada1d65f719ae633ef48564d1f19b135a8a5b7f5f"
+  },
+  {
+    "file": "fonts/Sora-OFL.txt",
+    "source": "/Volumes/SSD/Documents/cindra/node_modules/@expo-google-fonts/sora/LICENSE_FONT",
+    "bytes": 4385,
+    "sha256": "ba0b9729c9428ba79a0459ab8ec575791b51509dbec213e383d0316d37fec299"
+  },
+  {
+    "file": "fonts/Newsreader-OFL.txt",
+    "source": "/Users/mac/Documents/pathfork/node_modules/@expo-google-fonts/newsreader/LICENSE_FONT",
+    "bytes": 4394,
+    "sha256": "fdfad38143ec470553cae82a1e45320bdd1b9ec70415d37bd0171051d8a4ded8"
+  },
+  {
+    "file": "commissionmatch/symbol-dark.svg",
+    "source": "commissionmatch/symbol-light.svg",
+    "change": "fill only: #4a4636 → #F4F1EA; adaptation for studio dark surface, not an existing official variant"
+  },
+  {
+    "file": "fonts/Alegreya-OFL.txt",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/alegreya/OFL.txt",
+    "bytes": 4395
+  },
+  {
+    "file": "fonts/IM-Fell-English-OFL.txt",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/imfellenglish/OFL.txt",
+    "bytes": 4452
+  }
+]

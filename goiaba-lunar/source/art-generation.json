@@ -1,0 +1,136 @@
+{
+  "generation_method": "native image_gen__imagegen",
+  "reference": "/Users/mac/Documents/portfolio/docs/studio/concepts/galaxy-study-v02.png",
+  "reference_role": "Style and subject reference; inspected before generation",
+  "date": "2026-09-06",
+  "generation_count": 5,
+  "postprocessing": "Only copy and cwebp format conversion. Two native alpha corrections failed. Two subsequently authorized native opaque-black background corrections removed the checkerboard successfully. No code masks, pixel edits, resizing or alternate visual direction.",
+  "webp_conversion": "cwebp -q 88 -m 6 -alpha_q 100; original dimensions preserved; generated alpha preserved.",
+  "assets": [
+    {
+      "name": "cindra",
+      "png": "/private/tmp/goiaba-studio-art/cindra.png",
+      "webp": "/private/tmp/goiaba-studio-art/cindra.webp",
+      "native_output": "/Users/mac/.codex/generated_images/01a077d7-dd0d-7820-9d90-17793500fe74/exec-b78cb124-6fae-4eb3-9f6d-f20056fc5ba8.png",
+      "width": 1254,
+      "height": 1254,
+      "actual_alpha": false,
+      "issues": [
+        "Transparency failed: generated RGB with painted checkerboard. Not suitable for compositing as-is."
+      ],
+      "prompt": "Use case: illustration-story.\nAsset type: final production illustration for the Goiaba Lunar landing page, a standalone animatable layer.\nInput image 1: STYLE AND SUBJECT REFERENCE ONLY, the approved galaxy-study-v02.png illustrated board. Produce only the specifically requested asset, not the board. Match its warm hand-drawn ink contours, painted gouache color areas, slightly rough paper-like texture inside objects, charming imaginative book illustration and painted shadows. More graphic illustration than realism, never photographic, never a PBR or 3D render.\nPrimary request: Cindra, a complete small inhabited planet of warm cream and terracotta houses, layered terraces, little windows and paths, crowned by a large hearth-like tree with sage green leaves. Refer to the inhabited planet at upper left of the reference for its identity and visual language.\nComposition/framing: a single planet centered in a high-resolution square image, full silhouette visible including all branches and bottom of planet, with generous empty margin on every side. Painted shadows contained within the object.\nScene/backdrop: REAL TRANSPARENT BACKGROUND, actual alpha channel, clean transparent empty pixels outside the planet, not a white or black background, not a checkerboard drawing.\nConstraints: only this one isolated planet. No stars, no lettering or labels, no galaxy, no spaceship, no other planet, no logos, no interface."
+    },
+    {
+      "name": "commissionmatch",
+      "png": "/private/tmp/goiaba-studio-art/commissionmatch.png",
+      "webp": "/private/tmp/goiaba-studio-art/commissionmatch.webp",
+      "native_output": "/Users/mac/.codex/generated_images/01a077d7-dd0d-7820-9d90-17793500fe74/exec-94af972e-0516-4675-a941-58fb604e94cd.png",
+      "width": 1254,
+      "height": 1254,
+      "actual_alpha": true,
+      "issues": [
+        "Alpha present; tiny bright red/yellow fringe visible in tool preview. Full object nearly touches top edge."
+      ],
+      "prompt": "Use case: illustration-story.\nAsset type: final production illustration for the Goiaba Lunar landing page, a standalone animatable layer.\nInput image 1: STYLE AND SUBJECT REFERENCE ONLY, the approved galaxy-study-v02.png illustrated board. Produce only the specifically requested asset, not the board. Match its warm hand-drawn ink contours, painted gouache color areas, slightly rough paper-like texture inside objects, charming imaginative book illustration and painted shadows. More graphic illustration than realism, never photographic, never a PBR or 3D render.\nPrimary request: CommissionMatch, a complete little spherical planet made of curled parchment sheets and layered scroll-like terraces, miniature artist studios and small picture frames. Refer to the paper-art planet at upper center of the reference for identity and visual language.\nColor palette: warm pale paper #F4F1EA and olive ink #5C6B2A, restrained sage and warm cream details. Paper markings should be evocative tiny ink marks, no legible text.\nComposition/framing: one complete single planet centered in a high-resolution square image, full silhouette including every curled page and tower with generous empty margin around all edges. Graphic illustrated gouache and ink, painted shadow.\nScene/backdrop: REAL TRANSPARENT BACKGROUND, actual alpha channel, all empty area outside the subject fully transparent, no painted background or checkerboard.\nConstraints: only this isolated parchment atelier planet. No stars, galaxy, other planets, cats, spacecraft, labels, logos, interface, photorealism, PBR."
+    },
+    {
+      "name": "mangue",
+      "png": "/private/tmp/goiaba-studio-art/mangue.png",
+      "webp": "/private/tmp/goiaba-studio-art/mangue.webp",
+      "native_output": "/Users/mac/.codex/generated_images/01a077d7-dd0d-7820-9d90-17793500fe74/exec-ba2a0629-4f09-427f-87c7-80a7d94df3ad.png",
+      "width": 1254,
+      "height": 1254,
+      "actual_alpha": true,
+      "issues": [
+        "Alpha present; tiny bright red/yellow fringe visible in tool preview. Foliage nearly touches top edge."
+      ],
+      "prompt": "Use case: illustration-story.\nAsset type: final production illustration for the Goiaba Lunar landing page, a standalone animatable layer.\nInput image 1: STYLE AND SUBJECT REFERENCE ONLY, the approved galaxy-study-v02.png illustrated board. Produce only the specifically requested asset, not the board. Match its warm hand-drawn ink contours, painted gouache color areas, slightly rough paper-like texture inside objects, charming imaginative book illustration and painted shadows. More graphic illustration than realism, never photographic, never a PBR or 3D render.\nPrimary request: Mangue, a complete small estuary planet with a spherical network of open exposed mangrove roots, dark green water, hand-drawn foliage, small manuscript leaves among the trees and a pale green water passage winding through the center. Refer to the mangrove planet at bottom right of the reference for identity and visual language, keeping the open natural root structure and little estuary world.\nComposition/framing: a single whole planet centered in a high-resolution square image, entire silhouette fully contained with generous margin, no cropped leaves or roots. Hand-drawn ink and gouache with painted shadows.\nScene/backdrop: REAL TRANSPARENT BACKGROUND, actual alpha channel, transparent outside the planet and through true empty root gaps, not black background or a painted checkerboard. Water within the planet remains opaque dark green.\nConstraints: only this isolated mangrove world. No stars, galaxy, labels, legible text, spaceship, cat, other planet, logos, UI or PBR rendering."
+    },
+    {
+      "name": "morfeu-nave",
+      "png": "/private/tmp/goiaba-studio-art/morfeu-nave.png",
+      "webp": "/private/tmp/goiaba-studio-art/morfeu-nave.webp",
+      "native_output": "/Users/mac/.codex/generated_images/01a077d7-dd0d-7820-9d90-17793500fe74/exec-9ec8df37-06c9-4f46-92ef-d75d099f5401.png",
+      "width": 1672,
+      "height": 941,
+      "actual_alpha": false,
+      "issues": [
+        "Transparency failed: generated RGB with painted checkerboard. Not suitable for compositing as-is."
+      ],
+      "prompt": "Use case: illustration-story.\nAsset type: final production illustration for the Goiaba Lunar landing page, a standalone animatable layer.\nInput image 1: STYLE AND SUBJECT REFERENCE ONLY, the approved galaxy-study-v02.png illustrated board. Produce only the specifically requested asset, not the board. Match its warm hand-drawn ink contours, painted gouache color areas, slightly rough paper-like texture inside objects, charming imaginative book illustration and painted shadows. More graphic illustration than realism, never photographic, never a PBR or 3D render.\nPrimary request: one horizontal isolated illustration of Morfeu, the expressive white and orange cat from the reference, piloting an original cream-colored star fighter with guava-pink and sage-green accents inspired by the reference craft. Three-quarter cockpit view, cat and ship facing toward the right. Keep the appealing illustrated cat face visible through the cockpit.\nComposition/framing: show the ENTIRE spacecraft, both wings and entire nose and tail, no cropped wing tips. Horizontal landscape canvas, generous empty margin all around especially left and right. Short painted engine glow only, no long engine exhaust tail. Preserve rich drawn ink details, rivets, warm cream plating and painted gouache shadows.\nScene/backdrop: REAL TRANSPARENT BACKGROUND with actual alpha channel, clean transparent pixels all around the entire spaceship, including space between wings. No drawn checkerboard or opaque background.\nConstraints: only cat plus its spacecraft. No planets, no stars, no galaxy, no moon, no text, logos, interface, other vehicles, photorealistic materials, PBR rendering."
+    },
+    {
+      "name": "galaxy-background",
+      "png": "/private/tmp/goiaba-studio-art/galaxy-background.png",
+      "webp": "/private/tmp/goiaba-studio-art/galaxy-background.webp",
+      "native_output": "/Users/mac/.codex/generated_images/01a077d7-dd0d-7820-9d90-17793500fe74/exec-49230e1d-3a7c-4799-8548-7f2fb26a15ab.png",
+      "width": 1672,
+      "height": 941,
+      "actual_alpha": false,
+      "issues": [
+        "Generated resolution 1672x941, smaller than requested approximate 2K; no upscaling performed."
+      ],
+      "prompt": "Use case: illustration-story.\nAsset type: final production illustration for the Goiaba Lunar landing page, a standalone animatable layer.\nInput image 1: STYLE AND SUBJECT REFERENCE ONLY, the approved galaxy-study-v02.png illustrated board. Produce only the specifically requested asset, not the board. Match its warm hand-drawn ink contours, painted gouache color areas, slightly rough paper-like texture inside objects, charming imaginative book illustration and painted shadows. More graphic illustration than realism, never photographic, never a PBR or 3D render.\nPrimary request: ONLY a panoramic illustrated galaxy background, a deep nearly black blue base #080e14 with very subtle diagonal nebula dust painted in muted blue #334b88, guava pink #efabc3 and sage #a9d7aa. Sparse irregular tiny hand-painted stars. Much calmer and much more empty than the reference: retain large expanses of quiet dark space suitable for layering the separate illustrated planets and spacecraft on top.\nComposition/framing: wide landscape panoramic 16:9, high-resolution approximately 2K. Entire canvas is the dark painted background. Quiet diagonal dust, low contrast. Opaque background image, not transparent.\nConstraints: strictly background only. NO PLANETS, NO CAT, NO SPACESHIP, NO MOON, no objects, no guava slice, no text, no labels, no interface, no logo. No photorealistic astrophotography or lens flare. Illustrated dark paper and subtle gouache dust, restrained sparse small painted stars."
+    }
+  ],
+  "technical_corrections": {
+    "method": "native image_gen__imagegen",
+    "count": 2,
+    "corrections": [
+      {
+        "name": "cindra-alpha",
+        "reference": "/private/tmp/goiaba-studio-art/cindra.png",
+        "prompt": "Use case: background-extraction.\nInput image 1 is the EXACT IMAGE TO EDIT, Cindra planet. This is a technical background removal, NOT a new drawing or creative variation.\nPrimary request: REMOVE ONLY the white and pale-gray checkerboard background around the inhabited planet and deliver a PNG with a REAL RGBA ALPHA CHANNEL. All empty background pixels must have alpha 0 (transparent). Do not paint a checkerboard, do not replace the background with white, black, gray or any opaque color.\nPreserve every planet detail, houses, tree, leaves, cream and terracotta colors, ink outlines, gouache texture, silhouette, composition, size and position of the subject. Keep the entire planet and margins exactly as in the input. Only remove checkerboard pixels and refine the extraction boundary around the true drawn contour. Preserve original colored subject pixels including pale objects; do not add glowing, colored or white fringe. No new objects, no text, no stars, no lighting or style change. Output must be real transparent RGBA with clean alpha.",
+        "native_output": "/Users/mac/.codex/generated_images/01a077d7-dd0d-7820-9d90-17793500fe74/exec-5d0cf984-dfc9-4f0f-9d20-bb039463c6fa.png",
+        "png": "/private/tmp/goiaba-studio-art/cindra-alpha.png",
+        "webp": "/private/tmp/goiaba-studio-art/cindra-alpha.webp",
+        "actual_alpha": false,
+        "verification": "srgb 3.0 opaque=True. Painted checkerboard remains. Background-extraction correction failed."
+      },
+      {
+        "name": "morfeu-alpha",
+        "reference": "/private/tmp/goiaba-studio-art/morfeu-nave.png",
+        "prompt": "Use case: background-extraction.\nInput image 1 is the EXACT IMAGE TO EDIT, Morfeu the white-orange cat inside its cream, pink and sage spacecraft. This is a technical background removal, NOT a new drawing or creative variation.\nPrimary request: REMOVE ONLY the white and pale-gray checkerboard background surrounding the cat's spaceship and deliver a PNG with a REAL RGBA ALPHA CHANNEL. Empty background pixels must be alpha 0 (transparent), including the spaces between the wings. Do not paint a checkerboard, do not replace the background with white, black, gray or any opaque color.\nPreserve all spacecraft and cat pixels and identity: original cat expression, face, cockpit, entire wings and nose, short blue engine glow, cream plating, guava pink and sage green accents, guache texture, ink lines and original shape. Keep entire image layout and subject scale; never crop wings. Only remove checkerboard and refine extraction at exact drawn contour. Preserve pale cream subject, no colored or white edge fringe. The short blue exhaust may have natural semitransparent alpha. No new objects, no text, no stars, no lighting or style change. Output must be real transparent RGBA with clean alpha.",
+        "native_output": "/Users/mac/.codex/generated_images/01a077d7-dd0d-7820-9d90-17793500fe74/exec-890edb49-5248-4681-8458-2fefb34a5d47.png",
+        "png": "/private/tmp/goiaba-studio-art/morfeu-alpha.png",
+        "webp": "/private/tmp/goiaba-studio-art/morfeu-alpha.webp",
+        "actual_alpha": false,
+        "verification": "srgb 3.0 opaque=True. Painted checkerboard remains. Background-extraction correction failed."
+      }
+    ]
+  },
+  "total_native_calls": 9,
+  "opaque_black_corrections": {
+    "method": "native image_gen__imagegen",
+    "count": 2,
+    "corrections": [
+      {
+        "name": "cindra-black",
+        "reference": "/private/tmp/goiaba-studio-art/cindra.png",
+        "prompt": "Use case: precise-object-edit.\nEdit target: input image, the exact Cindra inhabited planet illustration.\nTechnical correction only: replace EVERY light-gray and white checkerboard background pixel surrounding the planet with FLAT PURE UNIFORM BLACK, exact #000000. OPAQUE BLACK BACKGROUND. Do not request or create transparency. Do not create checkerboards, stars, gradients, texture or speckles in the background. All outer corners and the entire exterior canvas around the silhouette must be uninterrupted solid RGB black.\nPreserve the planet illustration exactly: tree, all houses, warm cream and terracotta colors, drawn ink lines, gouache texture, proportions, full silhouette, position and margins. Do not crop, add objects, alter style or relight. Keep the very pale smoke as part of the drawn subject. Remove any checkerboard visible around the silhouette, including small exterior gaps around foliage. Output the same square framing with the entire beautiful illustrated planet cleanly surrounded by pure black.",
+        "native_output": "/Users/mac/.codex/generated_images/01a077d7-dd0d-7820-9d90-17793500fe74/exec-d51146eb-5c0e-40b0-b7c4-e94d331fd562.png",
+        "png": "/private/tmp/goiaba-studio-art/cindra-black.png",
+        "webp": "/private/tmp/goiaba-studio-art/cindra-black.webp",
+        "actual_alpha": false,
+        "verification": "Visually inspected: black exterior with no checkerboard pattern; full subject retained. PNG corner samples contain near-black RGB values 0\u20132; not mathematically uniform pure black."
+      },
+      {
+        "name": "morfeu-black",
+        "reference": "/private/tmp/goiaba-studio-art/morfeu-nave.png",
+        "prompt": "Use case: precise-object-edit.\nEdit target: input image, the exact illustration of orange-white cat Morfeu in the cream, sage and pink spacecraft.\nTechnical correction only: replace EVERY light-gray and white checkerboard background pixel surrounding the spaceship with FLAT PURE UNIFORM BLACK, exact #000000. OPAQUE BLACK BACKGROUND. Do not request or create transparency. Do not create checkerboards, stars, gradients, texture or speckles in the background. Every outer corner and the entire exterior canvas around the silhouette, including gaps between wings, must be uninterrupted solid RGB black.\nPreserve the spacecraft and cat artwork exactly: cat expression, orange-white fur, cockpit, full wings and nose, cream plating, sage and pink accents, rivets, ink lines, gouache texture, original proportions, position and margins. Preserve the short blue engine glow against the new black backdrop, no long exhaust. Replace any visible checkerboard behind the clear cockpit with the black backdrop while keeping cockpit glass reflections. Do not crop, add objects, relight or alter style. Output same horizontal framing with whole spacecraft fully visible and surrounded by black.",
+        "native_output": "/Users/mac/.codex/generated_images/01a077d7-dd0d-7820-9d90-17793500fe74/exec-53c669da-648f-4a08-85cc-ed1578c32819.png",
+        "png": "/private/tmp/goiaba-studio-art/morfeu-black.png",
+        "webp": "/private/tmp/goiaba-studio-art/morfeu-black.webp",
+        "actual_alpha": false,
+        "verification": "Visually inspected: black exterior with no checkerboard pattern; full subject retained. PNG corner samples contain near-black RGB values 0\u20132; not mathematically uniform pure black."
+      }
+    ]
+  },
+  "recommended_production_files": {
+    "cindra": "/private/tmp/goiaba-studio-art/cindra-black.webp",
+    "commissionmatch": "/private/tmp/goiaba-studio-art/commissionmatch.webp",
+    "mangue": "/private/tmp/goiaba-studio-art/mangue.webp",
+    "morfeu_nave": "/private/tmp/goiaba-studio-art/morfeu-black.webp",
+    "galaxy": "/private/tmp/goiaba-studio-art/galaxy-background.webp"
+  }
+}
