@@ -66,8 +66,8 @@ export function createPlanet(THREE, world) {
           float orbHash(vec3 p) { return fract(sin(dot(p, vec3(127.1, 311.7, 74.7))) * 43758.5453); }
           float orbNoise(vec3 p) {
             vec3 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
-            float a = orbHash(i), b = orbHash(i + vec3(1.0,0,0)), c = orbHash(i + vec3(0,1,0)), d = orbHash(i + vec3(1.0,1.0));
-            float e = orbHash(i + vec3(0,0,1)), g = orbHash(i + vec3(1,0,1)), h = orbHash(i + vec3(0,1,1)), k = orbHash(i + vec3(1.0,1.0,1.0));
+            float a = orbHash(i), b = orbHash(i + vec3(1.0,0.0,0.0)), c = orbHash(i + vec3(0.0,1.0,0.0)), d = orbHash(i + vec3(1.0,1.0,0.0));
+            float e = orbHash(i + vec3(0.0,0.0,1.0)), g = orbHash(i + vec3(1.0,0.0,1.0)), h = orbHash(i + vec3(0.0,1.0,1.0)), k = orbHash(i + vec3(1.0,1.0,1.0));
             return mix(mix(mix(a,b,f.x), mix(c,d,f.x), f.y), mix(mix(e,g,f.x), mix(h,k,f.x), f.y), f.z);
           }`)
         .replace('#include <color_fragment>', `#include <color_fragment>
@@ -88,15 +88,15 @@ export function createPlanet(THREE, world) {
   // its fresnel edge breathing on hover.
   function glass(radius, tint, opacity = .12) {
     const paint = new THREE.MeshPhysicalMaterial({
-      color: tint, roughness: .13, metalness: 0,
-      transparent: true, opacity, depthWrite: false, clearcoat: 1, clearcoatRoughness: .18,
+      color: tint, roughness: .13, metalness: 0, clearcoat: 1, clearcoatRoughness: .18,
+      transparent: true, opacity, depthWrite: false,
     });
     const shell = sphere(radius, paint, 72);
     shell.name = 'glass-shell';
     shell.renderOrder = 3;
     planet.add(shell);
     animated.push((time, hover, approach) => {
-      paint.opacity = opacity + Math.sin(time * .5) * .012 + hover * .07 + approach * .05;
+      paint.opacity = opacity + hover * .06 + approach * .05;
     });
     return shell;
   }
