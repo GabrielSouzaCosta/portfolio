@@ -1,0 +1,81 @@
+{
+  "date": "2026-09-07",
+  "revision": "sclera-white-1",
+  "export_checks": "export-checks.json",
+  "preview": {
+    "desktop_css": [
+      1280,
+      1000
+    ],
+    "mobile_css": [
+      390,
+      844
+    ],
+    "loaded_cat_triangles": 67926,
+    "bones": 23,
+    "clip": "Morfeu_Idle",
+    "clip_seconds": 6.041666507720947,
+    "tracks": 73,
+    "closed_lid_values": [
+      0.9999995055033296,
+      0.9999995055033296,
+      0.9999995055033296,
+      0.9999995055033296
+    ],
+    "blink_seconds": 2.1666666666666665,
+    "head_animation_checked": true,
+    "rotor_angles_at_1_second": [
+      1.8,
+      -1.8
+    ],
+    "mobile_document_width": 390
+  },
+  "site": {
+    "desktop_css": [
+      1440,
+      1000
+    ],
+    "mobile_css": [
+      390,
+      844
+    ],
+    "model_response_bytes": 5206216,
+    "mobile_document_width": 390
+  },
+  "build": {
+    "entries": 62,
+    "mib_rounded": 6.9
+  },
+  "existing_tests": {
+    "passed": 14,
+    "scope": "Existing behavior and procedural fallback; GLB appearance and morph playback separately checked in browser during v06 work."
+  },
+  "limitations": [
+    "No physical-device performance test.",
+    "No walking, running, IK or extreme-pose validation.",
+    "No remote deployment.",
+    "Visual reviewer status recorded separately; owner aesthetic acceptance remains open."
+  ],
+  "visual_review": {
+    "disposition": "ship",
+    "resolved": [
+      "orbital integration",
+      "circular iris and golden amber color",
+      "moderate vertical pupil",
+      "optical reflections",
+      "continuous blink",
+      "current documentation"
+    ],
+    "remaining": [],
+    "scope": "Six eye corrections reviewed before the later white-sclera color request. The later color adjustment was checked locally in desktop and mobile preview."
+  },
+  "sclera_adjustment": {
+    "request": "white sclera",
+    "base_colors": [
+      "#FFFFFF",
+      "#EEEEEE"
+    ],
+    "preserved": "amber iris, pupil, eye lighting, eyelids and rig",
+    "preview_url": "http://127.0.0.1:4192/source/blender/preview.html?v=22&view=face"
+  }
+}

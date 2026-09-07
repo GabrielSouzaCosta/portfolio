@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-07T15:03:00Z",
+  "title": "Design System: Morfeu v06",
+  "extensions": {
+    "motion": [
+      {
+        "name": "Morfeu_Idle",
+        "value": "cerca de 6 s; 24 fps",
+        "purpose": "Clipe do rig existente de 23 ossos: respiração, cabeça, orelhas, cauda e quatro morphs de pálpebras. Não representa locomoção completa; caminhada, corrida, IK e poses extremas não foram validados."
+      }
+    ]
+  },
+  "narrative": {
+    "overview": "Registro do código em 7 de setembro de 2026. A v06 refina os olhos do Morfeu compacto existente. O proprietário descreveu o olhar anterior como artificial e “meio do mal”, atribuindo a segunda impressão à cor. A direção é laranja dourado/âmbar mais claro, contorno castanho suave e expressão acolhedora.\n\nCorpo, distribuição da pelagem, sorriso e nave Semente preservam a v05. A foto fornecida pelo proprietário orienta a identidade branca e laranja; o sprite orienta a expressão. A solicitação ocular atual substitui a antiga exigência de reflexos quadrados. O documento v05 é histórico.\n\nA esclerótica passou a branca a pedido do proprietário, com sombra neutra discreta nos cantos.",
+    "keyCharacteristics": [
+      "Íris circular em âmbar dourado e pupila oval vertical moderada.",
+      "Reflexos sobre uma superfície ocular curva, integrados às pálpebras.",
+      "Personagem compacto e nave original preservados."
+    ],
+    "dos": [
+      "**Do** manter a identidade laranja em âmbar dourado claro e contorno castanho suave.",
+      "**Do** preservar o corpo, a pelagem, o sorriso e a nave existentes ao refinar os olhos.",
+      "**Do** avaliar frente, três quartos e fechamento das pálpebras no Blender e na prévia real."
+    ],
+    "donts": [
+      "**Don't** pintar reflexos quadrados ou deformar a íris circular para preencher a abertura ocular.",
+      "**Don't** tratar o ambiente de reflexão Three.js como parte exportada do GLB.",
+      "**Don't** usar o parecer visual v05 como aprovação da correção ocular v06."
+    ]
+  }
+}

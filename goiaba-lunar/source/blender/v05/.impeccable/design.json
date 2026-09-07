@@ -1,0 +1,307 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-07T03:06:50.641488+00:00",
+  "title": "Design System: Morfeu e Semente v05",
+  "extensions": {
+    "scope": "Assets 3D Morfeu e Semente v05, prévia de modelos e integração local. Primitivas de cor pertencem ao frontmatter de DESIGN.md; este registro não cria uma biblioteca de UI.",
+    "colorMeta": {
+      "fur-warm-white": {
+        "role": "primary",
+        "displayName": "Fur warm white"
+      },
+      "fur-ginger": {
+        "role": "primary",
+        "displayName": "Fur ginger"
+      },
+      "crown-ginger": {
+        "role": "primary",
+        "displayName": "Crown ginger"
+      },
+      "tabby-dark": {
+        "role": "primary",
+        "displayName": "Tabby dark"
+      },
+      "ear-orange": {
+        "role": "primary",
+        "displayName": "Ear orange"
+      },
+      "iris-amber": {
+        "role": "primary",
+        "displayName": "Iris amber"
+      },
+      "iris-orange": {
+        "role": "primary",
+        "displayName": "Iris orange"
+      },
+      "iris-edge": {
+        "role": "primary",
+        "displayName": "Iris edge"
+      },
+      "iris-rim": {
+        "role": "primary",
+        "displayName": "Iris rim"
+      },
+      "ship-ceramic-ivory": {
+        "role": "primary",
+        "displayName": "Ship ceramic ivory"
+      },
+      "ship-petrol-frame": {
+        "role": "primary",
+        "displayName": "Ship petrol frame"
+      },
+      "ship-copper": {
+        "role": "primary",
+        "displayName": "Ship copper"
+      },
+      "nose-ear-rose": {
+        "role": "secondary",
+        "displayName": "Nose ear rose"
+      },
+      "ship-coral": {
+        "role": "secondary",
+        "displayName": "Ship coral"
+      },
+      "ship-ion": {
+        "role": "secondary",
+        "displayName": "Ship ion"
+      },
+      "ship-status-amber": {
+        "role": "secondary",
+        "displayName": "Ship status amber"
+      },
+      "eye-pupil": {
+        "role": "neutral",
+        "displayName": "Eye pupil"
+      },
+      "mouth-lid-margin": {
+        "role": "neutral",
+        "displayName": "Mouth lid margin"
+      },
+      "ship-panel-edge": {
+        "role": "neutral",
+        "displayName": "Ship panel edge"
+      },
+      "ship-titanium": {
+        "role": "neutral",
+        "displayName": "Ship titanium"
+      },
+      "ship-recess": {
+        "role": "neutral",
+        "displayName": "Ship recess"
+      },
+      "ship-rubber": {
+        "role": "neutral",
+        "displayName": "Ship rubber"
+      },
+      "ship-saddle": {
+        "role": "neutral",
+        "displayName": "Ship saddle"
+      },
+      "ship-windscreen": {
+        "role": "neutral",
+        "displayName": "Ship windscreen"
+      },
+      "ship-markings": {
+        "role": "neutral",
+        "displayName": "Ship markings"
+      },
+      "studio-ground": {
+        "role": "neutral",
+        "displayName": "Studio ground"
+      }
+    },
+    "materialNotes": "Entradas sRGB dos scripts são convertidas para linear no Blender. Cores de mistura procedural não são amostras do render. Não há escala tonal de interface a extrapolar.",
+    "materials": [
+      {
+        "name": "Pelagem por vértice",
+        "roughness": 0.83,
+        "metallic": 0
+      },
+      {
+        "name": "Olhos",
+        "roughness": 0.47,
+        "specularIORLevel": 0.13,
+        "coatWeight": 0.035
+      },
+      {
+        "name": "Carenagem marfim",
+        "colorRef": "ship-ceramic-ivory",
+        "roughness": 0.39,
+        "metallic": 0.28
+      },
+      {
+        "name": "Estrutura petróleo",
+        "colorRef": "ship-petrol-frame",
+        "roughness": 0.36,
+        "metallic": 0.66
+      },
+      {
+        "name": "Mecanismos de cobre",
+        "colorRef": "ship-copper",
+        "roughness": 0.37,
+        "metallic": 0.66
+      },
+      {
+        "name": "Mecanismos de titânio",
+        "colorRef": "ship-titanium",
+        "roughness": 0.3,
+        "metallic": 0.83
+      },
+      {
+        "name": "Carenagem contínua dos motores",
+        "roughness": 0.39,
+        "metallic": 0.38
+      },
+      {
+        "name": "Ion autorado",
+        "colorRef": "ship-ion",
+        "emissionStrength": 2
+      },
+      {
+        "name": "Sinalização âmbar",
+        "colorRef": "ship-status-amber",
+        "emissionStrength": 1.5
+      }
+    ],
+    "motion": [
+      {
+        "name": "Morfeu_Idle",
+        "value": "aproximadamente 6,0416665 s; 73 trilhas; 23 ossos; 4 canais Blink",
+        "purpose": "Respiração, cabeça, orelhas, cauda e piscada autoradas no Blender."
+      },
+      {
+        "name": "Blink",
+        "value": "frames 1:0, 49:0, 52:1, 55:0, 145:0; 24 fps",
+        "purpose": "Pálpebras superiores e inferiores cobrem olhos estáveis."
+      },
+      {
+        "name": "EngineRotor_L / EngineRotor_R",
+        "value": "ângulo z = ±tempo × 1,8 rad/s",
+        "purpose": "Rotores de exaustão com sentidos opostos na prévia e no site; ventiladores de entrada estáticos."
+      },
+      {
+        "name": "VectorFin_L / VectorFin_R",
+        "value": "x = −0,08 − propulsão × 0,25; y = ±propulsão × 0,08 rad",
+        "purpose": "Resposta de aletas implementada no site."
+      },
+      {
+        "name": "Emissão ion no site",
+        "value": "0,6 + propulsão × 2; propulsão limitada a [0,1]",
+        "purpose": "Resposta luminosa dos núcleos ao estado de voo."
+      },
+      {
+        "name": "Carinho no site",
+        "value": "Blink = máximo(piscada do clipe, carinho × 0,75)",
+        "purpose": "Reação contida preservando o fechamento completo do clipe."
+      }
+    ],
+    "artifactLayout": {
+      "pilotScale": 0.58,
+      "pilotPositionBlender": [
+        0,
+        0.1,
+        0.4
+      ],
+      "noseDirectionBlender": "−Y",
+      "catOrthographicScale": 2.75,
+      "shipOrthographicScale": 5.35,
+      "previewCameraFovDegrees": 34
+    },
+    "review": {
+      "disposition": "SHIP",
+      "scope": "Personagem, nave e presença no site e na prévia locais",
+      "materialFixesRemaining": false,
+      "ownerAestheticApproval": "Não substituída pelo parecer de acabamento",
+      "limitations": [
+        "Sem validação de caminhada, corrida, IK ou poses extremas.",
+        "Sem teste em aparelho físico ou garantia de desempenho.",
+        "Sem publicação remota nesta etapa.",
+        "Detector regex com degraded: []; não é contraste computado."
+      ]
+    },
+    "evidence": {
+      "exports": [
+        {
+          "file": "morfeu-rigged-v05.glb",
+          "triangles": 61302,
+          "bytes": 2206420,
+          "weightedVertices": 32073
+        },
+        {
+          "file": "morfeu-scout-v05.glb",
+          "triangles": 153598,
+          "bytes": 4827216,
+          "weightedVertices": 32073
+        }
+      ],
+      "pngOrigin": {
+        "total": 16,
+        "missing": 0,
+        "blenderRenders": 8,
+        "browserCaptures": 7,
+        "proceduralTextures": 1
+      },
+      "captures": {
+        "blenderPixels": "1000×1000",
+        "previewDesktopPixels": "2560×2000",
+        "previewDesktopCss": "1280×1000; DPR 2",
+        "previewMobilePixels": "390×844",
+        "siteDesktopAndFlightPixels": "1440×1000",
+        "siteMobilePixels": "780×1688",
+        "siteMobileCss": "390×844; DPR 2"
+      },
+      "verifiedBehavior": [
+        "Ambos os GLBs carregados na prévia",
+        "Mudança de pose da cabeça",
+        "Fechamento dos quatro canais de pálpebras",
+        "Ângulos dos dois rotores",
+        "Mapa, partida, carinho e pausa no site",
+        "Voo para Cindra, chegada por botão e retorno"
+      ],
+      "existingTestsPassed": 14,
+      "testScope": "Comportamento existente e nave procedural de reserva; animação GLB conferida separadamente no navegador.",
+      "distribution": "Aproximadamente 6,39 MiB; somente o GLB v05 da nave em uso."
+    },
+    "componentScope": "Components em DESIGN.md descreve os modelos e seus mecanismos. Nenhum snippet HTML/CSS é sintetizado para representar um asset 3D."
+  },
+  "components": [],
+  "narrative": {
+    "northStar": "Capitão caloroso de uma pequena nave exploradora artesanal",
+    "overview": "Morfeu conserva o corpo compacto da v04: cabeça larga próxima aos ombros, patas curtas, bochechas amplas e focinho discreto. A v05 corrige a identidade dos olhos para laranja e acrescenta um sorriso sutil, com cantos elevados e visíveis em três quartos. A pelagem branca e gengibre segue a foto do proprietário; os reflexos quadrados preservam a expressão do sprite do portfólio.\n\nSemente é uma nave original construída integralmente em `ship.py`. Fuselagem em forma de semente, asas crescentes e dois propulsores anulares formam uma silhueta legível pequena. O cockpit aberto mantém o piloto visível; marfim, petróleo e cobre distinguem carenagem, estrutura e mecanismos. Carga lateral e antena introduzem assimetria moderada. Geometria, pintura por vértice e textura ocular foram autoradas localmente, sem modelos ou pixels de terceiros e sem geração de imagem.",
+    "keyCharacteristics": [
+      "Corpo compacto v04, pelagem branca e gengibre, íris laranja e reflexos quadrados.",
+      "Sorriso curvo discreto, pálpebras integradas e animação contida.",
+      "Casco contínuo, asas crescentes, cockpit aberto e propulsores anulares.",
+      "Detalhes de montagem e manutenção em cobre, com carga e antena assimétricas.",
+      "Leitura da silhueta no mapa e descoberta dos mecanismos na prévia em três quartos."
+    ],
+    "rules": [
+      {
+        "name": "The Orange Identity Rule",
+        "body": "Preservar a leitura laranja das íris em material e em render. O oliva documentado na v04 foi substituído pela correção explícita do proprietário.",
+        "section": "colors"
+      },
+      {
+        "name": "The Mechanical Depth Rule",
+        "body": "Dar função visível aos detalhes: grelha ventila, aro contém o propulsor, mangueira liga o motor, fixador prende a carenagem. Preservar a superfície contínua sob faixas e mecanismos.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do preservar o corpo compacto v04, a pelagem branca e gengibre e os reflexos quadrados do sprite.",
+      "Do manter as íris laranja e o sorriso discreto legíveis em três quartos.",
+      "Do manter piloto visível, casco contínuo, asas crescentes e dois propulsores anulares como identidade de Semente.",
+      "Do associar o detalhe mecânico à montagem, manutenção ou propulsão e conservar os nós animados dos rotores e aletas.",
+      "Do avaliar o modelo tanto nos renders próximos quanto na escala real do mapa desktop e móvel.",
+      "Do manter metadados de origem nos assets e distinguir revisão SHIP de aprovação estética do proprietário."
+    ],
+    "donts": [
+      "Don't restaurar as íris verdes ou oliva das versões anteriores.",
+      "Don't redesenhar a anatomia compacta ou transformar o sorriso sutil em focinho separado e exagerado.",
+      "Don't copiar caças reconhecíveis, modelos ou pixels das referências externas.",
+      "Don't acentuar os resíduos sutis da pálpebra como uma característica de estilo.",
+      "Don't apresentar exportação válida, testes do fallback ou capturas emuladas como validação de locomoção, desempenho físico ou aprovação estética.",
+      "Don't estender estes tokens de materiais 3D à identidade, tipografia ou biblioteca de componentes de todo o site."
+    ]
+  }
+}
