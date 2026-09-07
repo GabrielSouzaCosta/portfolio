@@ -32,6 +32,12 @@ O arraste gira os planetas com inércia; cliques e teclado mantêm a navegação
 
 ## Entrega e verificação
 
-Three.js e o código são empacotados localmente em `js/studio.js`; não há CDN, importação remota ou fetch de modelos. O script clássico permite abrir também `index.html` diretamente. O servidor de desenvolvimento recompila o bundle ao editar os módulos.
+Three.js e o código são empacotados localmente em `js/studio.js`; não há CDN ou importação remota; a nave Blender é carregada do GLB local antes da inicialização da cena. O script clássico permite abrir também `index.html` diretamente. O servidor de desenvolvimento recompila o bundle ao editar os módulos.
 
 Validações cobrem geometria dos cinco modelos, animação determinística, câmera e tempos de voo, histórias/rotas, build, desktop e celular. Detalhes da conferência estão em `source/verification-3d.md`.
+
+## Integração do Morfeu v04
+
+O mapa e as viagens usam `assets/models/morfeu-scout-v04.glb`, autorado em Blender. O carregamento é compartilhado, com cópias independentes do esqueleto, geometria e materiais por cena. O clipe original preserva respiração, piscada e cauda; cabeça e pálpebras recebem reações contidas ao cursor e ao carinho. A nave procedural anterior continua como reserva caso o GLB não carregue, inclusive ao abrir por `file://`. O pacote de distribuição inclui somente o GLB utilizado, mantendo versões rejeitadas fora do build.
+
+Integração local conferida em 1440×1000 e 390×844: mapa, partida, carinho, pausa, chegada por botão e retorno. Os 14 testes existentes e o build passaram; testes unitários existentes da nave continuam cobrindo o fallback procedural. Não houve publicação remota nesta etapa.

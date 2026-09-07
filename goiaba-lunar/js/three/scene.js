@@ -367,17 +367,23 @@ export class StudioObjects {
     removeEventListener('resize', this.onResize);
     removeEventListener('pointermove', this.onPointer);
     document.removeEventListener('visibilitychange', this.onVisibility);
-    const geometries = new Set(), materials = new Set();
+    const geometries = new Set(), materials = new Set(), textures = new Set();
     this.items.forEach(item => {
       item.cleanup();
+      item.model.userData.disposeAnimation?.();
       item.scene.traverse(object => {
+        if (object.isSkinnedMesh) object.skeleton.dispose();
         if (object.geometry) geometries.add(object.geometry);
-        if (object.material) (Array.isArray(object.material) ? object.material : [object.material]).forEach(material => materials.add(material));
+        if (object.material) (Array.isArray(object.material) ? object.material : [object.material]).forEach(material => {
+          materials.add(material);
+          Object.values(material).forEach(value => { if (value?.isTexture) textures.add(value); });
+        });
         object.shadow?.dispose();
       });
     });
     geometries.forEach(geometry => geometry.dispose());
     materials.forEach(material => material.dispose());
+    textures.forEach(texture => texture.dispose());
     this.environment?.dispose();
     this.renderer?.dispose();
     this.canvas.remove();

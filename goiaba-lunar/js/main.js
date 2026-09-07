@@ -2,7 +2,9 @@ import { StudioObjects } from './three/scene.js';
 import { Starfield } from './stars.js';
 import { setupDemos } from './demos.js';
 import { routeFromHash } from './story.js';
+import { loadShipAsset } from './three/ship-asset.js';
 
+function startStudio() {
 const $ = selector => document.querySelector(selector);
 const stars = new Starfield($('#space-canvas'));
 const objects = new StudioObjects();
@@ -175,3 +177,6 @@ setupDemos();
 setMotion(paused);
 navigate({ instant:true, focus:!!location.hash });
 if (!location.hash && !arrived && !paused) startArrival();
+}
+
+loadShipAsset().catch(error => console.warn('Morfeu: usando o modelo de reserva.', error)).finally(startStudio);

@@ -1,3 +1,5 @@
+import { createBlenderShip } from './ship-asset.js';
+
 /* Sculpted locally from geometry. +Y is up; both characters face +Z. */
 
 function workshop(THREE) {
@@ -411,6 +413,8 @@ function createMorfeu(THREE, kit) {
 
 /** A dark-teal reconnaissance fighter, with inset ivory panels and lit exhausts. */
 export function createShip(THREE) {
+  const blenderShip = createBlenderShip(THREE);
+  if (blenderShip) return blenderShip;
   const kit = workshop(THREE);
   const { material, add, orb, tube, limb, shape, lathe } = kit;
   const ship = new THREE.Group();

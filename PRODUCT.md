@@ -49,7 +49,7 @@ O proprietário rejeitou o lettering novo e a aparência plana das ilustrações
 
 ## Evidence on Hand
 
-Código, documentação e assets locais dos quatro projetos. Pesquisa com fontes em [docs/studio/research](docs/studio/research). Há um sprite ilustrado de Morfeu no portfólio. Não foi fornecida referência fotográfica do gato real nesta conversa.
+Código, documentação e assets locais dos quatro projetos. Pesquisa com fontes em [docs/studio/research](docs/studio/research). Há um sprite ilustrado de Morfeu no portfólio. O proprietário forneceu uma foto real do Morfeu em `/Users/mac/Downloads/IMG_20260328_101748.jpg`. Na revisão atual, a foto orienta anatomia e distribuição de pelagem; o sprite permanece a referência de expressão. As propostas voxel e de proporções excessivamente arredondadas foram rejeitadas pelo proprietário.
 
 ## Product Principles
 
@@ -58,3 +58,7 @@ Código, documentação e assets locais dos quatro projetos. Pesquisa com fontes
 3. Projetos em criação merecem presença própria com seu estágio claramente informado.
 4. A identidade de cada produto deve continuar reconhecível dentro do estúdio.
 5. Textos sobre o estúdio são breves e subordinados à exploração dos projetos.
+
+## Morfeu — revisão estilizada
+
+Após rejeitar também a v03 por estranheza nas proporções, o proprietário esclareceu que não busca anatomia 100% realista. A direção aprovada para a próxima iteração é mais compacta: cabeça próxima dos ombros, patas curtas, bochechas largas, focinho discreto e pálpebras que relaxem o olhar. A foto orienta a identidade branca e laranja; o sprite conserva os reflexos quadrados. Sox/Pixar é referência de simplificação e expressão; Manchas/CC-SAN, de construção facial e poses. Não são modelos a copiar ou incorporar. A proposta deve ser avaliada visualmente antes de ser considerada aprovada.

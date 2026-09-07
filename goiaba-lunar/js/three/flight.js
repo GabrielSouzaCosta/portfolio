@@ -456,8 +456,10 @@ export class PlanetFlight {
   dispose() {
     if (this.disposed) return;
     this.disposed = true;
+    this.shipModel.userData.disposeAnimation?.();
     const geometries = new Set(), materials = new Set(), textures = new Set();
     this.scene.traverse(object => {
+      if (object.isSkinnedMesh) object.skeleton.dispose();
       if (object.geometry) geometries.add(object.geometry);
       if (object.material) {
         const ownMaterials = Array.isArray(object.material) ? object.material : [object.material];

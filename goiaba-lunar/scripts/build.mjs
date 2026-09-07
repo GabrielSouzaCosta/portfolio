@@ -20,7 +20,10 @@ export async function buildStudio(output = resolve(root, 'dist')) {
   for (const entry of ['index.html', 'styles.css', 'drawn.css', 'js', 'assets']) {
     await cp(resolve(root, entry), resolve(output, entry), {
       recursive:true,
-      filter: source => !historical.has(relative(root, source))
+      filter: source => {
+        const path = relative(root, source);
+        return !historical.has(path) && (!path.startsWith('assets/models/') || path === 'assets/models/morfeu-scout-v04.glb');
+      }
     });
   }
   const files = await readdir(output, { recursive:true });
