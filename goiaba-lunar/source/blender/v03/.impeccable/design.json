@@ -1,0 +1,226 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-07T01:06:28.239962+00:00",
+  "title": "Design System: Morfeu v03",
+  "extensions": {
+    "scope": {
+      "kind": "native-blender-asset",
+      "directory": "goiaba-lunar/source/blender/v03",
+      "implementation": "build.py",
+      "primitiveSource": "DESIGN.md frontmatter",
+      "note": "Documenta o asset 3D existente. Sem biblioteca HTML/CSS, escalas tonais inventadas ou tokens de UI da página."
+    },
+    "colorMeta": {
+      "fur-white": {
+        "role": "neutral",
+        "displayName": "Branco quente",
+        "source": "build.py: white / cream"
+      },
+      "coat-ginger": {
+        "role": "primary",
+        "displayName": "Gengibre da pelagem",
+        "source": "build.py: ginger"
+      },
+      "crown-ginger": {
+        "role": "primary",
+        "displayName": "Gengibre da cabeça",
+        "source": "build.py: gingerlight"
+      },
+      "ginger-markings": {
+        "role": "primary",
+        "displayName": "Listras gengibre",
+        "source": "build.py: darkginger"
+      },
+      "ear-ginger": {
+        "role": "primary",
+        "displayName": "Gengibre das orelhas",
+        "source": "build.py: orange material"
+      },
+      "nose-ear-pink": {
+        "role": "secondary",
+        "displayName": "Rosa macio",
+        "source": "build.py: pink material"
+      },
+      "mouth-lid-crease": {
+        "role": "secondary",
+        "displayName": "Linha da boca e pálpebras",
+        "source": "build.py: mouthmat / closed lid Fur"
+      },
+      "iris-gold": {
+        "role": "secondary",
+        "displayName": "Íris dourada",
+        "source": "build.py: eye texture generator, linear RGBA"
+      },
+      "iris-olive": {
+        "role": "secondary",
+        "displayName": "Íris oliva",
+        "source": "build.py: eye texture generator, linear RGBA"
+      },
+      "pupil-dark": {
+        "role": "neutral",
+        "displayName": "Pupila escura",
+        "source": "build.py: eye texture generator, linear RGBA"
+      },
+      "eye-catchlight": {
+        "role": "neutral",
+        "displayName": "Reflexos quadrados",
+        "source": "build.py: eye texture generator, linear RGBA"
+      }
+    },
+    "motion": [
+      {
+        "name": "Morfeu_Idle",
+        "value": "approximately 6s; 24 fps; 1 clip; 73 tracks",
+        "purpose": "Respiração e pequenos movimentos de cabeça, orelhas, cauda e piscada."
+      },
+      {
+        "name": "Blink",
+        "value": "4 morph channels; frames 49:0, 52:1, 55:0",
+        "purpose": "Quatro pálpebras cobrem superfícies oculares estáveis; a pose fechada fornece as cores da pelagem."
+      }
+    ],
+    "nativeAsset": {
+      "source": "morfeu-photo-rigged.blend",
+      "authoring": "Blender 5.2.1; locally authored geometry",
+      "eyeTexture": "morfeu-eyes.png; 256x256; authored locally by build.py",
+      "geometry": {
+        "catObjects": 24,
+        "scoutObjects": 61,
+        "rigBones": 23,
+        "weightedVertices": 32274,
+        "body": "Continuous remeshed torso and four limbs, blended weights; head and appendages remain separate objects.",
+        "scoutDependency": "../v02/morfeu-scout-rigged.blend"
+      },
+      "materials": {
+        "paintedFur": {
+          "roughness": 0.83
+        },
+        "outerEars": {
+          "roughness": 0.78
+        },
+        "noseAndInnerEars": {
+          "roughness": 0.7
+        },
+        "eyes": {
+          "roughness": 0.47,
+          "specularIorLevel": 0.13,
+          "coatWeight": 0.035
+        }
+      },
+      "staging": {
+        "blender": {
+          "engine": "Cycles",
+          "samples": 48,
+          "viewTransform": "AgX",
+          "look": "AgX - Medium High Contrast",
+          "exposure": -0.2,
+          "catOrthoScale": 3.8,
+          "scoutOrthoScale": 6.75
+        },
+        "browser": {
+          "renderer": "Three.js 0.180.0",
+          "toneMapping": "NeutralToneMapping",
+          "exposure": 1,
+          "cameraFovDegrees": 34,
+          "environment": "RoomEnvironment"
+        },
+        "scoutPilotTransform": {
+          "scale": [
+            0.44,
+            0.44,
+            0.44
+          ],
+          "location": [
+            0,
+            0.22,
+            0.59
+          ]
+        }
+      },
+      "exports": [
+        {
+          "file": "morfeu-rigged-v03.glb",
+          "bytes": 2221744,
+          "bones": 23,
+          "animation_clips": 1,
+          "eyelid_channels": 4,
+          "weighted_vertices": 32274,
+          "triangles": 61416,
+          "checks": "finite mesh/animation values; normalized weights; valid joint indices; increasing key times; all four eyelid morph channels"
+        },
+        {
+          "file": "morfeu-scout-v03.glb",
+          "bytes": 2799220,
+          "bones": 23,
+          "animation_clips": 1,
+          "eyelid_channels": 4,
+          "weighted_vertices": 32274,
+          "triangles": 76296,
+          "checks": "finite mesh/animation values; normalized weights; valid joint indices; increasing key times; all four eyelid morph channels"
+        }
+      ],
+      "validation": {
+        "references": [
+          "stats.json",
+          "export-checks.json",
+          "research/anatomy.md",
+          "../README.md",
+          "../preview.js"
+        ],
+        "inspectedImages": [
+          "previews/morfeu-portrait.png",
+          "previews/morfeu-side.png",
+          "previews/morfeu-rear.png",
+          "previews/browser-cat.png",
+          "previews/browser-mobile.png",
+          "previews/browser-blink.png"
+        ],
+        "reviewDisposition": "Ship at agreed stylized-asset scope; final blink issue resolved.",
+        "ownerAestheticApproval": false,
+        "productionSceneIntegrated": false,
+        "unvalidated": [
+          "walking",
+          "running",
+          "IK",
+          "extreme poses",
+          "physical-device performance"
+        ],
+        "referenceLimits": "Seated pose, hidden side, and tail include interpretation; the owner photo is not embedded in distributable assets."
+      }
+    }
+  },
+  "components": [],
+  "narrative": {
+    "northStar": "Morfeu: foto na anatomia, sprite na expressão",
+    "overview": "Morfeu v03 é um asset 3D estilizado, autorado localmente no Blender. A foto do proprietário orienta anatomia e distribuição da pelagem; o sprite original orienta pupilas amplas, íris oliva e reflexos quadrados. A leitura ilustrada e curiosa continua dominante, apoiada por volume real. A pose sentada, o lado oculto e a cauda com ponta branca incluem interpretação, conforme research/anatomy.md.\n\nEste registro vale apenas para source/blender/v03 e seus GLBs. A nave Scout é reutilizada da v02. A revisão final dos seis critérios de anatomia, pelagem e olhos, incluindo a correção da piscada, recebeu disposição de entrega no escopo de asset estilizado. Isso não constitui aprovação estética do proprietário; a integração à cena de produção do Goiaba Lunar permanece pendente.",
+    "keyCharacteristics": [
+      "Corpo majoritariamente branco, com gengibre localizado na cabeça, dorso, lateral e cauda.",
+      "Torso e quatro membros contínuos, cabeça afunilada com focinho integrado e orelhas finas.",
+      "Olhos rasos encaixados, pupilas escuras amplas e reflexos quadrados; quatro pálpebras animadas.",
+      "Pose sentada e movimento discreto; nave Scout herdada sem redesenho nesta revisão."
+    ],
+    "rules": [
+      {
+        "name": "Reference",
+        "body": "A foto governa anatomia e pelagem; o sprite governa expressão. Partes não estabelecidas pela foto continuam identificadas como interpretação.",
+        "section": "colors"
+      },
+      {
+        "name": "Blink",
+        "body": "As pálpebras cobrem a superfície ocular estável. Preserve o fechamento completo e a linha fina da dobra, sem comprimir o olho.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "Do preservar peito, pescoço, focinho e pernas brancos, com manchas gengibre localizadas.",
+      "Do manter conexões legíveis entre peito, ombros, membros e bacia, e a cauda saindo da região sacral.",
+      "Do conferir frente, perfil, costas, miniatura e fechamento das quatro pálpebras ao alterar geometria ou materiais.",
+      "Do preservar o sprite original e a foto como referências distintas; manter a foto fora dos arquivos distribuíveis."
+    ],
+    "donts": [
+      "Don't voltar à extrusão voxel, à anatomia excessivamente esférica da v02 ou à pelagem laranja pálida rejeitadas pelo proprietário.",
+      "Don't converter olhos em discos empilhados, trocar pupilas amplas por fendas ou perder os reflexos quadrados.",
+      "Don't tratar a revisão técnica como aprovação estética do proprietário, nem afirmar integração em produção ou prontidão para locomoção."
+    ]
+  }
+}

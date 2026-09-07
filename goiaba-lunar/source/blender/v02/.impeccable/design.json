@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-07T00:26:51.701Z",
+  "title": "Morfeu e Scout — estudo local v02",
+  "extensions": {
+    "motion": [
+      {
+        "name": "Morfeu idle",
+        "value": "144 frames at 24 fps; one exported clip; 18-bone skeleton",
+        "purpose": "Respiração e movimentos contidos de cabeça, cauda, olhos e orelhas. Locomoção completa não validada."
+      }
+    ]
+  },
+  "components": [],
+  "narrative": {
+    "overview": "Registro de 6 de setembro de 2026, restrito aos assets deste diretório. A proposta traduz o Morfeu branco e laranja do sprite do portfólio em volumes completos e arredondados, acompanhado de um pequeno caça espacial. O desenho continua predominante sobre o realismo, conforme o contexto de `PRODUCT.md`.\n\nO proprietário rejeitou a extrusão voxel do gato e a nave blocada anteriores. Esta implementação aguarda seu julgamento estético; não constitui arte final aprovada. O site principal não foi modificado nesta etapa.",
+    "keyCharacteristics": [
+      "Cabeça ampla, corpo sentado compacto e expressão de olhos âmbar.",
+      "Pelagem com bordas de pixel sobre uma superfície curva.",
+      "Nave marfim com nariz afilado, asas varridas e cockpit aberto."
+    ],
+    "rules": [
+      {
+        "name": "Regra do volume contínuo",
+        "body": "Preservar o crânio arredondado, o torso em pera, as patas macias e as orelhas afiladas. O pixel pertence à pintura e aos reflexos quadrados dos olhos; não determina uma extrusão em degraus da silhueta.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "**Do** preservar a leitura do Morfeu pelo branco e laranja, marcações, olhos âmbar e expressão do sprite.",
+      "**Do** conferir frente, perfil e costas ao alterar volumes ou aplicar marcações.",
+      "**Do** manter rosto e orelhas legíveis acima do cockpit."
+    ],
+    "donts": [
+      "**Don't** retornar à extrusão voxel do gato ou à nave blocada rejeitadas.",
+      "**Don't** descrever o idle como um sistema completo de locomoção.",
+      "**Don't** promover este estudo a arte aprovada ou a implementação do site sem a etapa correspondente."
+    ]
+  }
+}

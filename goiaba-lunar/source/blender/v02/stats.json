@@ -1,0 +1,9 @@
+{
+  "rig_bones": 18,
+  "cat_objects": 42,
+  "ship_objects": 61,
+  "animation_frames": 144,
+  "fps": 24,
+  "texture": "128\u00d764, nearest sampled",
+  "stage": "v02 complete volumes with skeletal animation"
+}

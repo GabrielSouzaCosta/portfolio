@@ -1,0 +1,18 @@
+[
+  {
+    "file": "morfeu-rigged-v02.glb",
+    "bytes": 1146340,
+    "bones": 18,
+    "animation_clips": 1,
+    "weighted_vertices": 19546,
+    "checks": "finite positions and animation values; normalized weights; valid joint indices; increasing keyframe times"
+  },
+  {
+    "file": "morfeu-scout-v02.glb",
+    "bytes": 1722496,
+    "bones": 18,
+    "animation_clips": 1,
+    "weighted_vertices": 19546,
+    "checks": "finite positions and animation values; normalized weights; valid joint indices; increasing keyframe times"
+  }
+]

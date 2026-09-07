@@ -1,0 +1,8 @@
+{
+  "rig_bones": 23,
+  "cat_objects": 22,
+  "ship_objects": 61,
+  "blink": "upper and lower eyelid morphs, stable eyeballs",
+  "body": "continuous remeshed torso and limbs, blended skeletal weights",
+  "reference": "user photo and original portfolio sprite"
+}

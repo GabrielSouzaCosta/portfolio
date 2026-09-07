@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="morfeu-sprite" viewBox="0 0 96 104" width="96" height="104" shape-rendering="crispEdges" focusable="false">
+        <g class="morfeu-facing">
+        <g class="morfeu-tail">
+          <path fill="#493426" d="M58 88H68V84H74V76H78V56H82V50H90V54H94V72H90V82H86V90H78V94H62Z" />
+          <path fill="#ed973f" d="M62 88H72V84H78V76H82V56H86V54H90V70H86V80H82V88H76V90H62Z" />
+          <path fill="#fff4dc" d="M82 56H86V54H90V64H82Z" />
+          <path fill="#bd622e" d="M82 70H90V74H82ZM76 82H84V86H76Z" />
+        </g>
+        <g class="morfeu-body morfeu-seated">
+          <path fill="#493426" d="M28 54H58V58H64V64H68V76H72V90H66V96H28V92H24V68H28Z" />
+          <path fill="#ed973f" d="M32 58H56V62H60V66H64V80H68V88H62V92H30V88H28V70H32Z" />
+          <path fill="#bd622e" d="M58 68H64V72H58ZM62 78H68V82H62Z" />
+          <path fill="#fff4dc" d="M32 58H52V62H56V76H52V82H48V88H32V84H28V70H32Z" />
+          <path fill="#e8d5af" d="M28 76H32V84H36V90H30V86H28ZM48 78H52V86H48Z" />
+        </g>
+        <g class="morfeu-paw morfeu-paw-back morfeu-seated">
+          <path fill="#493426" d="M54 84H64V88H70V96H52V92H50V88H54Z" />
+          <path fill="#fff4dc" d="M56 88H62V90H66V93H54V90H56Z" />
+          <path fill="#d89487" d="M58 91H60V94H58ZM63 91H65V94H63Z" />
+        </g>
+        <g class="morfeu-paw morfeu-paw-left morfeu-seated">
+          <path fill="#493426" d="M28 78H38V88H40V96H24V90H26V84H28Z" />
+          <path fill="#fff4dc" d="M30 80H34V90H36V93H28V90H30Z" />
+          <path fill="#d89487" d="M29 91H31V94H29ZM34 91H36V94H34Z" />
+        </g>
+        <g class="morfeu-paw morfeu-paw-right morfeu-seated">
+          <path fill="#493426" d="M44 72H54V84H52V96H38V90H40V82H44Z" />
+          <path fill="#fff4dc" d="M46 74H50V82H48V92H42V90H44V82H46Z" />
+          <path fill="#d89487" d="M42 91H44V94H42ZM47 91H49V94H47Z" />
+        </g>
+        
+        <g class="morfeu-head-look"><g class="morfeu-head">
+          <g class="morfeu-ear morfeu-ear-left">
+            <path fill="#493426" d="M10 30V6H14V2H18V6H22V10H26V14H30V28Z" />
+            <path fill="#ed973f" d="M14 26V8H18V12H22V16H26V26Z" />
+            <path fill="#eba392" d="M16 24V14H20V18H24V26Z" />
+          </g>
+          <g class="morfeu-ear morfeu-ear-right">
+            <path fill="#493426" d="M54 28V14H58V10H62V6H66V2H70V6H74V30Z" />
+            <path fill="#ed973f" d="M58 26V16H62V12H66V8H70V26Z" />
+            <path fill="#eba392" d="M60 26V18H64V14H68V24Z" />
+          </g>
+          <path fill="#493426" d="M26 14H58V18H66V22H72V28H76V46H72V52H66V58H58V62H26V58H18V54H12V48H8V30H12V24H18V18H26Z" />
+          <path fill="#f1a34b" d="M28 18H56V22H64V26H68V30H72V44H68V50H62V54H56V58H28V54H20V50H16V46H12V32H16V28H20V22H28Z" />
+          <path fill="#fff4dc" d="M36 18H44V26H48V30H56V34H68V42H72V44H68V50H62V54H56V58H28V54H20V50H16V46H12V38H20V34H28V30H32V26H36Z" />
+          <path fill="#bd622e" d="M26 20H30V28H26ZM48 20H52V28H48ZM54 22H58V28H54ZM12 32H20V36H12ZM64 30H72V34H64Z" />
+          <path fill="#ffd185" d="M20 24H24V28H20ZM60 26H64V30H60Z" />
+          <g class="morfeu-blink">
+            <path fill="#493426" d="M22 28H34V30H38V34H40V44H36V48H22V46H18V32H22ZM50 28H62V30H66V34H68V44H64V48H50V46H46V32H50Z" />
+            <path fill="#d9a84e" d="M22 32H34V34H36V42H32V46H24V44H20V34H22ZM50 32H62V34H64V42H60V46H52V44H48V34H50Z" />
+            <g class="morfeu-pupils">
+              <path fill="#241c18" d="M24 30H32V32H36V42H32V44H24V42H22V32H24ZM52 30H60V32H64V42H60V44H52V42H50V32H52Z" />
+              <path fill="#fffaf0" d="M24 31H30V37H24ZM52 31H58V37H52ZM32 40H34V42H32ZM60 40H62V42H60Z" />
+            </g>
+          </g>
+          <path fill="#e9a091" d="M18 46H24V50H18ZM62 46H68V50H62ZM38 46H46V48H44V50H40V48H38Z" />
+          <path fill="#694334" d="M40 50H44V52H48V50H50V54H44V52H40V54H34V50H36V52H40Z" />
+          <path fill="#493426" d="M4 42H14V44H4ZM6 50H16V52H6ZM70 42H80V44H70ZM68 50H78V52H68Z" />
+        </g></g>
+        </g>
+        </svg>
