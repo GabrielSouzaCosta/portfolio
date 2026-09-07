@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { applyEyeLighting } from '../../js/three/eye-lighting.js?revision=sclera-white-1';
 const canvas = document.querySelector('canvas');
 const status = document.querySelector('#status');
 const play = document.querySelector('#play');
@@ -39,10 +40,23 @@ try {
   const floor = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.ShadowMaterial({color:'#060e16',opacity:.27}));
   floor.rotation.x = -Math.PI/2; floor.position.y = -.035; floor.receiveShadow = true; scene.add(floor);
   let current, mixer, duration = 6, span = 3, request = 0, frame = 0, last = 0;
+  let rotors = [], currentView = 'quarter';
+  function mechanisms(value) { rotors.forEach((rotor, i) => { rotor.rotation.z = (i ? -1 : 1) * value * 1.8; }); }
   let playing = !matchMedia('(prefers-reduced-motion: reduce)').matches;
   const loader = new GLTFLoader();
   function draw() { renderer.render(scene,camera); }
-  function setView(which = 'quarter') {
+  function setView(which = currentView) {
+    currentView = which;
+    if(current) new THREE.Box3().setFromObject(current).getCenter(controls.target);
+    let head;
+    if(which === 'face') current?.traverse(object=>{if(!head && object.name.includes('cheekbones')) head=object;});
+    if(head) {
+      const bounds = new THREE.Box3().setFromObject(head), size = bounds.getSize(new THREE.Vector3());
+      bounds.getCenter(controls.target);
+      const distance = Math.max(size.x,size.y,size.z)*1.75/Math.min(1,camera.aspect);
+      camera.position.copy(controls.target).add(new THREE.Vector3(.32,.05,1).multiplyScalar(distance));
+      controls.update();draw();return;
+    }
     const d = span * (which === 'front' ? 2.05 : 1.8) / Math.min(1,camera.aspect);
     const vector = which === 'front' ? [0,.06,1] : which === 'rear' ? [.58,.28,-1] : [.52,.22,1];
     camera.position.copy(controls.target).add(new THREE.Vector3(...vector).multiplyScalar(d));
@@ -66,7 +80,7 @@ try {
   function tick(now) {
     frame=0;
     if(!playing || document.hidden) return;
-    if(mixer) {mixer.update(Math.min((now-last)/1000,.05));time.value=mixer.time%duration;}
+    if(mixer) {mixer.update(Math.min((now-last)/1000,.05));time.value=mixer.time%duration;mechanisms(mixer.time);}
     last=now;draw();frame=requestAnimationFrame(tick);
   }
   function syncPlayback() {
@@ -78,30 +92,32 @@ try {
   async function load(name) {
     const ticket=++request;status.textContent='Carregando modelo…';
     try {
-      const gltf=await loader.loadAsync('../../assets/models/'+name);
+      const gltf=await loader.loadAsync('../../assets/models/'+name+'?revision=sclera-white-1');
       if(ticket!==request){dispose(gltf.scene);return;}
       if(current){mixer?.stopAllAction();mixer?.uncacheRoot(current);scene.remove(current);dispose(current);}
       current=gltf.scene;scene.add(current);
+      applyEyeLighting(THREE, current);
+      rotors=['L','R'].map(side=>current.getObjectByName('EngineRotor_'+side)).filter(Boolean);
       current.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=false;}});
       const bounds=new THREE.Box3().setFromObject(current),size=bounds.getSize(new THREE.Vector3());
       bounds.getCenter(controls.target);span=Math.max(size.x,size.y,size.z);
       mixer=new THREE.AnimationMixer(current);
       for(const clip of gltf.animations)mixer.clipAction(clip).play();
       duration=gltf.animations[0]?.duration||6;time.max=duration;time.value=0;
-      setView();syncPlayback();
+      setView(new URLSearchParams(location.search).get('view')==='face'?'face':'quarter');syncPlayback();
       document.querySelectorAll('[data-model]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.model===name)));
       document.querySelector('#download').href='../../assets/models/'+name;
       window.modelCheck={loaded:name,meshes:0,triangles:0,bones:0,clips:gltf.animations.map(c=>({name:c.name,duration:c.duration,tracks:c.tracks.length}))};
       current.traverse(o=>{if(o.isBone)window.modelCheck.bones++;if(o.isMesh){window.modelCheck.meshes++;window.modelCheck.triangles+=(o.geometry.index?.count??o.geometry.attributes.position.count)/3;}});
-      window.previewTest = {seek(value){playing=false;syncPlayback();mixer.setTime(value);time.value=value;draw();},pose(){return current.getObjectByName('head')?.quaternion.toArray();},morphs(){const values=[];current.traverse(o=>{if(o.morphTargetInfluences)values.push({name:o.name,values:[...o.morphTargetInfluences]});});return values;},info(){return renderer.info.render;}};
+      window.previewTest = {seek(value){playing=false;syncPlayback();mixer.setTime(value);mechanisms(value);time.value=value;draw();},pose(){return current.getObjectByName('head')?.quaternion.toArray();},mechanisms(){return rotors.map(o=>({name:o.name,angle:o.rotation.z}));},morphs(){const values=[];current.traverse(o=>{if(o.morphTargetInfluences)values.push({name:o.name,values:[...o.morphTargetInfluences]});});return values;},info(){return renderer.info.render;}};
       status.textContent='Respiração, olhar, piscada e cauda disponíveis na prévia.';
     } catch(error) {status.textContent='O modelo não carregou. Recarregue a página para tentar novamente.';console.error(error);}
   }
   document.querySelectorAll('[data-model]').forEach(b=>b.onclick=()=>load(b.dataset.model));
   document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>setView(b.dataset.view));
   play.onclick=()=>{playing=!playing;syncPlayback();};
-  time.oninput=()=>{playing=false;syncPlayback();mixer?.setTime(Number(time.value));draw();};
+  time.oninput=()=>{playing=false;syncPlayback();mixer?.setTime(Number(time.value));mechanisms(Number(time.value));draw();};
   controls.addEventListener('change',draw);window.addEventListener('resize',resize);
   document.addEventListener('visibilitychange',syncPlayback);
-  resize();load('morfeu-rigged-v04.glb');
+  resize();load(new URLSearchParams(location.search).get('model')==='ship'?'morfeu-scout-v06.glb':'morfeu-rigged-v06.glb');
 } catch(error) {status.textContent='A prévia precisa de WebGL disponível neste navegador.';console.error(error);}

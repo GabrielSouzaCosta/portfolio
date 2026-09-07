@@ -3,6 +3,7 @@ import { Starfield } from './stars.js';
 import { setupDemos } from './demos.js';
 import { routeFromHash } from './story.js';
 import { loadShipAsset } from './three/ship-asset.js';
+import { setupKnight } from './knight.js';
 
 function startStudio() {
 const $ = selector => document.querySelector(selector);
@@ -174,6 +175,7 @@ document.addEventListener('visibilitychange', () => {
 let arrived = false;
 try { arrived = sessionStorage.getItem('goiaba-arrived') === 'yes'; } catch {}
 setupDemos();
+setupKnight();
 setMotion(paused);
 navigate({ instant:true, focus:!!location.hash });
 if (!location.hash && !arrived && !paused) startArrival();

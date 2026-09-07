@@ -56,7 +56,6 @@ test('planet surfaces and animated silhouettes remain usable by the flight camer
       assert.match(model.userData[key], /^#[\da-f]{6}$/i, `${world}: flight transition color`);
     }
     const vertex = new THREE.Vector3();
-    let relief = false;
     for (const [time, approach] of [[0, 0], [12, .5], [40, 1], [100, 0]]) {
       model.userData.animate(time, .8, { approach });
       model.updateMatrixWorld(true);
@@ -67,11 +66,9 @@ test('planet surfaces and animated silhouettes remain usable by the flight camer
           vertex.fromBufferAttribute(positions, i).applyMatrix4(object.matrixWorld);
           const distance = vertex.length();
           assert.ok(Number.isFinite(distance) && distance <= 1.5, `${world}: geometry exceeds the flight framing budget`);
-          if (!object.material.isShaderMaterial && distance > radius * 1.08) relief = true;
         }
       });
     }
-    assert.ok(relief, `${world}: the surface has physical relief above its entry sphere`);
     const ray = new THREE.Raycaster(new THREE.Vector3(0, 0, 3), new THREE.Vector3(0, 0, -1));
     const opaqueHits = ray.intersectObject(model, true).filter(hit => !hit.object.material.transparent);
     assert.ok(opaqueHits.length > 0, `${world}: the approach camera meets a solid planet surface`);

@@ -42,7 +42,7 @@ O proprietário rejeitou o lettering novo e a aparência plana das ilustrações
 - Nome: Goiaba Lunar.
 - Espaço, galáxia e planetas que representem os projetos.
 - Personalidade própria em cada planeta, derivada da identidade do produto.
-- Morfeu, o gato branco e laranja do usuário, guia a jornada em uma nave inspirada em um caça estelar de Star Wars.
+- Morfeu, o gato branco e laranja do usuário, guia a jornada em uma nave exploradora original. A referência inicial a caças de Star Wars foi substituída pelo pedido de uma nave mais autoral e detalhada.
 - O usuário escolheu misturar 3D estilizado e ilustração 2D com profundidade e movimento. Após a primeira prancha, confirmou a preferência por um resultado **mais ilustrado que realista**: o desenho predomina; volume e profundidade apoiam a ilustração.
 - Áudio foi retirado da interface na revisão solicitada pelo proprietário; os arquivos anteriores ficam apenas como histórico.
 - A marca já possui logo em pixel art; esse asset é evidência da identidade existente, sem implicar que todos os novos mundos devam ser em pixel art.
@@ -62,3 +62,15 @@ Código, documentação e assets locais dos quatro projetos. Pesquisa com fontes
 ## Morfeu — revisão estilizada
 
 Após rejeitar também a v03 por estranheza nas proporções, o proprietário esclareceu que não busca anatomia 100% realista. A direção aprovada para a próxima iteração é mais compacta: cabeça próxima dos ombros, patas curtas, bochechas largas, focinho discreto e pálpebras que relaxem o olhar. A foto orienta a identidade branca e laranja; o sprite conserva os reflexos quadrados. Sox/Pixar é referência de simplificação e expressão; Manchas/CC-SAN, de construção facial e poses. Não são modelos a copiar ou incorporar. A proposta deve ser avaliada visualmente antes de ser considerada aprovada.
+
+## Correção de identidade e nave — Morfeu v05
+
+O proprietário esclareceu que os olhos de Morfeu são **laranja, não verdes**. Pediu também uma nave mais original e detalhada e um rosto mais carismático. A revisão mantém a silhueta compacta, ajusta as íris e o sorriso e cria uma nave com asas curvas, cockpit aberto e propulsores anulares; a execução e a prévia no site local estão autorizadas.
+
+## Naturalidade ocular — Morfeu v06
+
+O proprietário considerou os olhos v05 artificiais e forneceu um close como evidência. Essa correção substitui a exigência anterior de reflexos quadrados: a leitura deve ser natural dentro do gato estilizado, com íris laranja circular, pupila oval vertical moderada, reflexão da iluminação e pálpebras integradas. Corpo, sorriso e nave Semente são preservados.
+
+Em seguida, apontou que a expressão parecia “meio do mal” e que a cor dos olhos seria a causa. A correção deve priorizar laranja dourado/âmbar mais claro e contorno castanho suave, reduzindo o vermelho e mantendo um olhar acolhedor.
+
+O proprietário pediu em seguida que a esclerótica fique branca. Esse ajuste mantém a íris âmbar e substitui a tonalidade bege dos cantos do olho.

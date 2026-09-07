@@ -22,7 +22,7 @@ export async function buildStudio(output = resolve(root, 'dist')) {
       recursive:true,
       filter: source => {
         const path = relative(root, source);
-        return !historical.has(path) && (!path.startsWith('assets/models/') || path === 'assets/models/morfeu-scout-v04.glb');
+        return !historical.has(path) && (!path.startsWith('assets/models/') || path === 'assets/models/morfeu-scout-v06.glb');
       }
     });
   }

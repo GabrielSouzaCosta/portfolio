@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { createPlanet } from './planets.js';
-import { createKnight, createShip } from './characters.js';
+import { createShip } from './characters.js';
 import { PlanetFlight } from './flight.js';
 
 /** One WebGL context; each model stays inside its semantic link's viewport. */
@@ -89,7 +89,7 @@ export class StudioObjects {
     const scene = new THREE.Scene();
     scene.environment = this.environment.texture;
     scene.environmentIntensity = .16;
-    const model = kind === 'knight' ? createKnight(THREE) : kind === 'ship' ? createShip(THREE) : createPlanet(THREE, kind);
+    const model = kind === 'ship' ? createShip(THREE) : createPlanet(THREE, kind);
     const pivot = new THREE.Group();
     pivot.add(model);
     scene.add(pivot);
@@ -109,8 +109,8 @@ export class StudioObjects {
     fill.position.set(3, -1, 4);
     scene.add(fill);
     const camera = new THREE.OrthographicCamera(-2,2,2,-2,.1,50);
-    const isCharacter = kind === 'knight' || kind === 'ship';
-    const eye = kind === 'knight' ? new THREE.Vector3(2.2,1.5,7) : kind === 'ship' ? new THREE.Vector3(3.6,2.5,7) : new THREE.Vector3(0,1.1,7);
+    const isCharacter = kind === 'ship';
+    const eye = kind === 'ship' ? new THREE.Vector3(3.6,2.5,7) : new THREE.Vector3(0,1.1,7);
     camera.position.copy(eye);
     camera.lookAt(0,0,0);
     let radius = 0;
@@ -125,7 +125,7 @@ export class StudioObjects {
           radius = Math.max(radius,point.length());
         }
       });
-      if (kind === 'cindra') radius = Math.max(radius,1.38);
+      radius = Math.max(radius, model.userData.framingRadius || 0);
     }
     const item = { element, scene, camera, model, pivot, mini, kind, eye, radius, hover:0, targetHover:0, rect:null, rotation:{ x:0, y:0 }, velocity:0 };
     const target = element.closest('a, button');
@@ -312,7 +312,7 @@ export class StudioObjects {
       if (rect.bottom < 0 || rect.top > innerHeight) continue;
       if (item.kind === 'ship' && document.body.dataset.world !== 'galaxy') continue;
       const { pivot, model, kind } = item;
-      const isCharacter = kind === 'knight' || kind === 'ship';
+      const isCharacter = kind === 'ship';
       item.hover += (item.targetHover - item.hover) * .1;
       const t = this.elapsed;
       if (isCharacter) {

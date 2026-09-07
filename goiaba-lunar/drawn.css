@@ -1,6 +1,7 @@
-/* Sculpted 3D objects inside the existing illustrated universe. */
+/* Sculpted planets and ship, with a hand-drawn knight in the illustrated universe. */
 @font-face{font-family:Alegreya;src:url('assets/fonts/alegreya-latin.woff2') format('woff2');font-weight:400 900;font-display:swap}
 @font-face{font-family:LunarPixel;src:url('assets/fonts/vt323.woff2') format('woff2');font-display:swap}
+@font-face{font-family:KnightGothic;src:url('assets/fonts/grenze-gotisch.ttf') format('truetype');font-weight:500;font-display:swap}
 :root{--rail:96px}
 .global-controls{margin-left:auto}
 .site-header .studio-brand{display:flex;align-items:center;gap:12px;width:auto}
@@ -33,13 +34,22 @@ body[data-render-mode=webgl] .model-viewport>img{visibility:hidden}
 .planet-art.is-dragging:after{opacity:0}
 @media(max-width:760px){.flight-caption{bottom:calc(var(--rail) + 66px);font-size:19px;width:90%;white-space:normal}}
 .knight-link{position:absolute;right:9%;top:95px;width:148px;text-align:center;display:flex;flex-direction:column;align-items:center}
-.knight-model{width:142px;height:186px}
-.knight-caption{font:23px/1.1 Fell,Georgia,serif;color:#f2e5c7}
-.knight-destination{display:flex;align-items:center;justify-content:center;gap:5px;font:12px/1.8 Manrope,sans-serif;color:#d2d6c2;white-space:nowrap}
-.knight-destination svg{width:12px;height:12px}
+.knight-model{display:block;position:relative;flex-shrink:0;width:110px;height:145px}
+.knight-model>img{display:block;width:100%;height:100%;object-fit:contain;user-select:none}
+body[data-world=galaxy] .knight-model>img{animation:knight-drift 18s cubic-bezier(.45,0,.55,1) infinite}
+body[data-world=galaxy] .knight-link{translate:var(--knight-x,0px) var(--knight-y,0px)}
+body[data-world=galaxy] .knight-model{cursor:grab;touch-action:none;transform:rotate(var(--knight-tilt,0deg)) scale(var(--knight-scale,1));transform-origin:50% 42%;will-change:transform}
+body[data-world=galaxy] .knight-link.is-dragging{user-select:none;cursor:grabbing}
+body[data-world=galaxy] .knight-link.is-dragging .knight-model{cursor:grabbing}
+body[data-world=galaxy] .knight-link.is-dragging .knight-model>img{animation-play-state:paused}
+@keyframes knight-drift{0%,100%{transform:translate(-3px,2px) rotate(-4deg)}50%{transform:translate(5px,-7px) rotate(4deg)}}
+@media(prefers-reduced-motion:reduce){body[data-world=galaxy] .knight-model>img{animation:none}}
+.knight-caption{font:500 18px/1.05 KnightGothic,Fell,Georgia,serif;color:#e9e1d2}
+.knight-destination{display:flex;align-items:center;justify-content:center;gap:3px;margin-top:3px;font:11px/1.2 Fell,Georgia,serif;color:#cbc5b8;white-space:nowrap}
+.knight-destination svg{width:9px;height:9px}
 body:not([data-world=galaxy]) .knight-link{position:static;width:auto;flex-direction:row;gap:9px;margin-left:auto}
 body:not([data-world=galaxy]) .knight-model{width:48px;height:62px}
-body:not([data-world=galaxy]) .knight-caption{font-size:18px;color:var(--ink)}
+body:not([data-world=galaxy]) .knight-caption{font-size:16px;color:var(--ink)}
 body:not([data-world=galaxy]) .knight-destination{font-size:11px;color:var(--ink)}
 body:not([data-world=galaxy]) .global-controls{margin-left:14px}
 body[data-world=galaxy] #main-content,.planet-cindra,.morfeu-companion{mix-blend-mode:normal}
@@ -89,12 +99,12 @@ body[data-world=cindra] .route-planets a:first-child img{filter:none}
 .is-traveling .journey-rail{background:none}
 @media(max-height:820px) and (min-width:761px){.galaxy-note{display:none}}
 
-@media(min-width:1600px){.planet-art{width:210px;height:210px}.planet-commissionmatch .planet-art{width:240px;height:210px}.knight-link{right:11%;top:105px}.knight-model{width:155px;height:200px}.morfeu-companion{width:250px;left:8%}.ship-model{height:160px}}
-@media(max-width:1100px){.route-planets{gap:13px}.route-planets a[data-route=commissionmatch]{font-size:18px}.route-planets a[aria-current=page] .route-model{width:58px;height:58px}.route-next{max-width:150px}.knight-link{right:7%;top:75px;width:128px}.knight-model{width:122px;height:160px}.planet-art{width:170px;height:170px}.planet-commissionmatch .planet-art{width:195px;height:170px}.planet-cindra{left:22%}.planet-commissionmatch{left:47%;width:220px}.planet-mangue{left:73%;width:190px}.planet-description{font-size:11px}.morfeu-companion{width:205px}.ship-model{height:132px}}
+@media(min-width:1600px){.planet-art{width:210px;height:210px}.planet-commissionmatch .planet-art{width:240px;height:210px}.knight-link{right:11%;top:105px}.knight-model{width:120px;height:156px}.morfeu-companion{width:250px;left:8%}.ship-model{height:160px}}
+@media(max-width:1100px){.route-planets{gap:13px}.route-planets a[data-route=commissionmatch]{font-size:18px}.route-planets a[aria-current=page] .route-model{width:58px;height:58px}.route-next{max-width:150px}.knight-link{right:7%;top:75px;width:128px}.knight-model{width:95px;height:125px}.planet-art{width:170px;height:170px}.planet-commissionmatch .planet-art{width:195px;height:170px}.planet-cindra{left:22%}.planet-commissionmatch{left:47%;width:220px}.planet-mangue{left:73%;width:190px}.planet-description{font-size:11px}.morfeu-companion{width:205px}.ship-model{height:132px}}
 @media(max-width:760px){
   :root{--head:78px;--rail:88px}
   .site-header{padding:7px 6%;gap:10px}.site-header .studio-brand .brand-original{width:44px;height:44px}.brand-name{font-size:24px}.icon-button{width:36px;height:36px}
-  .knight-link{top:74px;right:9%;width:104px}.knight-model{width:96px;height:116px}.knight-caption{font-size:19px}.knight-destination{font-size:11px}
+  .knight-link{top:74px;right:9%;width:104px}.knight-model{width:75px;height:91px}.knight-caption{font-size:16px}.knight-destination{font-size:10px}
   body:not([data-world=galaxy]) .knight-link{gap:0}body:not([data-world=galaxy]) .knight-caption{display:none}body:not([data-world=galaxy]) .knight-model{width:42px;height:54px}body:not([data-world=galaxy]) .global-controls{margin-left:4px}
   .galaxy-intro{left:7%;top:4%}.galaxy-intro h1{font-size:47px}.galaxy-intro>p{font-size:12px;margin-top:17px;max-width:180px}
   .planet{width:155px}.planet-art{width:145px;height:145px}.planet-commissionmatch .planet-art{width:166px;height:145px}
@@ -109,9 +119,9 @@ body[data-world=cindra] .route-planets a:first-child img{filter:none}
   body:not([data-world=galaxy]) .route-planets a[aria-current]{flex-direction:row;gap:3px}
   .route-planets a[data-route=cindra][aria-current]{font-size:16px}.route-planets a[data-route=commissionmatch][aria-current]{font-size:16px}.route-planets a[data-route=mangue][aria-current]{font-size:22px}
 }
-@media(max-width:370px){.planet-art{width:125px;height:125px}.planet-commissionmatch .planet-art{width:144px;height:125px}.planet-cindra{width:135px;left:0;top:39%}.planet-commissionmatch{right:0;top:28%;width:170px}.planet-mangue{right:3%;top:67%}.planet-commissionmatch .planet-name{font-size:21px}.planet-status{font-size:10px}.knight-link{right:6%;top:64px}.knight-model{width:84px;height:110px}.galaxy-intro h1{font-size:41px}.morfeu-companion{width:125px}.ship-model{height:84px}.route-planets{gap:3px}.route-planets a[data-route=commissionmatch][aria-current]{font-size:14px}.route-planets a[aria-current=page] .route-model{width:38px;height:38px}}
-@media(max-height:740px) and (min-width:761px){:root{--rail:85px}.planet-art{width:145px;height:145px}.planet-commissionmatch .planet-art{width:170px;height:145px}.knight-link{top:65px}.knight-model{width:100px;height:130px}.morfeu-companion{width:170px}.ship-model{height:110px}.planet-description{font-size:11px}.planet-status{font-size:11px}.route-planets a[aria-current=page] .route-model{width:56px;height:56px}}
-@media(max-height:680px) and (max-width:760px){:root{--head:64px;--rail:76px}.site-header .studio-brand .brand-original{width:38px;height:38px}.brand-name{font-size:22px}.galaxy-intro h1{font-size:36px}.galaxy-intro>p{font-size:11px;margin-top:10px}.knight-link{top:60px;right:8%}.knight-model{width:75px;height:92px}.knight-caption{font-size:16px}.knight-destination{font-size:10px}.planet-art{width:104px;height:104px}.planet-commissionmatch .planet-art{width:122px;height:104px}.planet-cindra{top:38%}.planet-commissionmatch{top:29%}.planet-mangue{top:65%}.planet-cindra .planet-name{font-size:18px}.planet-commissionmatch .planet-name{font-size:20px}.planet-mangue .planet-name{font-size:25px}.planet-status{font-size:10px}.morfeu-companion{width:115px;bottom:calc(var(--rail) + 17px)}.ship-model{height:78px}.morfeu-companion p{font-size:10px}.route-planets a{min-height:55px}.route-model{width:31px;height:31px}.route-planets a[aria-current=page] .route-model{width:40px;height:40px}}
-@media(max-height:480px) and (min-width:560px){:root{--head:50px;--rail:62px}.site-header .studio-brand .brand-original{width:32px;height:32px}.brand-name{font-size:20px}.knight-link{top:46px;right:4%;width:68px}.knight-model{width:57px;height:74px}.knight-caption{font-size:15px}.knight-destination{font-size:9px}.galaxy-intro{top:5%;left:5%}.galaxy-intro h1{font-size:31px}.galaxy-intro>p{font-size:10px;max-width:155px}.planet-art{width:90px;height:90px}.planet-commissionmatch .planet-art{width:110px;height:90px}.planet-cindra{left:25%;top:38%;width:130px}.planet-commissionmatch{left:47%;right:auto;top:4%;width:190px}.planet-mangue{left:auto;right:3%;top:53%;width:130px}.planet-label{gap:3px}.planet-cindra .planet-name{font-size:18px}.planet-commissionmatch .planet-name{font-size:21px}.planet-mangue .planet-name{font-size:24px}.planet-status{font-size:10px}.morfeu-companion{width:100px;bottom:calc(var(--rail) + 6px)}.ship-model{height:64px}.morfeu-companion p{display:none}.route-planets a{min-height:46px;flex-direction:row;gap:5px}.route-planets a[aria-current=page] .route-model{width:43px;height:43px}.journey-rail{padding-block:2px 6px}body:not([data-world=galaxy]) .knight-model{height:40px;width:32px}}
+@media(max-width:370px){.planet-art{width:125px;height:125px}.planet-commissionmatch .planet-art{width:144px;height:125px}.planet-cindra{width:135px;left:0;top:39%}.planet-commissionmatch{right:0;top:28%;width:170px}.planet-mangue{right:3%;top:67%}.planet-commissionmatch .planet-name{font-size:21px}.planet-status{font-size:10px}.knight-link{right:6%;top:64px}.knight-model{width:65px;height:86px}.galaxy-intro h1{font-size:41px}.morfeu-companion{width:125px}.ship-model{height:84px}.route-planets{gap:3px}.route-planets a[data-route=commissionmatch][aria-current]{font-size:14px}.route-planets a[aria-current=page] .route-model{width:38px;height:38px}}
+@media(max-height:740px) and (min-width:761px){:root{--rail:85px}.planet-art{width:145px;height:145px}.planet-commissionmatch .planet-art{width:170px;height:145px}.knight-link{top:65px}.knight-model{width:78px;height:101px}.morfeu-companion{width:170px}.ship-model{height:110px}.planet-description{font-size:11px}.planet-status{font-size:11px}.route-planets a[aria-current=page] .route-model{width:56px;height:56px}}
+@media(max-height:680px) and (max-width:760px){:root{--head:64px;--rail:76px}.site-header .studio-brand .brand-original{width:38px;height:38px}.brand-name{font-size:22px}.galaxy-intro h1{font-size:36px}.galaxy-intro>p{font-size:11px;margin-top:10px}.knight-link{top:60px;right:8%}.knight-model{width:59px;height:72px}.knight-caption{font-size:14px}.knight-destination{font-size:10px}.planet-art{width:104px;height:104px}.planet-commissionmatch .planet-art{width:122px;height:104px}.planet-cindra{top:38%}.planet-commissionmatch{top:29%}.planet-mangue{top:65%}.planet-cindra .planet-name{font-size:18px}.planet-commissionmatch .planet-name{font-size:20px}.planet-mangue .planet-name{font-size:25px}.planet-status{font-size:10px}.morfeu-companion{width:115px;bottom:calc(var(--rail) + 17px)}.ship-model{height:78px}.morfeu-companion p{font-size:10px}.route-planets a{min-height:55px}.route-model{width:31px;height:31px}.route-planets a[aria-current=page] .route-model{width:40px;height:40px}}
+@media(max-height:480px) and (min-width:560px){:root{--head:50px;--rail:62px}.site-header .studio-brand .brand-original{width:32px;height:32px}.brand-name{font-size:20px}.knight-link{top:46px;right:4%;width:68px}.knight-model{width:45px;height:58px}.knight-caption{font-size:13px}.knight-destination{font-size:9px}.galaxy-intro{top:5%;left:5%}.galaxy-intro h1{font-size:31px}.galaxy-intro>p{font-size:10px;max-width:155px}.planet-art{width:90px;height:90px}.planet-commissionmatch .planet-art{width:110px;height:90px}.planet-cindra{left:25%;top:38%;width:130px}.planet-commissionmatch{left:47%;right:auto;top:4%;width:190px}.planet-mangue{left:auto;right:3%;top:53%;width:130px}.planet-label{gap:3px}.planet-cindra .planet-name{font-size:18px}.planet-commissionmatch .planet-name{font-size:21px}.planet-mangue .planet-name{font-size:24px}.planet-status{font-size:10px}.morfeu-companion{width:100px;bottom:calc(var(--rail) + 6px)}.ship-model{height:64px}.morfeu-companion p{display:none}.route-planets a{min-height:46px;flex-direction:row;gap:5px}.route-planets a[aria-current=page] .route-model{width:43px;height:43px}.journey-rail{padding-block:2px 6px}body:not([data-world=galaxy]) .knight-model{height:40px;width:32px}}
 @media(prefers-reduced-motion:reduce){#object-canvas{transition:none}}
 @media(max-height:680px) and (max-width:559px){.planet-mangue{top:60%}}

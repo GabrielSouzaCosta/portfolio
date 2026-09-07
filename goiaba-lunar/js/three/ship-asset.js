@@ -1,5 +1,6 @@
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { clone } from 'three/addons/utils/SkeletonUtils.js';
+import { applyEyeLighting } from './eye-lighting.js';
 
 let asset;
 
@@ -8,7 +9,7 @@ export async function loadShipAsset() {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 8000);
   try {
-    const url = new URL('assets/models/morfeu-scout-v04.glb', document.baseURI);
+    const url = new URL('assets/models/morfeu-scout-v06.glb?revision=sclera-white-1', document.baseURI);
     const response = await fetch(url, { signal: controller.signal });
     if (!response.ok) throw new Error(`Morfeu model: HTTP ${response.status}`);
     asset = await new GLTFLoader().parseAsync(await response.arrayBuffer(), url.href);
@@ -20,7 +21,7 @@ export async function loadShipAsset() {
 export function createBlenderShip(THREE) {
   if (!asset) return null;
   const model = clone(asset.scene);
-  model.name = 'Morfeu · explorador orbital · Blender v04';
+  model.name = 'Morfeu · explorador orbital · Blender v06';
   // Flight copies are disposed independently of the atlas and cached source.
   const materials = new Map(), textures = new Map(), geometries = new Map();
   const copyMaterial = source => {
@@ -42,6 +43,7 @@ export function createBlenderShip(THREE) {
     object.castShadow = true;
     object.receiveShadow = false;
   });
+  applyEyeLighting(THREE, model);
   const mixer = new THREE.AnimationMixer(model);
   for (const clip of asset.animations) mixer.clipAction(clip).play();
   const head = model.getObjectByName('head');
@@ -50,8 +52,10 @@ export function createBlenderShip(THREE) {
   const lids = [];
   model.traverse(object => { if (object.morphTargetDictionary?.Blink !== undefined) lids.push(object); });
   const cores = [...materials.values()].filter(material => material.name === 'Ship | ion cores');
+  const rotors = ['L', 'R'].map(side => model.getObjectByName('EngineRotor_' + side)).filter(Boolean);
+  const fins = ['L', 'R'].map(side => model.getObjectByName('VectorFin_' + side)).filter(Boolean);
   const clamp = value => Number.isFinite(value) ? THREE.MathUtils.clamp(value, 0, 1) : 0;
-  model.userData.assetVersion = 'morfeu-scout-v04';
+  model.userData.assetVersion = 'morfeu-scout-v06';
   model.userData.throttle = 0;
   model.userData.setFlight = value => { model.userData.throttle = clamp(value); };
   model.userData.animate = (time = 0, hover = 0, interaction = {}) => {
@@ -68,6 +72,8 @@ export function createBlenderShip(THREE) {
     }
     const thrust = clamp(interaction.thrust ?? model.userData.throttle);
     cores.forEach(material => { material.emissiveIntensity = .6 + thrust * 2; });
+    rotors.forEach((rotor, index) => { rotor.rotation.z = (index ? -1 : 1) * (Number.isFinite(time) ? time : 0) * 1.8; });
+    fins.forEach((fin, index) => { fin.rotation.x = -.08 - thrust * .25; fin.rotation.y = (index ? -1 : 1) * thrust * .08; });
   };
   model.userData.disposeAnimation = () => { mixer.stopAllAction(); mixer.uncacheRoot(model); };
   model.userData.animate(0);
