@@ -1,0 +1,157 @@
+/* The galaxy's first screen: depth, the goiaba moon, Morfeu's plotted course
+   and a glimpse of each world's own medium. --look-x/y come from the scene. */
+
+/* Depth. Farther layers drift less; the scene re-reads model viewports as they move. */
+.space-backdrop{scale:1.04;translate:calc(var(--look-x,0) * -9px) calc(var(--look-y,0) * -6px)}
+.orbit-lines{translate:calc(var(--look-x,0) * -12px) calc(var(--look-y,0) * -8px)}
+.planet{--depth:16;translate:calc(var(--look-x,0) * var(--depth) * -1px) calc(var(--look-y,0) * var(--depth) * -.7px)}
+.planet-cindra{--depth:26}
+.planet-commissionmatch{--depth:8}
+.planet-mangue{--depth:17}
+body[data-world=galaxy] .morfeu-companion{translate:calc(var(--look-x,0) * -32px) calc(var(--look-y,0) * -20px)}
+@media(min-width:761px){
+  /* Near, far and between: three worlds at different distances, not three cards. */
+  .planet-cindra .planet-art{transform:scale(1.16)}
+  .planet-cindra .planet-label{margin-top:24px}
+  .planet-commissionmatch .planet-art{transform:scale(.86)}
+  .planet-commissionmatch .planet-label{margin-top:2px}
+  .planet-commissionmatch .planet-name{font-size:26px}
+}
+
+/* Focus: a ring around the world itself, never an ellipse through its label. */
+.planet:focus-visible{outline:none}
+.planet:focus-visible .planet-art{outline:2px solid var(--accent);outline-offset:6px;border-radius:50%}
+.planet:focus-visible .planet-name{text-decoration:underline 1px;text-underline-offset:6px}
+
+/* The goiaba lunar itself, as in the brand mark: a pixel guava crescent with
+   Juquinha asleep on its horn. assets/drawn/goiaba-moon.png holds 8 frames of
+   breathing and twinkling; source/pixel/goiaba_moon.py draws them. Integer
+   scales keep every pixel square. */
+.lunar{--scale:2;position:absolute;z-index:0;left:29%;top:1%;width:calc(104px * var(--scale));aspect-ratio:104/96;pointer-events:none;translate:calc(var(--look-x,0) * -5px) calc(var(--look-y,0) * -4px)}
+.lunar-sprite{position:absolute;inset:0;background:url('assets/drawn/goiaba-moon.png') 0 0/800% 100% no-repeat;image-rendering:pixelated;animation:lunar-frames 5.6s steps(8,jump-none) infinite}
+@keyframes lunar-frames{to{background-position:100% 0}}
+.lunar-z{position:absolute;left:47%;top:1%;font:calc(9px * var(--scale))/1 LunarPixel,monospace;color:#e4d7ff;text-shadow:0 0 calc(3px * var(--scale)) #b99ae8}
+.lunar-z i{position:absolute;font-style:normal;opacity:0;animation:lunar-z 5.6s steps(14) infinite}
+.lunar-z i:nth-child(2){animation-delay:1.4s;font-size:.8em}
+.lunar-z i:nth-child(3){animation-delay:2.8s;font-size:1.2em}
+@keyframes lunar-z{0%{opacity:0;transform:translate(0,0)}15%{opacity:1}70%{opacity:.9}100%{opacity:0;transform:translate(1.4em,-2.2em)}}
+@media(min-width:1300px) and (min-height:760px){.lunar{--scale:3;left:27%;top:0}.planet-cindra{top:47%}}
+.galaxy-intro{z-index:2}
+
+/* A little room under the galaxy for Morfeu and the flight caption. */
+body[data-world=galaxy]{--rail:26px}
+
+/* "órbita": a small moon keeps orbiting its ó, passing behind the letter. */
+.orbit-o{position:relative;display:inline-block;isolation:isolate}
+.orbit-o i{position:absolute;left:50%;top:44%;width:.075em;height:.075em;margin:-.0375em 0 0 -.0375em;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff4f8,#f3a0c0 70%);box-shadow:0 0 .16em #efabc3aa;animation:orbit-o 7s linear infinite}
+@keyframes orbit-o{
+  0.00%{transform:translate(0.182em,0.056em) scale(1.00);z-index:1}
+  6.25%{transform:translate(0.160em,0.077em) scale(1.05);z-index:1}
+  12.50%{transform:translate(0.114em,0.087em) scale(1.10);z-index:1}
+  18.75%{transform:translate(0.050em,0.083em) scale(1.13);z-index:1}
+  25.00%{transform:translate(-0.021em,0.067em) scale(1.14);z-index:1}
+  31.25%{transform:translate(-0.089em,0.040em) scale(1.13);z-index:1}
+  37.50%{transform:translate(-0.143em,0.008em) scale(1.10);z-index:1}
+  43.75%{transform:translate(-0.176em,-0.026em) scale(1.05);z-index:1}
+  50.00%{transform:translate(-0.182em,-0.056em) scale(1.00);z-index:1}
+  56.25%{transform:translate(-0.160em,-0.077em) scale(0.95);z-index:-1}
+  62.50%{transform:translate(-0.114em,-0.087em) scale(0.90);z-index:-1}
+  68.75%{transform:translate(-0.050em,-0.083em) scale(0.87);z-index:-1}
+  75.00%{transform:translate(0.021em,-0.067em) scale(0.86);z-index:-1}
+  81.25%{transform:translate(0.089em,-0.040em) scale(0.87);z-index:-1}
+  87.50%{transform:translate(0.143em,-0.008em) scale(0.90);z-index:-1}
+  93.75%{transform:translate(0.176em,0.026em) scale(0.95);z-index:-1}
+  100.00%{transform:translate(0.182em,0.056em) scale(1.00);z-index:-1}
+}
+
+/* Morfeu's course to the world being considered. */
+.flight-route{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible;--route:#efabc3}
+.route-line{fill:none;stroke:var(--route);stroke-width:1.5;stroke-linecap:round;stroke-dasharray:1.5 8;opacity:.85;animation:route-march .9s linear infinite}
+.route-draw{fill:none;stroke:#fff;stroke-width:12;stroke-dasharray:1 1;stroke-dashoffset:1;transition:stroke-dashoffset .5s cubic-bezier(.5,0,.75,0)}
+.flight-route.is-plotted .route-draw{stroke-dashoffset:0;transition:stroke-dashoffset 1.1s var(--ease)}
+.route-target{fill:none;stroke:var(--route);stroke-width:1.3;opacity:0;transform-box:fill-box;transform-origin:center;transition:opacity .3s}
+.flight-route.is-plotted .route-target{opacity:.9;transition-delay:.75s;animation:route-ping 1.8s ease-out .75s infinite}
+@keyframes route-march{to{stroke-dashoffset:-9.5}}
+@keyframes route-ping{0%{transform:scale(.6);opacity:.95}100%{transform:scale(2.2);opacity:0}}
+
+/* World previews live inside each planet's viewport, beneath the WebGL planet,
+   so they rise from behind the horizon and pass behind the globe. */
+.world-peek{position:absolute;inset:0;pointer-events:none}
+.world-peek img{visibility:visible!important}
+
+.peek-cindra img{position:absolute;width:30%;height:auto;image-rendering:pixelated;translate:-50% 75%;left:50%;top:-12%;opacity:0;transition:translate .5s cubic-bezier(.34,1.56,.64,1),opacity .2s;transition-delay:calc(var(--i) * 110ms)}
+.peek-cindra img:nth-child(1){left:24%;top:3%;width:24%}
+.peek-cindra img:nth-child(3){left:76%;top:3%;width:24%}
+.planet.is-revealed .peek-cindra img{translate:-50% 0;opacity:1;transition-delay:calc(260ms + var(--i) * 120ms);animation:peek-hop 1.6s steps(2) calc(900ms + var(--i) * 200ms) infinite}
+@keyframes peek-hop{0%,70%,100%{margin-top:0}80%{margin-top:-6%}}
+
+.peek-rose{position:absolute;width:168%;height:auto;left:-34%;top:-34%;opacity:0;fill:none;stroke:#e9dcb4;stroke-width:1;scale:.7;transition:opacity .7s,scale 1.1s var(--ease);animation:rose-turn 60s linear infinite}
+.peek-rose .rose-fine{stroke-width:.6}
+.peek-rose .rose-shade,.peek-rose .rose-fleur{fill:#e9dcb4;stroke:none}
+.planet.is-revealed .peek-rose{opacity:.3;scale:1}
+@keyframes rose-turn{to{rotate:360deg}}
+.peek-rider{position:absolute;width:24%;left:50%;top:50%;opacity:0;transition:opacity .4s;animation:ride 7s linear infinite;animation-play-state:paused}
+.peek-rider img{width:100%;height:auto;aspect-ratio:auto;filter:drop-shadow(0 2px 4px #0008);translate:-50% -88%}
+.planet.is-revealed .peek-rider{opacity:1;transition-delay:.5s;animation-play-state:running}
+@keyframes ride{
+  0%{left:103%;top:44%;scale:-1 1}
+  25%{left:50%;top:66%;scale:-1 1}
+  49.9%{left:-3%;top:56%;scale:-1 1}
+  50%{left:-3%;top:56%;scale:1 1}
+  75%{left:50%;top:36%;scale:1 1}
+  99.9%{left:103%;top:44%;scale:1 1}
+  100%{left:103%;top:44%;scale:-1 1}
+}
+
+/* Mangue: the galaxy turns into a page, from Mangue outward, and gets its
+   colour back as Morfeu's course is written (js/ink.js). The veil inverts
+   lightness but keeps hue, so the night becomes paper and the worlds ink. */
+@property --wash{syntax:'<length-percentage>';inherits:false;initial-value:0%}
+.ink-veil,.ink-paper{position:fixed;inset:0;z-index:41;pointer-events:none;--wash:0%;-webkit-mask-image:radial-gradient(circle at var(--ink-x,80%) var(--ink-y,50%),#000 calc(var(--wash) - 7%),transparent var(--wash));mask-image:radial-gradient(circle at var(--ink-x,80%) var(--ink-y,50%),#000 calc(var(--wash) - 7%),transparent var(--wash));transition:--wash .35s ease-in}
+.ink-veil{-webkit-backdrop-filter:grayscale(1) invert(.93) hue-rotate(180deg) sepia(.28) contrast(1.06);backdrop-filter:grayscale(1) invert(.93) hue-rotate(180deg) sepia(.28) contrast(1.06);transition:--wash .35s ease-in,backdrop-filter 2.8s ease,-webkit-backdrop-filter 2.8s ease}
+.ink-paper{mix-blend-mode:multiply;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .38 0 0 0 0 .28 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E"),radial-gradient(ellipse at 50% 45%,#fffaf0 45%,#e6d6b4)}
+body.ink-story .ink-veil,body.ink-story .ink-paper{--wash:125%;transition:--wash 1s cubic-bezier(.55,0,.35,1),backdrop-filter 2.8s ease,-webkit-backdrop-filter 2.8s ease}
+body.ink-bloom .ink-veil{-webkit-backdrop-filter:grayscale(0) invert(.93) hue-rotate(180deg) sepia(.12) contrast(1.04) saturate(1.35);backdrop-filter:grayscale(0) invert(.93) hue-rotate(180deg) sepia(.12) contrast(1.04) saturate(1.35)}
+.ink-script{position:fixed;inset:0;width:100%;height:100%;z-index:41;pointer-events:none;overflow:visible;opacity:0;transition:opacity .3s}
+body.ink-story .ink-script{opacity:1}
+body.ink-story:not(.ink-bloom) :is(#main-content,.morfeu-companion) *{animation-play-state:paused!important}
+.ink-stroke{fill:none;stroke:#2b251c;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;transition:stroke 1.6s}
+.ink-stroke.is-initial{stroke-width:2.8}
+.ink-stroke.is-road,.ink-stroke.is-branch{stroke-width:1.5}
+body.ink-bloom .ink-stroke.is-initial{stroke:#8e2a1f;filter:drop-shadow(0 0 2px #c9a24a)}
+body.ink-bloom .ink-stroke.is-road,body.ink-bloom .ink-stroke.is-branch{stroke:#235539}
+.ink-nib{fill:#2b251c;opacity:0;transition:opacity .15s}
+.ink-nib.is-writing{opacity:1}
+.ink-leaf{fill:#3f7d46;transform-box:fill-box;transform-origin:0 50%;scale:0;transition:scale .7s cubic-bezier(.34,1.56,.64,1)}
+.ink-leaf.is-open{scale:1;animation:leaf-sway 3.4s ease-in-out var(--sway) infinite}
+@keyframes leaf-sway{50%{rotate:16deg}}
+.ink-trail{fill:none;stroke:#d9a441;stroke-width:1.6;stroke-linecap:round;stroke-dasharray:.1 12;opacity:0;transition:opacity .8s}
+body.ink-alive .ink-trail{opacity:1;animation:ink-march 1.4s linear infinite}
+@keyframes ink-march{to{stroke-dashoffset:-12.1}}
+/* Entering Mangue: Morfeu flies through the written page, which turns back to paper at the atmosphere and lifts away at the reveal. */
+body.ink-voyage .ink-script{transition:opacity 1.2s ease}
+body.ink-voyage.ink-dive .ink-script,body.ink-voyage[data-flight-phase]:not([data-flight-phase=launch]) .ink-script{opacity:0}
+body.ink-voyage.ink-dive .ink-veil{-webkit-backdrop-filter:grayscale(1) invert(.93) hue-rotate(180deg) sepia(.34) contrast(1.1);backdrop-filter:grayscale(1) invert(.93) hue-rotate(180deg) sepia(.34) contrast(1.1);transition:backdrop-filter .9s ease,-webkit-backdrop-filter .9s ease,opacity 1.2s ease}
+body.ink-voyage.ink-closing :is(.ink-veil,.ink-paper,.ink-script){opacity:0;transition:opacity 1.2s ease}
+@media(max-width:760px){.morfeu-companion p{transition:opacity .3s}body.ink-story .morfeu-companion p{opacity:0}}
+
+/* When the worlds preview themselves, the drag hint stays out of the way. */
+.planet.is-revealed .planet-art:after{opacity:0!important}
+
+@media(max-width:760px){
+  .lunar{--scale:1;left:auto;right:8%;top:20%}
+  .planet-commissionmatch{top:34%}
+  .planet-cindra .planet-label{margin-top:10px}
+}
+/* Short phones: the right column is full, so the moon hangs under the paragraph. */
+@media(max-height:680px) and (max-width:760px){.lunar{left:8%;right:auto;top:25%}.planet-commissionmatch{top:26%}.planet-cindra{top:47%}}
+
+.motion-paused .lunar-sprite,.motion-paused .lunar-z i,.motion-paused .orbit-o i,.motion-paused .route-line,.motion-paused .route-target,.motion-paused .peek-rose,.motion-paused .peek-rider,.motion-paused .peek-cindra img,.motion-paused .ink-leaf,.motion-paused .ink-trail{animation-play-state:paused}
+.motion-paused .ink-veil,.motion-paused .ink-paper,.motion-paused .ink-leaf{transition:none}
+@media(prefers-reduced-motion:reduce){
+  .orbit-o i,.route-line,.route-target,.peek-rose,.peek-cindra img,.lunar-sprite,.ink-leaf,.ink-trail{animation:none}
+  .ink-veil,.ink-paper,.ink-leaf{transition:none!important}
+  .lunar-z i{animation:none}.lunar-z i:first-child{opacity:.85;transform:translate(.4em,-.6em)}
+  .peek-rider{animation:none;left:100%;top:44%}
+  .route-draw,.peek-cindra img,.peek-rose{transition:none}
+}

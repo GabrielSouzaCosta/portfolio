@@ -15,6 +15,10 @@ export class StudioObjects {
     this.dirty = true;
     this.pointer = { x:0, y:0 };
     this.look = { x:0, y:0 };
+    this.steer = { yaw:0, pitch:0, bank:0, focus:0 };
+    this.tempo = 1;
+    this.targetTempo = 1;
+    this.keyboard = false;
     this.canvas = document.createElement('canvas');
     this.canvas.id = 'object-canvas';
     this.canvas.setAttribute('aria-hidden', 'true');
@@ -41,7 +45,12 @@ export class StudioObjects {
     document.body.append(this.canvas);
     document.querySelectorAll('[data-model]').forEach(element => this.add(element));
     this.onResize = () => { this.dirty = true; this.requestFrame(); };
+    // Focus reveals a world only for keyboard travellers; a programmatic focus
+    // after navigation should not light up a planet on its own.
+    addEventListener('keydown', () => { this.keyboard = true; }, { capture:true });
+    addEventListener('pointerdown', () => { this.keyboard = false; }, { capture:true, passive:true });
     this.onPointer = event => {
+      if (event.pointerType === 'touch') return;
       this.pointer.x = event.clientX / innerWidth * 2 - 1;
       this.pointer.y = event.clientY / innerHeight * 2 - 1;
       if (!this.paused) this.requestFrame();
@@ -85,7 +94,6 @@ export class StudioObjects {
 
   add(element) {
     const kind = element.dataset.model;
-    const mini = element.closest('.journey-rail') !== null;
     const scene = new THREE.Scene();
     scene.environment = this.environment.texture;
     scene.environmentIntensity = .16;
@@ -96,7 +104,7 @@ export class StudioObjects {
     scene.add(new THREE.HemisphereLight(0xe9f2ff, 0x303947, .65));
     const key = new THREE.DirectionalLight(0xffe8c4, 2.15);
     key.position.set(-3.5, 5.5, 6);
-    key.castShadow = !mini;
+    key.castShadow = true;
     key.shadow.mapSize.set(1024,1024);
     Object.assign(key.shadow.camera, { left:-3, right:3, top:3, bottom:-3, near:.1, far:20 });
     key.shadow.bias = -.0003;
@@ -127,10 +135,13 @@ export class StudioObjects {
       });
       radius = Math.max(radius, model.userData.framingRadius || 0);
     }
-    const item = { element, scene, camera, model, pivot, mini, kind, eye, radius, hover:0, targetHover:0, rect:null, rotation:{ x:0, y:0 }, velocity:0 };
+    const item = { element, scene, camera, model, pivot, kind, eye, radius, hover:0, targetHover:0, reveal:0, rect:null, rotation:{ x:0, y:0 }, velocity:0 };
     const target = element.closest('a, button');
-    const onEnter = () => { item.targetHover = 1; if (!isCharacter) this.destination = item; this.requestFrame(); };
-    const onLeave = () => { item.targetHover = 0; if (this.destination === item) this.destination = null; this.requestFrame(); };
+    const onEnter = event => {
+      if (event?.type === 'focus' && !this.keyboard) return;
+      this.focusItem(item, true);
+    };
+    const onLeave = () => this.focusItem(item, false);
     const onPet = () => { if (kind === 'ship') { item.petAt = this.elapsed; this.requestFrame(); } };
     target?.addEventListener('pointerenter', onEnter);
     target?.addEventListener('pointerleave', onLeave);
@@ -138,7 +149,7 @@ export class StudioObjects {
     target?.addEventListener('blur', onLeave);
     if (kind === 'ship') target?.addEventListener('click', onPet);
     const onDown = event => {
-      if (isCharacter || mini || event.button !== 0 || this.journey) return;
+      if (isCharacter || event.button !== 0 || this.journey) return;
       item.drag = { id:event.pointerId, x:event.clientX, y:event.clientY, lastX:event.clientX, lastY:event.clientY, moved:false };
       item.velocity = 0;
       element.setPointerCapture(event.pointerId);
@@ -169,7 +180,7 @@ export class StudioObjects {
       if (event.detail && performance.now() < item.suppressClick) { event.preventDefault(); event.stopImmediatePropagation(); }
     };
     const onDragStart = event => event.preventDefault();
-    if (!isCharacter && !mini) {
+    if (!isCharacter) {
       target?.setAttribute('aria-description','Arraste o planeta para girar. Clique ou pressione Enter para viajar.');
       element.addEventListener('pointerdown',onDown);
       element.addEventListener('pointermove',onMove);
@@ -192,6 +203,22 @@ export class StudioObjects {
       target?.removeEventListener('dragstart',onDragStart);
     };
     this.items.push(item);
+  }
+
+  /** Hover, keyboard focus and the touch showcase all point Morfeu at a world. */
+  focusItem(item, on) {
+    item.targetHover = on ? 1 : 0;
+    if (item.kind !== 'ship') {
+      if (on) this.destination = item;
+      else if (this.destination === item) this.destination = null;
+      document.dispatchEvent(new CustomEvent('planet-focus', { detail:{ world:item.kind, on, element:item.element.closest('a') } }));
+    }
+    this.requestFrame();
+  }
+
+  preview(world, on) {
+    const item = this.items.find(candidate => candidate.kind === world);
+    if (item) this.focusItem(item, on);
   }
 
   fit(item, aspect) {
@@ -217,6 +244,12 @@ export class StudioObjects {
     camera.updateProjectionMatrix();
   }
 
+  /** 0 holds every world still (Mangue's page, see ink.js); 1 is life. */
+  setTempo(value) {
+    this.targetTempo = value;
+    this.requestFrame();
+  }
+
   setPaused(value) {
     this.paused = value;
     this.lastTime = 0;
@@ -234,7 +267,7 @@ export class StudioObjects {
     galaxy.hidden = false;
     document.body.dataset.world = 'galaxy';
     const shipItem = this.items.find(item => item.kind === 'ship');
-    const planetItem = this.items.find(item => item.kind === world && !item.mini);
+    const planetItem = this.items.find(item => item.kind === world);
     const originRect = shipItem.element.getBoundingClientRect();
     const destinationRect = planetItem.element.getBoundingClientRect();
     this.fit(shipItem,originRect.width / originRect.height);
@@ -274,7 +307,10 @@ export class StudioObjects {
     if (this.disposed || document.hidden || this.contextLost) return;
     if (!this.paused && this.lastTime && time - this.lastTime < 30 && !this.dirty) { this.requestFrame(); return; }
     const renderer = this.renderer;
-    if (!this.paused && this.lastTime) this.elapsed += Math.min((time - this.lastTime) / 1000, .06);
+    const delta = this.lastTime ? Math.min((time - this.lastTime) / 1000, .1) : 0;
+    // Tempo eases, so the worlds slow to a standstill and wake up gradually.
+    this.tempo += (this.targetTempo - this.tempo) * (this.targetTempo ? .03 : .12);
+    if (!this.paused && this.lastTime) this.elapsed += Math.min((time - this.lastTime) / 1000, .06) * this.tempo;
     this.lastTime = time;
     if (this.dirty) {
       renderer.setSize(innerWidth,innerHeight,false);
@@ -301,6 +337,32 @@ export class StudioObjects {
     }
     this.look.x += (this.pointer.x - this.look.x) * .075;
     this.look.y += (this.pointer.y - this.look.y) * .075;
+    // Depth: the page layers drift with the pointer (see hero.css), so the
+    // viewports that the models are drawn into are re-read while they move.
+    const inGalaxy = document.body.dataset.world === 'galaxy' && !journey;
+    const parallax = inGalaxy && !this.paused;
+    const px = parallax ? this.look.x : 0, py = parallax ? this.look.y : 0;
+    if (Math.abs(px - (this.parallaxX ?? 0)) > .0004 || Math.abs(py - (this.parallaxY ?? 0)) > .0004) {
+      this.parallaxX = px; this.parallaxY = py;
+      document.body.style.setProperty('--look-x', px.toFixed(4));
+      document.body.style.setProperty('--look-y', py.toFixed(4));
+      for (const item of this.items) item.rect = item.element.getBoundingClientRect();
+    }
+    const destination = this.destination?.rect && inGalaxy ? this.destination : null;
+    const ship = this.items.find(item => item.kind === 'ship');
+    let aimX = 0, aimY = 0;
+    if (destination && ship?.rect) {
+      const dx = destination.rect.left + destination.rect.width / 2 - (ship.rect.left + ship.rect.width / 2);
+      const dy = destination.rect.top + destination.rect.height / 2 - (ship.rect.top + ship.rect.height / 2);
+      const length = Math.hypot(dx, dy) || 1;
+      aimX = dx / length; aimY = dy / length;
+    }
+    const steer = this.steer, ease = this.paused ? 1 : .06;
+    // The scout turns partway toward the world, so Morfeu's face stays visible.
+    steer.yaw += ((destination ? .75 * aimX - .15 : 0) - steer.yaw) * ease;
+    steer.pitch += ((destination ? aimY * .22 : 0) - steer.pitch) * ease;
+    steer.bank += ((destination ? -aimX * .1 : 0) - steer.bank) * ease;
+    steer.focus += ((destination ? 1 : 0) - steer.focus) * ease;
     renderer.setScissorTest(true);
     for (const item of this.items) {
       if (journey && !journey.revealed) {
@@ -314,6 +376,9 @@ export class StudioObjects {
       const { pivot, model, kind } = item;
       const isCharacter = kind === 'ship';
       item.hover += (item.targetHover - item.hover) * .1;
+      // Time-based easing: about a second to reveal, faster to return.
+      item.reveal = this.paused ? item.targetHover : item.reveal + (item.targetHover - item.reveal) * (1 - Math.exp(-delta * (item.targetHover ? 2.6 : 4.5)));
+      if (Math.abs(item.reveal - item.targetHover) < .002) item.reveal = item.targetHover;
       const t = this.elapsed;
       if (isCharacter) {
         pivot.rotation.y = kind === 'ship' ? -.13 + Math.sin(t * .3) * .11 : -.12 + Math.sin(t * .24) * .12;
@@ -324,14 +389,11 @@ export class StudioObjects {
           if (petProgress < 1) pivot.rotation.z += Math.sin(petProgress * Math.PI * 4) * .09 * (1 - petProgress);
           else delete item.petAt;
         }
-        if (!this.paused) {
-          pivot.rotation.y += this.look.x * .18;
-          pivot.rotation.x = this.look.y * .07;
-          if (kind === 'ship' && this.destination?.rect) {
-            pivot.rotation.z -= .09;
-            pivot.rotation.y += .2;
-          }
-        }
+        pivot.rotation.x = this.paused ? 0 : this.look.y * .07 * (1 - steer.focus);
+        if (!this.paused) pivot.rotation.y += this.look.x * .18 * (1 - steer.focus);
+        pivot.rotation.y += steer.yaw;
+        pivot.rotation.x += steer.pitch;
+        pivot.rotation.z += steer.bank;
       } else {
         const speed = kind === 'commissionmatch' ? .07 : .105;
         if (!item.drag && !this.paused) { item.rotation.y += item.velocity; item.velocity *= .93; }
@@ -340,7 +402,9 @@ export class StudioObjects {
         pivot.rotation.z = kind === 'mangue' ? .06 : -.08;
         pivot.position.y = this.paused ? 0 : Math.sin(t * .65 + item.radius) * .025;
       }
-      model.userData.animate?.(t, this.paused ? 0 : item.hover, { lookX:this.paused ? 0 : this.look.x,lookY:this.paused ? 0 : this.look.y,thrust:this.destination ? .48 : .08,wave:item.hover,pet:item.petAt !== undefined ? Math.max(0,1 - (t-item.petAt)/1.4) : 0,dragging:!!item.drag });
+      const lookX = destination ? aimX : this.paused ? 0 : this.look.x;
+      const lookY = destination ? aimY : this.paused ? 0 : this.look.y;
+      model.userData.animate?.(t, this.paused ? 0 : item.hover, { lookX,lookY,focus:steer.focus,thrust:destination ? .48 : .08,wave:item.hover,pet:item.petAt !== undefined ? Math.max(0,1 - (t-item.petAt)/1.4) : 0,dragging:!!item.drag,reveal:item.reveal,pixel:Math.max(3,Math.round(4 * renderer.getPixelRatio())) });
       const departureScale = journey && !journey.revealed && journey.mode !== 'intro' ? 1 - THREE.MathUtils.smoothstep(journey.progress,0,.22) : 1;
       pivot.scale.setScalar((this.paused ? 1 : 1 + item.hover * .055) * departureScale);
       renderer.setViewport(rect.left, innerHeight - rect.bottom, rect.width, rect.height);

@@ -1,0 +1,81 @@
+/* Cindra: O Vale dos Cantinhos. One pixel grid for the valley and everyone in it (704x384), scaled crisp. */
+body[data-world=cindra] .world-color{background:#efe4d4}
+body[data-world=cindra]:not(.is-traveling) .morfeu-companion{visibility:hidden}
+
+.valley-view{padding:0;overflow:hidden;container-type:size;background:#5a7358;--cream:#fbf6ec;--bark:#3b2a22;--soft:#6b5548;--coral:#d9674e}
+.valley-viewport{position:absolute;inset:0;z-index:0;display:flex;align-items:center;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain;cursor:grab}
+.valley-viewport::-webkit-scrollbar{display:none}
+.valley-view:before{content:"";position:absolute;inset:-24px;background:url(assets/art/cindra-valley.png) center/cover;filter:blur(14px) saturate(.85) brightness(.92)}
+/* Fit the height. On wide screens overscan at most 8% (sky and forest edge), then let a soft copy of the valley fill the sides. */
+.valley-stage{--h:max(100cqh,min(calc(100cqw * 384 / 704),calc(100cqh * 1.08)));position:relative;flex:none;height:var(--h);width:calc(var(--h) * 704 / 384);margin-inline:auto;container-type:inline-size;box-shadow:0 0 48px 8px #23301f40}
+.valley-stage img{image-rendering:pixelated;user-select:none;-webkit-user-drag:none}
+.valley-art{display:block;width:100%;height:100%;pointer-events:none}
+.valley-ship{position:absolute;translate:-50% -100%;pointer-events:none}
+.valley-residents{position:absolute;inset:0}
+
+/* Residents stand on their feet: the anchor is the bottom centre of each sprite. */
+.valley-resident{position:absolute;translate:-50% -100%;display:block;padding:0;background:none;border:0;cursor:pointer}
+.valley-resident:after{content:"";position:absolute;inset:-40% -60% -25%}
+.valley-resident img{display:block;width:100%;height:auto;animation:breathe 2.4s steps(1) infinite var(--delay,0s)}
+.valley-resident.is-card img{animation-duration:3.6s}
+.valley-resident.is-greeting img{animation:greet .5s steps(3) 1}
+@keyframes breathe{0%,60%{translate:0 0}70%,90%{translate:0 -5.5%}}
+@keyframes greet{0%{translate:0 0}33%{translate:0 -22%}66%{translate:0 -8%}100%{translate:0 0}}
+.resident-tag{position:absolute;left:50%;bottom:calc(100% + 4px);translate:-50% 3px;padding:1px 7px 2px;background:var(--cream);box-shadow:0 0 0 2px var(--bark),2px 2px 0 2px #3b2a2255;font:clamp(14px,1.25cqw,19px)/1 LunarPixel,monospace;color:var(--bark);white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s,translate .15s}
+.valley-resident:hover .resident-tag,.valley-resident:focus-visible .resident-tag{opacity:1;translate:-50% 0}
+.valley-resident[aria-pressed=true] .resident-tag{opacity:0}
+.valley-resident:focus-visible{outline:2px dashed var(--cream);outline-offset:4px}
+
+/* Morfeu walks on the same grid, two frames and a one-pixel bob. */
+.valley-morfeu{position:absolute;width:calc(23 / 704 * 100%);translate:-50% -100%;transition-property:left,top;transition-timing-function:linear;pointer-events:none}
+.valley-morfeu img{display:block;width:100%;height:auto}
+.valley-morfeu .morfeu-step{position:absolute;inset:0;opacity:0}
+.valley-morfeu[data-facing=left] img{scale:-1 1}
+.valley-morfeu.is-walking img{animation:bob .36s steps(1) infinite}
+.valley-morfeu.is-walking .morfeu-step{animation:bob .36s steps(1) infinite,step .36s steps(1) infinite}
+@keyframes bob{0%{translate:0 0}50%{translate:0 -4.2%}}
+@keyframes step{0%{opacity:0}50%{opacity:1}}
+
+/* Speech bubble: cream paper, dark pixel frame, hard shadow. */
+.valley-bubble{position:absolute;width:clamp(230px,21cqw,330px);translate:-50% calc(-100% - 12px);padding:10px 14px 11px;background:var(--cream);box-shadow:0 0 0 2px var(--bark),4px 4px 0 2px #3b2a2240;color:var(--bark);cursor:auto}
+.valley-bubble:after{content:"";position:absolute;left:50%;top:100%;width:12px;height:8px;translate:-50% 2px;background:var(--bark);clip-path:polygon(0 0,100% 0,50% 100%)}
+.valley-bubble[data-below=true]{translate:-50% 14px}
+.valley-bubble[data-below=true]:after{top:auto;bottom:100%;translate:-50% -2px;clip-path:polygon(50% 0,100% 100%,0 100%)}
+.valley-bubble[data-side=right]{translate:-22px calc(-100% - 12px)}
+.valley-bubble[data-side=left]{translate:calc(-100% + 22px) calc(-100% - 12px)}
+.valley-bubble[data-side=right]:after{left:22px}
+.valley-bubble[data-side=left]:after{left:auto;right:10px;translate:0 2px}
+.valley-bubble[data-below=true][data-side=right]{translate:-22px 14px}
+.valley-bubble[data-below=true][data-side=left]{translate:calc(-100% + 22px) 14px}
+.valley-bubble[data-below=true][data-side=left]:after{translate:0 -2px}
+.bubble-who{font:clamp(14px,1.2cqw,18px)/1.1 LunarPixel,monospace;letter-spacing:.06em;text-transform:uppercase;color:#8e5a8a}
+.valley-bubble[data-kind=card] .bubble-who{color:#4f8f62}
+.bubble-line{margin-top:5px;font:clamp(13px,1.02cqw,15px)/1.4 Sora,sans-serif}
+.valley-bubble[data-kind=card] .bubble-line{font-style:italic}
+.bubble-note{margin-top:5px;font-size:12px;line-height:1.4;color:var(--soft)}
+.bubble-next{display:inline-flex;align-items:center;gap:5px;margin-top:6px;padding:0;min-height:0;font:clamp(14px,1.15cqw,17px)/1.2 LunarPixel,monospace;color:var(--coral)}
+.bubble-next svg{width:14px;height:14px}
+.bubble-next:hover{text-decoration:underline;text-underline-offset:3px}
+
+/* Title card, top centre, over the sky. The only interface outside the valley. */
+.valley-title{position:absolute;left:50%;top:14px;z-index:2;translate:-50% 0;width:min(430px,calc(100% - 32px));padding:14px 20px 14px;background:#fbf6ecee;border-radius:16px;box-shadow:0 6px 24px #5a3a2a26;color:var(--bark)}
+.valley-arrival{display:flex;align-items:center;gap:8px;font:16px/1.1 LunarPixel,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--coral)}
+.valley-arrival img{width:18px;height:18px;image-rendering:pixelated}
+.valley-title h2{margin-top:4px;font:600 clamp(28px,2.6vw,36px)/1.08 Sora,sans-serif;letter-spacing:-.01em}
+.valley-line{margin-top:6px;font-size:14px;line-height:1.45;color:var(--soft)}
+.valley-hint{margin-top:7px;font:16px/1.25 LunarPixel,monospace;color:var(--soft)}
+.valley-hint span{display:block;color:var(--bark)}
+.valley-exit{display:inline-flex;align-items:center;gap:6px;margin-top:6px;font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:4px}
+.valley-exit svg{width:14px;height:14px}
+
+@media(max-width:760px){
+  .valley-title{top:8px;padding:9px 13px}.valley-title h2{font-size:24px}.valley-line{display:none}.valley-hint{font-size:14px;margin-top:4px}.valley-exit{font-size:12px;margin-top:3px}
+  .valley-arrival{font-size:13px}
+}
+@media(max-height:680px) and (min-width:761px){.valley-title{padding:10px 16px}.valley-line{display:none}}
+@media(prefers-reduced-motion:reduce){.valley-resident img,.valley-morfeu img,.valley-morfeu .morfeu-step{animation:none!important}.resident-tag{transition:none}}
+
+/* The brand is a small cream card, a sibling of the title card. */
+body[data-world=cindra] .site-header .studio-brand{padding:6px 12px 6px 6px;background:#fbf6ecee;border-radius:14px;box-shadow:0 6px 24px #5a3a2a26}
+body[data-world=cindra] .brand-name{color:#3b2a22}
+@media(max-width:760px){.valley-title{top:62px}}

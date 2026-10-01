@@ -1,0 +1,22 @@
+[
+  {
+    "file": "morfeu-rigged-v07.glb",
+    "bytes": 2984572,
+    "bones": 23,
+    "animation_clips": 1,
+    "eyelid_channels": 4,
+    "weighted_vertices": 41581,
+    "triangles": 79710,
+    "checks": "finite mesh/animation values; normalized weights; valid joint indices; increasing key times; all four eyelid morph channels"
+  },
+  {
+    "file": "morfeu-scout-v07.glb",
+    "bytes": 5605552,
+    "bones": 23,
+    "animation_clips": 1,
+    "eyelid_channels": 4,
+    "weighted_vertices": 41581,
+    "triangles": 172006,
+    "checks": "finite mesh/animation values; normalized weights; valid joint indices; increasing key times; all four eyelid morph channels"
+  }
+]

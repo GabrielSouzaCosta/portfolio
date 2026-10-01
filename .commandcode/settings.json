@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__pencil__get_app_state",
+      "mcp__pencil__read_skill",
+      "Shell(mkdir:*)",
+      "mcp__pencil__execute",
+      "Shell(cp:*)",
+      "Shell(cd goiaba-lunar/design && rm -f knight-test.webp goiaba-lunar.webp && qlmanage -t -s 256 -o . ../assets/brand/commissionmatch.svg >/dev/null 2>&1; ls)",
+      "Shell(mv:*)"
+    ],
+    "deny": [],
+    "defaultMode": "default"
+  }
+}

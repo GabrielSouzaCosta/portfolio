@@ -75,3 +75,17 @@ test('planet surfaces and animated silhouettes remain usable by the flight camer
     assert.ok(opaqueHits[0].point.length() >= radius * .95, `${world}: surface radius agrees with visible geometry`);
   }
 });
+
+test('hovering a planet reveals its world medium without leaving the flight budget', () => {
+  for (const [world, style] of [['cindra', 0], ['commissionmatch', 1], ['mangue', 2]]) {
+    const model = createPlanet(THREE, world);
+    const surface = model.getObjectByName('weather-surface');
+    assert.equal(surface.material.uniforms.uStyle.value, style, `${world}: its own medium`);
+    model.userData.animate(3, 1, { reveal:2, pixel:6 });
+    assert.equal(surface.material.uniforms.uReveal.value, 1, `${world}: reveal is clamped`);
+    assert.equal(surface.material.uniforms.uPixel.value, 6);
+    model.userData.animate(3, 0, {});
+    assert.equal(surface.material.uniforms.uReveal.value, 0, `${world}: flights and rests show the planet itself`);
+  }
+});
+

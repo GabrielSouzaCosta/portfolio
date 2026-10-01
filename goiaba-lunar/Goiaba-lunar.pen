@@ -1,0 +1,3025 @@
+{
+  "version": "2.19",
+  "children": [
+    {
+      "type": "frame",
+      "id": "L5Blz",
+      "x": 0,
+      "y": 0,
+      "name": "01 · Galáxia (desktop)",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": [
+        "$space",
+        {
+          "type": "image",
+          "opacity": 0.75,
+          "enabled": true,
+          "url": "assets/art/galaxy-background.webp",
+          "mode": "fill"
+        },
+        {
+          "type": "gradient",
+          "gradientType": "linear",
+          "enabled": true,
+          "rotation": 90,
+          "size": {
+            "height": 1
+          },
+          "colors": [
+            {
+              "color": "#090E15EE",
+              "position": 0
+            },
+            {
+              "color": "#090E1500",
+              "position": 0.55
+            }
+          ]
+        }
+      ],
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "Yg6hf",
+          "x": 64,
+          "y": 32,
+          "name": "Header",
+          "width": 1312,
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "ZhquT",
+              "name": "Brand",
+              "gap": 14,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "IE6gg",
+                  "name": "Logo",
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "assets/brand/goiaba-lunar.webp",
+                    "mode": "fill"
+                  },
+                  "width": 48,
+                  "height": 48
+                },
+                {
+                  "type": "text",
+                  "id": "LkQv8",
+                  "name": "Brand Name",
+                  "fill": "$ink",
+                  "content": "Goiaba Lunar",
+                  "fontFamily": "$font-pixel",
+                  "fontSize": 26,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "GCsj9",
+              "name": "Controls",
+              "gap": 20,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "snxTC",
+                  "name": "Replay",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "BYHwz",
+                      "name": "Replay Icon",
+                      "width": 14,
+                      "height": 14,
+                      "icon": "rotate-ccw",
+                      "library": "lucide",
+                      "fill": "$ink-muted"
+                    },
+                    {
+                      "type": "text",
+                      "id": "jcHzD",
+                      "name": "Replay Label",
+                      "fill": "$ink-muted",
+                      "content": "Rever a chegada",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ksjm3",
+                  "name": "Pause",
+                  "width": 40,
+                  "height": 40,
+                  "cornerRadius": 20,
+                  "stroke": "$line",
+                  "strokeWidth": 1,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "wB2am",
+                      "name": "Pause Icon",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "pause",
+                      "library": "lucide",
+                      "fill": "$ink"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "nPowi",
+          "x": 96,
+          "y": 136,
+          "name": "Intro",
+          "width": 440,
+          "layout": "vertical",
+          "gap": 20,
+          "children": [
+            {
+              "type": "text",
+              "id": "P761g",
+              "name": "Eyebrow",
+              "fill": "$goiaba",
+              "content": "UM PEQUENO ESTÚDIO DE PRODUTOS",
+              "fontFamily": "$font-pixel",
+              "fontSize": 20,
+              "fontWeight": "normal",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "hffwN",
+              "name": "Headline",
+              "fill": "$ink",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Ideias fora\nde órbita.",
+              "lineHeight": 0.95,
+              "fontFamily": "$font-display",
+              "fontSize": 84,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "X0LOU",
+              "name": "Lede",
+              "fill": "$ink-muted",
+              "textGrowth": "fixed-width",
+              "width": 360,
+              "content": "Três produtos, três mundos. Morfeu leva você até cada um deles.",
+              "lineHeight": 1.5,
+              "fontFamily": "$font-body",
+              "fontSize": 17,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "w7NQH2",
+          "x": 1216,
+          "y": 104,
+          "name": "Knight Link",
+          "layout": "vertical",
+          "gap": 6,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "OGQWk",
+              "name": "Knight",
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "assets/drawn/knight-floating.webp",
+                "mode": "fit"
+              },
+              "width": 96,
+              "height": 144
+            },
+            {
+              "type": "text",
+              "id": "wU4n4",
+              "name": "Knight Caption",
+              "fill": "$ink",
+              "content": "Gabriel",
+              "fontFamily": "IM Fell English",
+              "fontSize": 15,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "Vj4fb",
+              "name": "Knight Sub",
+              "fill": "$ink-muted",
+              "content": "Portfólio ↗",
+              "fontFamily": "IM Fell English",
+              "fontSize": 11,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ALlIb",
+          "x": 0,
+          "y": 0,
+          "name": "Route",
+          "width": 1440,
+          "height": 900,
+          "layout": "none",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "I4115",
+              "x": 248,
+              "y": 733,
+              "name": "Dot",
+              "fill": "#F4A6C1",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "j7jdeW",
+              "x": 261.6316928,
+              "y": 724.0927103999999,
+              "name": "Dot",
+              "fill": "#F4A6C1",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "Rrk49",
+              "x": 275.20640000000003,
+              "y": 715.1472,
+              "name": "Dot",
+              "fill": "#F4A6C1",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "XcXqN",
+              "x": 288.90741760000003,
+              "y": 706.0893568,
+              "name": "Dot",
+              "fill": "#F4A6C1",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "w5CwfN",
+              "x": 303.00352960000004,
+              "y": 696.7613727999999,
+              "name": "Dot",
+              "fill": "#F4A6C1",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "MxjrW",
+              "x": 317.13560000000007,
+              "y": 687.4128,
+              "name": "Dot",
+              "fill": "#F4A6C1",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "I4PJru",
+              "x": 331.00741120000004,
+              "y": 678.2473215999999,
+              "name": "Dot",
+              "fill": "#F4A6C1",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "pb2hl",
+              "x": 344.37760000000003,
+              "y": 669.4288,
+              "name": "Dot",
+              "fill": "#F4A6C1",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "SKJ7S",
+              "x": 358.2224128000001,
+              "y": 660.3176703999999,
+              "name": "Dot",
+              "fill": "#F4A6C1",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "WoOr3",
+              "x": 372.4754944000001,
+              "y": 650.9636992,
+              "name": "Dot",
+              "fill": "#F4A6C1",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "PQFNd",
+              "x": 387.07048960000014,
+              "y": 641.4166527999998,
+              "name": "Dot",
+              "fill": "#F4A6C1",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "T7hUXa",
+              "x": 400.6929248000002,
+              "y": 632.5380863999999,
+              "name": "Dot",
+              "fill": "#F4A6C1",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "UpmRb",
+              "x": 620.9485276800001,
+              "y": 482.9877304,
+              "name": "Dot",
+              "fill": "#F3EBDDA6",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "oR87J",
+              "x": 634.68856928,
+              "y": 472.3219783999999,
+              "name": "Dot",
+              "fill": "#F3EBDDA6",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "r6KPx",
+              "x": 648.5308188800001,
+              "y": 461.6624663999999,
+              "name": "Dot",
+              "fill": "#F3EBDDA6",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "C5bCfH",
+              "x": 662.4579964800001,
+              "y": 451.0907943999999,
+              "name": "Dot",
+              "fill": "#F3EBDDA6",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "nZpOQ",
+              "x": 676.45282208,
+              "y": 440.6885623999999,
+              "name": "Dot",
+              "fill": "#F3EBDDA6",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "EisFV",
+              "x": 690.4980156800001,
+              "y": 430.53737039999993,
+              "name": "Dot",
+              "fill": "#F3EBDDA6",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "LPsDJ",
+              "x": 704.5762972800002,
+              "y": 420.7188183999999,
+              "name": "Dot",
+              "fill": "#F3EBDDA6",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "jdEzj",
+              "x": 718.67038688,
+              "y": 411.31450639999986,
+              "name": "Dot",
+              "fill": "#F3EBDDA6",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "f5LrX1",
+              "x": 732.7630044800002,
+              "y": 402.40603439999984,
+              "name": "Dot",
+              "fill": "#F3EBDDA6",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "IoZfr",
+              "x": 978.9426944,
+              "y": 408.47353344000004,
+              "name": "Dot",
+              "fill": "#F3EBDDA6",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "Rjt3J",
+              "x": 992.8304384000002,
+              "y": 418.6296678400001,
+              "name": "Dot",
+              "fill": "#F3EBDDA6",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "KL7X7",
+              "x": 1006.6439424000002,
+              "y": 429.2455782400001,
+              "name": "Dot",
+              "fill": "#F3EBDDA6",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "bihKd",
+              "x": 1020.3544064,
+              "y": 440.19838464000014,
+              "name": "Dot",
+              "fill": "#F3EBDDA6",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "oXBx5",
+              "x": 1033.9330304,
+              "y": 451.3652070400001,
+              "name": "Dot",
+              "fill": "#F3EBDDA6",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "zo9Xt",
+              "x": 1047.3510144,
+              "y": 462.62316544000004,
+              "name": "Dot",
+              "fill": "#F3EBDDA6",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "hfAtL",
+              "x": 1060.5795584000002,
+              "y": 473.84937984000004,
+              "name": "Dot",
+              "fill": "#F3EBDDA6",
+              "width": 5,
+              "height": 5
+            },
+            {
+              "type": "ellipse",
+              "id": "vSywa",
+              "x": 1073.5898624000001,
+              "y": 484.92097024000014,
+              "name": "Dot",
+              "fill": "#F3EBDDA6",
+              "width": 5,
+              "height": 5
+            }
+          ]
+        },
+        {
+          "type": "ellipse",
+          "id": "iaYpd",
+          "x": 370,
+          "y": 410,
+          "name": "Cindra Glow",
+          "fill": {
+            "type": "gradient",
+            "gradientType": "radial",
+            "enabled": true,
+            "rotation": 0,
+            "size": {
+              "width": 1,
+              "height": 1
+            },
+            "colors": [
+              {
+                "color": "#E58E6233",
+                "position": 0
+              },
+              {
+                "color": "#00000000",
+                "position": 1
+              }
+            ]
+          },
+          "width": 300,
+          "height": 300
+        },
+        {
+          "type": "ellipse",
+          "id": "R0VSv",
+          "x": 420,
+          "y": 460,
+          "name": "Cindra Planet",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "assets/drawn/cindra-planet.png",
+            "mode": "fill"
+          },
+          "width": 200,
+          "height": 200
+        },
+        {
+          "type": "frame",
+          "id": "v4DOGL",
+          "x": 380,
+          "y": 678,
+          "name": "Cindra Label",
+          "width": 280,
+          "layout": "vertical",
+          "gap": 6,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "dgyYl",
+              "name": "Index",
+              "fill": "$cindra",
+              "content": "01 / DISPONÍVEL",
+              "fontFamily": "$font-pixel",
+              "fontSize": 17,
+              "fontWeight": "normal",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "uWHQk",
+              "name": "Name",
+              "fill": "$ink",
+              "content": "Cindra",
+              "fontFamily": "$font-display",
+              "fontSize": 38,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "Ox4wD",
+              "name": "Desc",
+              "fill": "#D9D2C5",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "O Vale dos Oito Cantinhos",
+              "lineHeight": 1.45,
+              "textAlign": "center",
+              "fontFamily": "$font-display",
+              "fontSize": 18,
+              "fontWeight": "normal",
+              "fontStyle": "italic"
+            }
+          ]
+        },
+        {
+          "type": "ellipse",
+          "id": "XT9Yl",
+          "x": 710,
+          "y": 210,
+          "name": "CommissionMatch Glow",
+          "fill": {
+            "type": "gradient",
+            "gradientType": "radial",
+            "enabled": true,
+            "rotation": 0,
+            "size": {
+              "width": 1,
+              "height": 1
+            },
+            "colors": [
+              {
+                "color": "#D6CB8E26",
+                "position": 0
+              },
+              {
+                "color": "#00000000",
+                "position": 1
+              }
+            ]
+          },
+          "width": 300,
+          "height": 300
+        },
+        {
+          "type": "ellipse",
+          "id": "LeTBi",
+          "x": 760,
+          "y": 260,
+          "name": "CommissionMatch Planet",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "assets/drawn/commissionmatch-planet.png",
+            "mode": "fill"
+          },
+          "width": 200,
+          "height": 200
+        },
+        {
+          "type": "frame",
+          "id": "dblJC",
+          "x": 720,
+          "y": 478,
+          "name": "CommissionMatch Label",
+          "width": 280,
+          "layout": "vertical",
+          "gap": 6,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "diVY4",
+              "name": "Index",
+              "fill": "$commission",
+              "content": "02 / EM PRÉVIA",
+              "fontFamily": "$font-pixel",
+              "fontSize": 17,
+              "fontWeight": "normal",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "Tl280",
+              "name": "Name",
+              "fill": "$ink",
+              "content": "CommissionMatch",
+              "fontFamily": "$font-display",
+              "fontSize": 38,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "P1j3z",
+              "name": "Desc",
+              "fill": "#D9D2C5",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "O Mapa dos Traços",
+              "lineHeight": 1.45,
+              "textAlign": "center",
+              "fontFamily": "$font-display",
+              "fontSize": 18,
+              "fontWeight": "normal",
+              "fontStyle": "italic"
+            }
+          ]
+        },
+        {
+          "type": "ellipse",
+          "id": "azeLv",
+          "x": 1030,
+          "y": 410,
+          "name": "Mangue Glow",
+          "fill": {
+            "type": "gradient",
+            "gradientType": "radial",
+            "enabled": true,
+            "rotation": 0,
+            "size": {
+              "width": 1,
+              "height": 1
+            },
+            "colors": [
+              {
+                "color": "#74D3B82E",
+                "position": 0
+              },
+              {
+                "color": "#00000000",
+                "position": 1
+              }
+            ]
+          },
+          "width": 300,
+          "height": 300
+        },
+        {
+          "type": "ellipse",
+          "id": "H99N9",
+          "x": 1080,
+          "y": 460,
+          "name": "Mangue Planet",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "assets/drawn/mangue-planet.png",
+            "mode": "fill"
+          },
+          "width": 200,
+          "height": 200
+        },
+        {
+          "type": "frame",
+          "id": "Pcw4a",
+          "x": 1040,
+          "y": 678,
+          "name": "Mangue Label",
+          "width": 280,
+          "layout": "vertical",
+          "gap": 6,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "S0E1O",
+              "name": "Index",
+              "fill": "$mangue",
+              "content": "03 / EM DESENVOLVIMENTO",
+              "fontFamily": "$font-pixel",
+              "fontSize": 17,
+              "fontWeight": "normal",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "FwBMv",
+              "name": "Name",
+              "fill": "$ink",
+              "content": "Mangue",
+              "fontFamily": "$font-display",
+              "fontSize": 38,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "uZldf",
+              "name": "Desc",
+              "fill": "#D9D2C5",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "O Mangue das Histórias",
+              "lineHeight": 1.45,
+              "textAlign": "center",
+              "fontFamily": "$font-display",
+              "fontSize": 18,
+              "fontWeight": "normal",
+              "fontStyle": "italic"
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "N5swzR",
+          "x": 150,
+          "y": 690,
+          "name": "Morfeu Ship",
+          "rotation": 6.000000000000001,
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "design/morfeu-ship.png",
+            "mode": "fit"
+          },
+          "width": 200,
+          "height": 103
+        },
+        {
+          "type": "frame",
+          "id": "YfPYY",
+          "x": 110,
+          "y": 590,
+          "name": "Morfeu Bubble",
+          "fill": "#F3EBDD",
+          "cornerRadius": [
+            14,
+            14,
+            14,
+            2
+          ],
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#00000066",
+            "offset": {
+              "x": 0,
+              "y": 8
+            },
+            "blur": 24
+          },
+          "layout": "vertical",
+          "gap": 2,
+          "padding": [
+            12,
+            16
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "huDye",
+              "name": "Bubble Name",
+              "fill": "#B5577A",
+              "content": "MORFEU",
+              "fontFamily": "$font-pixel",
+              "fontSize": 15,
+              "fontWeight": "normal",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "l1ASg",
+              "name": "Bubble Text",
+              "fill": "#1A1F29",
+              "content": "Escolha um mundo.\nEu vou com você.",
+              "lineHeight": 1.35,
+              "fontFamily": "$font-body",
+              "fontSize": 15,
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "f2HJA",
+          "x": 64,
+          "y": 828,
+          "name": "Journey Rail",
+          "width": 1312,
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "s8LfG",
+              "name": "Rail Worlds",
+              "gap": 28,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "w2daR",
+                  "name": "Rail Home",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "bTbWj",
+                      "name": "Orbit Icon",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "orbit",
+                      "library": "lucide",
+                      "fill": "$ink"
+                    },
+                    {
+                      "type": "text",
+                      "id": "CDuXj",
+                      "name": "Home Label",
+                      "fill": "$ink",
+                      "content": "Galáxia",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "EisEQ",
+                  "name": "Rail Cindra",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "ellipse",
+                      "id": "Dnxxo",
+                      "name": "Mini",
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "assets/drawn/cindra-planet.png",
+                        "mode": "fill"
+                      },
+                      "width": 22,
+                      "height": 22
+                    },
+                    {
+                      "type": "text",
+                      "id": "JIzTm",
+                      "name": "Rail Name",
+                      "fill": "$ink-muted",
+                      "content": "Cindra",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "a9GFvG",
+                  "name": "Rail CommissionMatch",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "ellipse",
+                      "id": "o3wX7",
+                      "name": "Mini",
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "assets/drawn/commissionmatch-planet.png",
+                        "mode": "fill"
+                      },
+                      "width": 22,
+                      "height": 22
+                    },
+                    {
+                      "type": "text",
+                      "id": "wBlm9",
+                      "name": "Rail Name",
+                      "fill": "$ink-muted",
+                      "content": "CommissionMatch",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Fdzwk",
+                  "name": "Rail Mangue",
+                  "gap": 8,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "ellipse",
+                      "id": "K14l9",
+                      "name": "Mini",
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "assets/drawn/mangue-planet.png",
+                        "mode": "fill"
+                      },
+                      "width": 22,
+                      "height": 22
+                    },
+                    {
+                      "type": "text",
+                      "id": "wvfJ5",
+                      "name": "Rail Name",
+                      "fill": "$ink-muted",
+                      "content": "Mangue",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "PoGCT",
+              "name": "Primary CTA",
+              "fill": "$goiaba",
+              "cornerRadius": 999,
+              "gap": 10,
+              "padding": [
+                14,
+                22
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "MB454",
+                  "name": "CTA Label",
+                  "fill": "#2A0F1A",
+                  "content": "Começar a viagem",
+                  "fontFamily": "$font-body",
+                  "fontSize": 15,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "icon",
+                  "id": "zb4jm",
+                  "name": "CTA Arrow",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "arrow-right",
+                  "library": "lucide",
+                  "fill": "#2A0F1A"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "UQlLQ",
+          "x": 64,
+          "y": 804,
+          "name": "Rail Divider",
+          "fill": "$line",
+          "width": 1312,
+          "height": 1
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "WgZzY",
+      "x": 1560,
+      "y": 1020,
+      "name": "03 · CommissionMatch — O Mapa dos Traços",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "$parchment",
+      "layout": "none",
+      "children": [
+        {
+          "type": "rectangle",
+          "id": "h7Enbl",
+          "x": 0,
+          "y": 76,
+          "name": "Map",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "generated-5.png",
+            "mode": "fill"
+          },
+          "width": 1440,
+          "height": 824
+        },
+        {
+          "type": "rectangle",
+          "id": "VhUpv",
+          "x": 0,
+          "y": 0,
+          "name": "Top Band",
+          "fill": "$parchment",
+          "width": 1440,
+          "height": 78,
+          "stroke": "$ink-black",
+          "strokeWidth": {
+            "bottom": 2
+          }
+        },
+        {
+          "type": "rectangle",
+          "id": "zMUlL",
+          "x": 430,
+          "y": 150,
+          "name": "Great Knight",
+          "enabled": false,
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "generated.webp",
+            "mode": "fit"
+          },
+          "width": 1420,
+          "height": 830
+        },
+        {
+          "type": "frame",
+          "id": "uxW9J",
+          "x": 64,
+          "y": 32,
+          "name": "World Bar",
+          "width": 1312,
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "YsiXi",
+              "name": "Back",
+              "gap": 10,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "FMz46",
+                  "name": "Back Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "arrow-left",
+                  "library": "lucide",
+                  "fill": "$ink-black"
+                },
+                {
+                  "type": "text",
+                  "id": "jvx8l",
+                  "name": "Back Label",
+                  "fill": "$ink-black",
+                  "content": "Galáxia",
+                  "fontFamily": "$font-body",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "CmXcR",
+              "name": "World Marker",
+              "fill": "$rubric",
+              "content": "II · III",
+              "fontFamily": "IM Fell English",
+              "fontSize": 18,
+              "fontWeight": "normal",
+              "letterSpacing": 2
+            },
+            {
+              "type": "frame",
+              "id": "OexO3",
+              "name": "External CTA",
+              "cornerRadius": 999,
+              "stroke": "#1C181466",
+              "strokeWidth": 1,
+              "gap": 8,
+              "padding": [
+                10,
+                16
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "J0Yk0T",
+                  "name": "Ext Label",
+                  "fill": "$ink-black",
+                  "content": "Sobre o CommissionMatch",
+                  "fontFamily": "$font-body",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "icon",
+                  "id": "zOZSv",
+                  "name": "Ext Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "arrow-up-right",
+                  "library": "lucide",
+                  "fill": "$ink-black"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ZjfqG",
+          "x": 80,
+          "y": 112,
+          "name": "Title Cartouche",
+          "fill": "#EFE6D2F2",
+          "stroke": "$ink-black",
+          "strokeWidth": 2,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#1C181433",
+            "offset": {
+              "x": 4,
+              "y": 4
+            }
+          },
+          "layout": "vertical",
+          "gap": 8,
+          "padding": [
+            22,
+            28
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "BcxCE",
+              "name": "Title Head",
+              "gap": 10,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "xwvsC",
+                  "name": "CM Mark",
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "design/cm-mark-ink.png?v=2",
+                    "mode": "fit"
+                  },
+                  "width": 28,
+                  "height": 28
+                },
+                {
+                  "type": "text",
+                  "id": "LRKMd",
+                  "name": "Arrival",
+                  "fill": "$rubric",
+                  "content": "VOCÊ CHEGOU EM COMMISSIONMATCH",
+                  "fontFamily": "IM Fell English",
+                  "fontSize": 15,
+                  "fontWeight": "normal",
+                  "letterSpacing": 2
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "uPONL",
+              "name": "Place Name",
+              "fill": "$ink-black",
+              "content": "O Mapa dos Traços",
+              "lineHeight": 1,
+              "fontFamily": "IM Fell English",
+              "fontSize": 64,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "eYltY",
+              "name": "Place Line",
+              "fill": "#4A4038",
+              "content": "Cada terra, um estilo. Cada pedágio, na tua moeda.",
+              "fontFamily": "IM Fell English",
+              "fontSize": 21,
+              "fontWeight": "normal",
+              "fontStyle": "italic"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "stmmN",
+          "x": 80,
+          "y": 340,
+          "name": "Purse Cartouche",
+          "enabled": false,
+          "width": 300,
+          "fill": "#EFE6D2F2",
+          "stroke": "$ink-black",
+          "strokeWidth": 1.5,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#1C181433",
+            "offset": {
+              "x": 4,
+              "y": 4
+            }
+          },
+          "layout": "vertical",
+          "gap": 12,
+          "padding": 18,
+          "children": [
+            {
+              "type": "frame",
+              "id": "I8fCuq",
+              "name": "Purse Head",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "DjKgK",
+                  "name": "Purse Title",
+                  "fill": "$ink-black",
+                  "content": "A Bolsa do Viajante",
+                  "fontFamily": "IM Fell English",
+                  "fontSize": 18,
+                  "fontWeight": "normal",
+                  "fontStyle": "italic"
+                },
+                {
+                  "type": "frame",
+                  "id": "w85Fxy",
+                  "name": "Currency",
+                  "stroke": "$ink-black",
+                  "strokeWidth": 1,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "R3E3f",
+                      "name": "Cur BRL",
+                      "fill": "$ink-black",
+                      "padding": [
+                        3,
+                        7
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "j31sWh",
+                          "name": "Cur Label",
+                          "fill": "$parchment",
+                          "content": "BRL",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "mgLf0",
+                      "name": "Cur USD",
+                      "fill": "#00000000",
+                      "padding": [
+                        3,
+                        7
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "CKIbf",
+                          "name": "Cur Label",
+                          "fill": "$ink-black",
+                          "content": "USD",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "q9YRqP",
+                      "name": "Cur EUR",
+                      "fill": "#00000000",
+                      "padding": [
+                        3,
+                        7
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "tIanE",
+                          "name": "Cur Label",
+                          "fill": "$ink-black",
+                          "content": "EUR",
+                          "fontFamily": "$font-body",
+                          "fontSize": 11,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "cBX6S",
+              "name": "Budget",
+              "fill": "$ink-black",
+              "content": "R$ 250",
+              "lineHeight": 1,
+              "fontFamily": "IM Fell English",
+              "fontSize": 46,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "i4oRd",
+              "name": "Slider",
+              "width": "fill_container",
+              "height": 18,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "rectangle",
+                  "id": "u3UuP",
+                  "x": 0,
+                  "y": 8,
+                  "name": "Track",
+                  "fill": "#1C181440",
+                  "width": 264,
+                  "height": 2
+                },
+                {
+                  "type": "rectangle",
+                  "id": "eOuKX",
+                  "x": 0,
+                  "y": 7,
+                  "name": "Track Fill",
+                  "fill": "$ink-black",
+                  "width": 140,
+                  "height": 4
+                },
+                {
+                  "type": "polygon",
+                  "polygonCount": 4,
+                  "id": "gnSe4",
+                  "x": 131,
+                  "y": 0,
+                  "name": "Thumb",
+                  "fill": "$rubric",
+                  "width": 18,
+                  "height": 18,
+                  "stroke": "$ink-black",
+                  "strokeWidth": 1.5
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "tgAO5",
+              "name": "Purse Note",
+              "fill": "#4A4038",
+              "content": "Três terras cabem na tua bolsa.\nSó arte feita por mãos humanas.",
+              "lineHeight": 1.5,
+              "fontFamily": "$font-body",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "U7owD",
+          "x": 420,
+          "y": 500,
+          "name": "Morfeu Here",
+          "layout": "vertical",
+          "gap": 2,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "shEIm",
+              "name": "Ink Ship",
+              "rotation": -6.000000000000001,
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "design/morfeu-ship-ink.png",
+                "mode": "fit"
+              },
+              "width": 150,
+              "height": 77
+            },
+            {
+              "type": "text",
+              "id": "gpPcB",
+              "name": "Here Label",
+              "fill": "$ink-black",
+              "content": "Morfeu ancorou aqui",
+              "fontFamily": "IM Fell English",
+              "fontSize": 15,
+              "fontWeight": "normal",
+              "fontStyle": "italic"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "OJVKl",
+          "x": 660,
+          "y": 138,
+          "name": "Region Tatuagem",
+          "width": 170,
+          "layout": "vertical",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "cuE7G",
+              "name": "Region",
+              "fill": "#1C181499",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Ilha das Tatuagens",
+              "textAlign": "center",
+              "fontFamily": "IM Fell English",
+              "fontSize": 15,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "nUxvV",
+              "name": "Toll",
+              "fill": "#1C181480",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "R$ 320 · acima",
+              "textAlign": "center",
+              "fontFamily": "IM Fell English",
+              "fontSize": 17,
+              "fontWeight": "normal",
+              "fontStyle": "italic"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "lUfqc",
+          "x": 860,
+          "y": 612,
+          "name": "Region Pixel",
+          "width": 136,
+          "layout": "vertical",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "OTjvF",
+              "name": "Region",
+              "fill": "$ink-black",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Vale do Pixel",
+              "textAlign": "center",
+              "fontFamily": "IM Fell English",
+              "fontSize": 15,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "KhBJb",
+              "name": "Toll",
+              "fill": "$rubric",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "R$ 90 ✓",
+              "textAlign": "center",
+              "fontFamily": "IM Fell English",
+              "fontSize": 17,
+              "fontWeight": "normal",
+              "fontStyle": "italic"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Z0eD4",
+          "x": 850,
+          "y": 300,
+          "name": "Region Óleo",
+          "fill": "#F6F0E2",
+          "stroke": "$ink-black",
+          "strokeWidth": 1.5,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#1C181440",
+            "offset": {
+              "x": 3,
+              "y": 3
+            }
+          },
+          "gap": 8,
+          "padding": [
+            5,
+            10,
+            5,
+            6
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "JmgXP",
+              "name": "Seal",
+              "width": 20,
+              "height": 20,
+              "fill": "$rubric",
+              "cornerRadius": 10,
+              "stroke": "#00000000",
+              "strokeWidth": 1,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "a5D4aN",
+                  "name": "Seal Icon",
+                  "width": 11,
+                  "height": 11,
+                  "icon": "check",
+                  "library": "lucide",
+                  "fill": "$parchment"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "uWgZL",
+              "name": "Text",
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "ylMFi",
+                  "name": "Region",
+                  "fill": "$ink-black",
+                  "content": "Montes da Pintura a Óleo",
+                  "fontFamily": "IM Fell English",
+                  "fontSize": 16,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "EkpaT",
+                  "name": "Toll",
+                  "fill": "$rubric",
+                  "content": "pedágio R$ 180",
+                  "fontFamily": "IM Fell English",
+                  "fontSize": 14,
+                  "fontWeight": "normal",
+                  "fontStyle": "italic"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "hX5mG",
+          "x": 640,
+          "y": 388,
+          "name": "Region Personagem",
+          "fill": "#EFE6D2CC",
+          "stroke": "#1C181466",
+          "strokeWidth": 1,
+          "gap": 8,
+          "padding": [
+            5,
+            10,
+            5,
+            6
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "w1DhM",
+              "name": "Seal",
+              "width": 20,
+              "height": 20,
+              "fill": "#00000000",
+              "cornerRadius": 10,
+              "stroke": "#1C181466",
+              "strokeWidth": 1,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "D4IX3s",
+                  "name": "Seal Icon",
+                  "width": 11,
+                  "height": 11,
+                  "icon": "lock",
+                  "library": "lucide",
+                  "fill": "#1C181499"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "oj1k1",
+              "name": "Text",
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "F8Me4",
+                  "name": "Region",
+                  "fill": "#1C1814A6",
+                  "content": "Floresta dos Personagens",
+                  "fontFamily": "IM Fell English",
+                  "fontSize": 16,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "WrCSo",
+                  "name": "Toll",
+                  "fill": "#1C181499",
+                  "content": "R$ 290 · acima da bolsa",
+                  "fontFamily": "IM Fell English",
+                  "fontSize": 14,
+                  "fontWeight": "normal",
+                  "fontStyle": "italic"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "pKbJX",
+          "x": 790,
+          "y": 548,
+          "name": "Region Retrato",
+          "fill": "#F6F0E2",
+          "stroke": "$ink-black",
+          "strokeWidth": 1.5,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#1C181440",
+            "offset": {
+              "x": 3,
+              "y": 3
+            }
+          },
+          "gap": 8,
+          "padding": [
+            5,
+            10,
+            5,
+            6
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "dNHMu",
+              "name": "Seal",
+              "width": 20,
+              "height": 20,
+              "fill": "$rubric",
+              "cornerRadius": 10,
+              "stroke": "#00000000",
+              "strokeWidth": 1,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "mscrx",
+                  "name": "Seal Icon",
+                  "width": 11,
+                  "height": 11,
+                  "icon": "check",
+                  "library": "lucide",
+                  "fill": "$parchment"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "C5pS1I",
+              "name": "Text",
+              "layout": "vertical",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "s3FbF",
+                  "name": "Region",
+                  "fill": "$ink-black",
+                  "content": "Burgo dos Retratos",
+                  "fontFamily": "IM Fell English",
+                  "fontSize": 16,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "E4jsj",
+                  "name": "Toll",
+                  "fill": "$rubric",
+                  "content": "pedágio R$ 220",
+                  "fontFamily": "IM Fell English",
+                  "fontSize": 14,
+                  "fontWeight": "normal",
+                  "fontStyle": "italic"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "JMtDy",
+          "x": 504.75,
+          "y": 566,
+          "name": "Route Dash",
+          "rotation": -31.607502246248906,
+          "fill": "$rubric",
+          "width": 8,
+          "height": 2
+        },
+        {
+          "type": "rectangle",
+          "id": "trgrL",
+          "x": 524.25,
+          "y": 578,
+          "name": "Route Dash",
+          "rotation": -31.607502246248906,
+          "fill": "$rubric",
+          "width": 8,
+          "height": 2
+        },
+        {
+          "type": "rectangle",
+          "id": "RZjAj",
+          "x": 543.75,
+          "y": 590,
+          "name": "Route Dash",
+          "rotation": -31.607502246248906,
+          "fill": "$rubric",
+          "width": 8,
+          "height": 2
+        },
+        {
+          "type": "rectangle",
+          "id": "oQ3RF",
+          "x": 572,
+          "y": 601.5,
+          "name": "Route Dash",
+          "rotation": -7.125016348901798,
+          "fill": "$rubric",
+          "width": 8,
+          "height": 2
+        },
+        {
+          "type": "rectangle",
+          "id": "QvzpJ",
+          "x": 596,
+          "y": 604.5,
+          "name": "Route Dash",
+          "rotation": -7.125016348901798,
+          "fill": "$rubric",
+          "width": 8,
+          "height": 2
+        },
+        {
+          "type": "rectangle",
+          "id": "fA6Me",
+          "x": 620,
+          "y": 607.5,
+          "name": "Route Dash",
+          "rotation": -7.125016348901798,
+          "fill": "$rubric",
+          "width": 8,
+          "height": 2
+        },
+        {
+          "type": "rectangle",
+          "id": "J4TUs",
+          "x": 652,
+          "y": 607,
+          "name": "Route Dash",
+          "rotation": 14.036243467926477,
+          "fill": "$rubric",
+          "width": 8,
+          "height": 2
+        },
+        {
+          "type": "rectangle",
+          "id": "QnoFI",
+          "x": 676,
+          "y": 601,
+          "name": "Route Dash",
+          "rotation": 14.036243467926477,
+          "fill": "$rubric",
+          "width": 8,
+          "height": 2
+        },
+        {
+          "type": "rectangle",
+          "id": "rD0lm",
+          "x": 700,
+          "y": 595,
+          "name": "Route Dash",
+          "rotation": 14.036243467926477,
+          "fill": "$rubric",
+          "width": 8,
+          "height": 2
+        },
+        {
+          "type": "rectangle",
+          "id": "lfeLe",
+          "x": 730.5,
+          "y": 587.75,
+          "name": "Route Dash",
+          "rotation": 12.094757077012103,
+          "fill": "$rubric",
+          "width": 8,
+          "height": 2
+        },
+        {
+          "type": "rectangle",
+          "id": "NMXAh",
+          "x": 751.5,
+          "y": 583.25,
+          "name": "Route Dash",
+          "rotation": 12.094757077012103,
+          "fill": "$rubric",
+          "width": 8,
+          "height": 2
+        },
+        {
+          "type": "rectangle",
+          "id": "Fr4cO",
+          "x": 772.5,
+          "y": 578.75,
+          "name": "Route Dash",
+          "rotation": 12.094757077012103,
+          "fill": "$rubric",
+          "width": 8,
+          "height": 2
+        },
+        {
+          "type": "frame",
+          "id": "P9WCtN",
+          "x": 300,
+          "y": 704,
+          "name": "Herald Scroll",
+          "enabled": false,
+          "width": 640,
+          "fill": "#F6F0E2",
+          "stroke": "$ink-black",
+          "strokeWidth": 2,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#1C181440",
+            "offset": {
+              "x": 5,
+              "y": 5
+            }
+          },
+          "layout": "vertical",
+          "gap": 12,
+          "padding": [
+            18,
+            24
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "R68Zw",
+              "name": "Speaker",
+              "fill": "$rubric",
+              "content": "O CAVALEIRO",
+              "fontFamily": "IM Fell English",
+              "fontSize": 16,
+              "fontWeight": "normal",
+              "letterSpacing": 2
+            },
+            {
+              "type": "text",
+              "id": "e7UiSE",
+              "name": "Line",
+              "fill": "$ink-black",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Salve, viajante! Cada terra deste mapa guarda um estilo de arte, e todo pedágio está escrito na tua moeda. Dize-me quanto levas na bolsa.",
+              "lineHeight": 1.35,
+              "fontFamily": "IM Fell English",
+              "fontSize": 20,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "Qbs0h",
+              "name": "Choices",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "PU6ec",
+                  "name": "Choice",
+                  "fill": "$ink-black",
+                  "stroke": "$ink-black",
+                  "strokeWidth": 1.5,
+                  "gap": 8,
+                  "padding": [
+                    9,
+                    14
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ws1lR",
+                      "name": "Choice Mark",
+                      "fill": "#E9B7A8",
+                      "content": "❧",
+                      "fontFamily": "IM Fell English",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "L5Xqh",
+                      "name": "Choice Label",
+                      "fill": "$parchment",
+                      "content": "Mostrar minha bolsa",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "E7O3s8",
+                  "name": "Choice",
+                  "fill": "#00000000",
+                  "stroke": "$ink-black",
+                  "strokeWidth": 1.5,
+                  "gap": 8,
+                  "padding": [
+                    9,
+                    14
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "f1XWWz",
+                      "name": "Choice Mark",
+                      "fill": "$rubric",
+                      "content": "❧",
+                      "fontFamily": "IM Fell English",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Qthvp",
+                      "name": "Choice Label",
+                      "fill": "$ink-black",
+                      "content": "Explorar o mapa",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "mxo6b",
+          "x": 128,
+          "y": 738,
+          "name": "Region Livros",
+          "width": 150,
+          "layout": "vertical",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "YAFuj",
+              "name": "Region",
+              "fill": "#1C181499",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Porto dos Livros Ilustrados",
+              "lineHeight": 1.1,
+              "textAlign": "center",
+              "fontFamily": "IM Fell English",
+              "fontSize": 15,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "V628Dx",
+              "name": "Toll",
+              "fill": "#1C181480",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "R$ 640 · acima",
+              "textAlign": "center",
+              "fontFamily": "IM Fell English",
+              "fontSize": 16,
+              "fontWeight": "normal",
+              "fontStyle": "italic"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "BxYrF",
+          "x": 1060,
+          "y": 846,
+          "name": "Here Be Dragons",
+          "enabled": false,
+          "fill": "#F6F0E2",
+          "stroke": "$rubric",
+          "strokeWidth": 1,
+          "padding": [
+            6,
+            12
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "E4zDfE",
+              "name": "Dragons",
+              "fill": "$rubric",
+              "content": "Aqui há dragões: terras acima da tua bolsa.",
+              "fontFamily": "IM Fell English",
+              "fontSize": 15,
+              "fontWeight": "normal",
+              "fontStyle": "italic"
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "V226B",
+          "x": 560,
+          "y": 420,
+          "name": "Knight Piece",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "generated-1.webp",
+            "mode": "fit"
+          },
+          "width": 120,
+          "height": 180
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "DOW1T",
+      "x": 4680,
+      "y": 1020,
+      "name": "02b · Cindra — O Vale dos Cantinhos (pixel, v2)",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "#f3e9d8",
+      "layout": "none",
+      "children": [
+        {
+          "type": "rectangle",
+          "id": "aJh4Q",
+          "x": 0,
+          "y": 0,
+          "name": "Valley Scene",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "design/cindra/valley-composed.png",
+            "mode": "fill"
+          },
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "type": "frame",
+          "id": "YjAvG",
+          "x": 492,
+          "y": 20,
+          "name": "Title Card",
+          "fill": "#fbf6ecee",
+          "cornerRadius": 18,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#5a3a2a26",
+            "offset": {
+              "x": 0,
+              "y": 6
+            },
+            "blur": 24
+          },
+          "layout": "vertical",
+          "gap": 6,
+          "padding": [
+            14,
+            20
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "Kfl5g",
+              "name": "Arrival",
+              "fill": "#d9674e",
+              "content": "✦ VOCÊ POUSOU EM CINDRA",
+              "fontFamily": "VT323",
+              "fontSize": 18,
+              "fontWeight": "normal",
+              "letterSpacing": 1.5
+            },
+            {
+              "type": "text",
+              "id": "POW7C",
+              "name": "Place Name",
+              "fill": "#3b2a22",
+              "content": "O Vale dos Cantinhos",
+              "fontFamily": "Sora",
+              "fontSize": 34,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "QqXhH",
+              "name": "Place Line",
+              "fill": "#6b5548",
+              "textGrowth": "fixed-width",
+              "width": 360,
+              "content": "Ember e oito cuidadores tomam conta de cada canto. Morfeu deixou a nave no prado e saiu pra passear.",
+              "fontFamily": "Sora",
+              "fontSize": 15,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "X5Y2to",
+              "name": "Hint Row",
+              "layout": "vertical",
+              "gap": 4,
+              "padding": [
+                6,
+                0,
+                0,
+                0
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "LJMoW",
+                  "name": "Hint",
+                  "fill": "#6b5548",
+                  "content": "Clica em quem mora aqui. Tem mais gente do que parece.",
+                  "fontFamily": "VT323",
+                  "fontSize": 17,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "NGB2W",
+                  "name": "Exit",
+                  "fill": "#3b2a22",
+                  "content": "cindra.app ↗",
+                  "fontFamily": "Sora",
+                  "fontSize": 13,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "XXBuz",
+          "x": 176,
+          "y": 588,
+          "name": "Speech Thistle",
+          "width": 262,
+          "fill": "#fbf6ec",
+          "cornerRadius": 4,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#3b2a2255",
+            "offset": {
+              "x": 3,
+              "y": 3
+            }
+          },
+          "layout": "vertical",
+          "gap": 4,
+          "padding": [
+            10,
+            14,
+            12,
+            14
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "JKqr1",
+              "name": "Who",
+              "fill": "#8e5a8a",
+              "content": "THISTLE · CUIDA DA AGENDA",
+              "fontFamily": "VT323",
+              "fontSize": 16,
+              "fontWeight": "normal",
+              "letterSpacing": 1
+            },
+            {
+              "type": "text",
+              "id": "DgjFz",
+              "name": "Line",
+              "fill": "#3b2a22",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Oi! Bora ver como está o dia? Sua agenda está comigo. Pode deixar.",
+              "lineHeight": 1.35,
+              "fontFamily": "Sora",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "kg1Q6",
+              "name": "Next",
+              "fill": "#d9674e",
+              "content": "▸ próximo canto",
+              "fontFamily": "VT323",
+              "fontSize": 16,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Bt8Px",
+      "x": 4680,
+      "y": 2040,
+      "name": "Cindra cutouts (work)",
+      "width": 1800,
+      "height": 600,
+      "fill": "#ffffff",
+      "layout": "none",
+      "children": [
+        {
+          "type": "rectangle",
+          "id": "e4l23",
+          "x": 20,
+          "y": 20,
+          "name": "Cut Glimmercap",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "generated-5.webp",
+            "mode": "fit"
+          },
+          "width": 256,
+          "height": 400
+        },
+        {
+          "type": "rectangle",
+          "id": "BdGNt",
+          "x": 320,
+          "y": 20,
+          "name": "Cut Snackdragon",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "generated-6.webp",
+            "mode": "fit"
+          },
+          "width": 256,
+          "height": 400
+        },
+        {
+          "type": "rectangle",
+          "id": "lXTtr",
+          "x": 620,
+          "y": 20,
+          "name": "Cut Nimb",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "generated-2.webp",
+            "mode": "fit"
+          },
+          "width": 256,
+          "height": 400
+        },
+        {
+          "type": "rectangle",
+          "id": "YSJIY",
+          "x": 920,
+          "y": 20,
+          "name": "Cut Mosslet",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "generated-3.webp",
+            "mode": "fit"
+          },
+          "width": 256,
+          "height": 400
+        },
+        {
+          "type": "rectangle",
+          "id": "gusMb",
+          "x": 1220,
+          "y": 20,
+          "name": "Cut Oramis",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "generated-4.webp",
+            "mode": "fit"
+          },
+          "width": 256,
+          "height": 400
+        },
+        {
+          "type": "rectangle",
+          "id": "DYlhy",
+          "x": 1520,
+          "y": 20,
+          "name": "Ship Gen",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "generated-8.png",
+            "mode": "fill"
+          },
+          "width": 260,
+          "height": 180
+        },
+        {
+          "type": "rectangle",
+          "id": "bzr1h",
+          "x": 20,
+          "y": 320,
+          "name": "Cut Snackdragon2",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "generated-7.webp",
+            "mode": "fit"
+          },
+          "width": 256,
+          "height": 260
+        },
+        {
+          "type": "rectangle",
+          "id": "v33uZ",
+          "x": 320,
+          "y": 320,
+          "name": "Cut Luthier",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "generated-9.webp",
+            "mode": "fit"
+          },
+          "width": 256,
+          "height": 260
+        },
+        {
+          "type": "rectangle",
+          "id": "Bpobu",
+          "x": 620,
+          "y": 320,
+          "name": "Cut Drizzlemane",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "generated-8.webp",
+            "mode": "fit"
+          },
+          "width": 256,
+          "height": 260
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "R4uXP",
+      "x": 3099,
+      "y": 1146,
+      "name": "04b · Mangue — O Manguezal das Histórias (manuscrito)",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "#141811",
+      "layout": "none",
+      "children": [
+        {
+          "type": "rectangle",
+          "id": "U4MoC",
+          "x": 0,
+          "y": 0,
+          "name": "Manuscript Spread",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "assets/art/mangue-manuscript.webp",
+            "mode": "fill"
+          },
+          "width": 1440,
+          "height": 900
+        },
+        {
+          "type": "frame",
+          "id": "M43WWV",
+          "x": 64,
+          "y": 24,
+          "name": "World Bar",
+          "width": 1312,
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "nv1l0",
+              "name": "Back",
+              "gap": 10,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "S6wadv",
+                  "name": "Back Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "arrow-left",
+                  "library": "lucide",
+                  "fill": "$ink"
+                },
+                {
+                  "type": "text",
+                  "id": "wBoc7",
+                  "name": "Back Label",
+                  "fill": "$ink",
+                  "content": "Galáxia",
+                  "fontFamily": "$font-body",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "raXjz",
+              "name": "World Marker",
+              "fill": "$mangue",
+              "content": "03 / 03",
+              "fontFamily": "$font-pixel",
+              "fontSize": 20,
+              "fontWeight": "normal",
+              "letterSpacing": 1
+            },
+            {
+              "type": "frame",
+              "id": "rm2uq",
+              "name": "External CTA",
+              "cornerRadius": 999,
+              "stroke": "#F3EBDD40",
+              "strokeWidth": 1,
+              "gap": 8,
+              "padding": [
+                10,
+                16
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "qZOWl",
+                  "name": "Ext Label",
+                  "fill": "$ink",
+                  "content": "Sobre o Mangue",
+                  "fontFamily": "$font-body",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "icon",
+                  "id": "O68y3",
+                  "name": "Ext Icon",
+                  "width": 16,
+                  "height": 16,
+                  "icon": "arrow-up-right",
+                  "library": "lucide",
+                  "fill": "$ink"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "qOwnB",
+          "x": 292,
+          "y": 150,
+          "name": "Left Page",
+          "width": 360,
+          "layout": "vertical",
+          "gap": 10,
+          "children": [
+            {
+              "type": "text",
+              "id": "BmW13",
+              "name": "Arrival",
+              "fill": "#8E2A1F",
+              "content": "✦ Você pousou em Mangue",
+              "fontFamily": "IM Fell English",
+              "fontSize": 15,
+              "fontWeight": "normal",
+              "letterSpacing": 1.5
+            },
+            {
+              "type": "text",
+              "id": "NyL6L",
+              "name": "Place Name",
+              "fill": "#2B251C",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "O Manguezal das Histórias",
+              "lineHeight": 1,
+              "fontFamily": "IM Fell English",
+              "fontSize": 32,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "ZSOkn",
+              "name": "Chapter",
+              "fill": "#5E5443",
+              "content": "Capítulo II · Entre as raízes",
+              "fontFamily": "IM Fell English",
+              "fontSize": 17,
+              "fontWeight": "normal",
+              "fontStyle": "italic"
+            },
+            {
+              "type": "rectangle",
+              "id": "exCgB",
+              "name": "Rule",
+              "fill": "#2B251C40",
+              "width": "fill_container",
+              "height": 1
+            },
+            {
+              "type": "frame",
+              "id": "Cncfh",
+              "name": "Opening",
+              "width": "fill_container",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "e8Fg3C",
+                  "name": "Drop Cap",
+                  "fill": "#8E2A1F",
+                  "content": "A",
+                  "lineHeight": 0.9,
+                  "fontFamily": "UnifrakturMaguntia",
+                  "fontSize": 64,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "OvjFF",
+                  "name": "Opening Text",
+                  "fill": "#2B251C",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "maré baixou de madrugada e deixou a carta presa entre as raízes, lacrada com cera verde. No envelope, só um nome: o do faroleiro que ninguém vê há dez anos.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "Alegreya",
+                  "fontSize": 15.5,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "rUyQS",
+              "name": "Body",
+              "fill": "#2B251C",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Morfeu farejou o papel e miou para o canal escuro, onde uma lanterna ainda boiava, apagada.",
+              "lineHeight": 1.45,
+              "fontFamily": "Alegreya",
+              "fontSize": 15.5,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "gX6xT",
+              "name": "Choices",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 10,
+              "padding": [
+                8,
+                0,
+                0,
+                0
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "s2lezs",
+                  "name": "Choices Label",
+                  "fill": "#5E5443",
+                  "content": "O que você faz?",
+                  "fontFamily": "IM Fell English",
+                  "fontSize": 15,
+                  "fontWeight": "normal",
+                  "fontStyle": "italic"
+                },
+                {
+                  "type": "frame",
+                  "id": "nxTqA",
+                  "name": "Choice · Abrir a carta ali mesmo, na lama",
+                  "width": "fill_container",
+                  "fill": "#2355391A",
+                  "cornerRadius": 2,
+                  "stroke": "#2B251C80",
+                  "strokeWidth": 1,
+                  "gap": 12,
+                  "padding": [
+                    10,
+                    14
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "tJkcI",
+                      "name": "Hand",
+                      "fill": "#8E2A1F",
+                      "content": "☞",
+                      "fontFamily": "Noto Sans Symbols 2",
+                      "fontSize": 20,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "esZNo",
+                      "name": "Label",
+                      "fill": "#2B251C",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Abrir a carta ali mesmo, na lama",
+                      "lineHeight": 1.45,
+                      "fontFamily": "Alegreya",
+                      "fontSize": 15.5,
+                      "fontWeight": "normal",
+                      "fontStyle": "italic"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "oWgsi",
+                  "name": "Choice · Pescar a lanterna e seguir o canal",
+                  "width": "fill_container",
+                  "cornerRadius": 2,
+                  "stroke": "#2B251C80",
+                  "strokeWidth": 1,
+                  "gap": 12,
+                  "padding": [
+                    10,
+                    14
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "s8th2",
+                      "name": "Hand",
+                      "fill": "#8E2A1F",
+                      "content": "☞",
+                      "fontFamily": "Noto Sans Symbols 2",
+                      "fontSize": 20,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "pnxq8",
+                      "name": "Label",
+                      "fill": "#2B251C",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Pescar a lanterna e seguir o canal",
+                      "lineHeight": 1.45,
+                      "fontFamily": "Alegreya",
+                      "fontSize": 15.5,
+                      "fontWeight": "normal",
+                      "fontStyle": "italic"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ma3qW",
+                  "name": "Choice · Levar a carta direto ao farol",
+                  "width": "fill_container",
+                  "cornerRadius": 2,
+                  "stroke": "#2B251C33",
+                  "strokeWidth": 1,
+                  "gap": 12,
+                  "padding": [
+                    10,
+                    14
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "q5hci",
+                      "name": "Hand",
+                      "fill": "#2B251C55",
+                      "content": "☞",
+                      "fontFamily": "Noto Sans Symbols 2",
+                      "fontSize": 20,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "vl8uM",
+                      "name": "Label",
+                      "fill": "#2B251C66",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Levar a carta direto ao farol",
+                      "lineHeight": 1.45,
+                      "fontFamily": "Alegreya",
+                      "fontSize": 15.5,
+                      "fontWeight": "normal",
+                      "fontStyle": "italic"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ySKE6",
+                      "name": "Seal",
+                      "fill": "#8E2A1F",
+                      "cornerRadius": 999,
+                      "gap": 6,
+                      "padding": [
+                        4,
+                        10
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "sJjqC",
+                          "name": "Lock",
+                          "width": 12,
+                          "height": 12,
+                          "icon": "lock",
+                          "library": "lucide",
+                          "fill": "#F3E3C8"
+                        },
+                        {
+                          "type": "text",
+                          "id": "H701gQ",
+                          "name": "Seal Text",
+                          "fill": "#F3E3C8",
+                          "content": "requer a lanterna",
+                          "fontFamily": "IM Fell English",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "hmjgT",
+          "x": 300,
+          "y": 700,
+          "name": "Morfeu Marginalia",
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "generated-10.png",
+            "mode": "fill"
+          },
+          "width": 512,
+          "height": 512
+        }
+      ]
+    }
+  ],
+  "variables": {
+    "space": {
+      "type": "color",
+      "value": "#090E15"
+    },
+    "space-2": {
+      "type": "color",
+      "value": "#111824"
+    },
+    "ink": {
+      "type": "color",
+      "value": "#F3EBDD"
+    },
+    "ink-muted": {
+      "type": "color",
+      "value": "#A7AFBB"
+    },
+    "line": {
+      "type": "color",
+      "value": "#F3EBDD22"
+    },
+    "goiaba": {
+      "type": "color",
+      "value": "#F4A6C1"
+    },
+    "cindra": {
+      "type": "color",
+      "value": "#E58E62"
+    },
+    "commission": {
+      "type": "color",
+      "value": "#D6CB8E"
+    },
+    "mangue": {
+      "type": "color",
+      "value": "#74D3B8"
+    },
+    "font-display": {
+      "type": "string",
+      "value": "Instrument Serif"
+    },
+    "font-body": {
+      "type": "string",
+      "value": "Manrope"
+    },
+    "font-pixel": {
+      "type": "string",
+      "value": "VT323"
+    },
+    "parchment": {
+      "type": "color",
+      "value": "#EFE6D2"
+    },
+    "ink-black": {
+      "type": "color",
+      "value": "#1C1814"
+    },
+    "rubric": {
+      "type": "color",
+      "value": "#8E2A1F"
+    }
+  },
+  "fileToken": "e06728da-f4ec-4060-84a7-abe02e4c5999"
+}

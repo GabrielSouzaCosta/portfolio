@@ -24,7 +24,7 @@ export function setupKnight() {
     const baseX = rect.left - position.x, baseY = rect.top - position.y;
     const margin = 20; // Room for the character's tilt as well as the link itself.
     const top = document.querySelector('.site-header').getBoundingClientRect().bottom + 12;
-    const bottom = document.querySelector('.journey-rail').getBoundingClientRect().top - 20;
+    const bottom = innerHeight - 20;
     bounds = {
       left:margin - baseX, right:Math.max(margin - baseX, innerWidth - margin - rect.width - baseX),
       top:top - baseY, bottom:Math.max(top - baseY, bottom - rect.height - baseY)

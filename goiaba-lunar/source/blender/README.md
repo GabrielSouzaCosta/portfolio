@@ -1,5 +1,9 @@
 # Morfeu — modelos de Blender
 
+O site usa a **v07**: a v06 com crânio mais liso, bochechas rosadas do sprite, tufos de pelo nas bochechas e cachecol cor de goiaba, com piloto um pouco maior no cockpit. Gerar com `Blender -b --factory-startup --python v07/build.py` (Blender 5.2.1); `v07/verify_glb.py` confere a exportação. As pontas `Scarf tail L/R` são estáticas no GLB e tremulam em `js/three/ship-asset.js`. Renders em `v07/previews/`.
+
+O restante deste documento descreve a v06, que continua sendo a base da v07.
+
 A prévia e o site local usam a **v06**. A revisão corrige a naturalidade dos olhos: âmbar dourado mais claro, íris circular, pupila oval vertical moderada e reflexos produzidos pela iluminação. O pedido atual substitui os quadrados pintados da v05. A forma compacta do gato, o sorriso e a nave original **Semente** continuam da versão anterior.
 
 ## Arquivos atuais

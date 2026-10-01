@@ -58,22 +58,121 @@ const VERTEX = /* glsl */`
   varying vec3 vLocal;
   varying vec3 vWorld;
   varying vec3 vNormalWorld;
+  varying vec3 vCenter;
+  varying float vRadius;
   void main() {
     vLocal = position;
     vec4 world = modelMatrix * vec4(position, 1.0);
     vWorld = world.xyz;
+    vCenter = (modelMatrix * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
+    vRadius = length(vWorld - vCenter);
     vNormalWorld = normalize(mat3(modelMatrix) * normal);
     gl_Position = projectionMatrix * viewMatrix * world;
   }
 `;
 const UNIFORMS = /* glsl */`
-  uniform float uTime, uSeed, uBands, uTwist, uHover;
+  uniform float uTime, uSeed, uBands, uTwist, uHover, uReveal, uStyle, uPixel;
   uniform vec3 uDeep, uMid, uLight, uPearl, uHaze;
-  varying vec3 vLocal, vWorld, vNormalWorld;
+  varying vec3 vLocal, vWorld, vNormalWorld, vCenter;
+  varying float vRadius;
+`;
+// On hover each planet turns, for a moment, into the medium of its own world:
+// Cindra's pixel valley, CommissionMatch's engraved map, Mangue's written page.
+const REVEAL = /* glsl */`
+  const vec3 SUN = vec3(-.8165, .4082, .4082);
+  float bayer4(vec2 p) {
+    vec2 q = mod(floor(p), 4.0);
+    float i = q.x + q.y * 4.0;
+    return mod(i * 11.0 + floor(i / 4.0) * 7.0, 16.0) / 16.0;
+  }
+  float grain(vec2 p) { return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
+  vec3 toned(vec3 shade, vec3 mid, vec3 light, float level) {
+    return level < .5 ? shade * .62 : level < 1.5 ? shade : level < 2.5 ? mid : light;
+  }
+  float landAt(vec3 dir) { return fbm(dir * 1.7 + vec3(uSeed * .37, 1.3, 2.1)); }
+  // Returns rgb and the dissolve mask in alpha.
+  vec4 pixelWorld(vec2 offset, out bool outside) {
+    vec3 local = normalize(vLocal - dFdx(vLocal) * offset.x - dFdy(vLocal) * offset.y);
+    vec3 world = vWorld - dFdx(vWorld) * offset.x - dFdy(vWorld) * offset.y;
+    vec2 d = (viewMatrix * vec4(world, 1.0)).xy - (viewMatrix * vec4(vCenter, 1.0)).xy;
+    outside = length(d) > vRadius;
+    vec3 nv = vec3(d, sqrt(max(0.0, vRadius * vRadius - dot(d, d)))) / vRadius;
+    vec3 n = transpose(mat3(viewMatrix)) * nv;
+    vec2 block = floor(gl_FragCoord.xy / uPixel);
+    float day = dot(n, SUN);
+    float level = clamp(floor((day * .5 + .5) * 3.2 + bayer4(block) * .9 - .55), 0.0, 3.0);
+    float land = landAt(local);
+    float cloud = fbm(local * 3.1 + vec3(uTime * .02, 0.0, 4.0));
+    vec3 color;
+    if (land < .43) color = toned(vec3(.141,.302,.459), vec3(.212,.451,.631), vec3(.341,.643,.792), level);
+    else if (land < .46) color = toned(vec3(.659,.506,.310), vec3(.847,.698,.478), vec3(.937,.851,.643), level);
+    else if (land < .57) color = toned(vec3(.247,.420,.208), vec3(.435,.612,.271), vec3(.651,.780,.388), level);
+    else color = toned(vec3(.141,.247,.169), vec3(.243,.420,.227), vec3(.373,.561,.271), level);
+    if (cloud > .7 && level > .5) color = mix(color, vec3(.957,.937,.878), level > 2.5 ? 1.0 : .82);
+    // Rim of darker pixels, like a hand-placed sprite outline.
+    if (nv.z < .22) color *= .55;
+    float front = noise3(local * 5.0 + 2.0);
+    return vec4(color, step(front, uReveal * 1.25 - .12));
+  }
+  vec4 engravedWorld(vec3 n, vec3 view) {
+    vec3 local = normalize(vLocal);
+    float land = landAt(local);
+    float light = smoothstep(-.25, .95, dot(n, SUN));
+    vec3 paper = vec3(.937,.890,.769), ink = vec3(.165,.133,.090);
+    float lat = asin(clamp(local.y, -1.0, 1.0)), lon = atan(local.z, local.x);
+    // Sea: engraved wavy lines that thicken in shadow. Land: form-following hatching.
+    float sea = abs(fract(lat * 14.0 + .12 * sin(lon * 9.0 + lat * 6.0)) - .5) * 2.0;
+    float hatch = abs(fract((lon * .8 + lat * 1.6) * 7.0) - .5) * 2.0;
+    float cross = abs(fract((lon * .8 - lat * 1.6) * 7.0) - .5) * 2.0;
+    float darkness = 1.0 - light;
+    float lines = land < .5
+      ? 1.0 - smoothstep(.18 + darkness * .55, .30 + darkness * .55, sea)
+      : max(1.0 - smoothstep(darkness * .6, darkness * .6 + .12, hatch), darkness > .55 ? 1.0 - smoothstep((darkness - .55) * 1.4, (darkness - .55) * 1.4 + .12, cross) : 0.0);
+    float mountains = smoothstep(.62, .66, land) * (1.0 - smoothstep(.2, .32, abs(fract(land * 38.0) - .5) * 2.0));
+    float coast = 1.0 - smoothstep(0.0, fwidth(land) * 1.6, abs(land - .5));
+    float limb = 1.0 - smoothstep(.10, .24, dot(n, view));
+    float amount = clamp(max(max(lines * .9, coast), max(mountains * .8, limb)), 0.0, 1.0);
+    vec3 color = mix(paper * (.9 + .1 * grain(gl_FragCoord.xy)), ink, amount);
+    float front = fbm(local * 3.2 + 7.0);
+    float edge = uReveal * 1.3 - .15;
+    float mask = smoothstep(front - .03, front + .03, edge);
+    color = mix(color, ink, (1.0 - smoothstep(0.0, .035, abs(front - edge))) * step(.01, uReveal) * step(uReveal, .99));
+    return vec4(color, mask);
+  }
+  // Mangue is read through the page veil (hero.css), which inverts lightness
+  // and keeps hue: it is drawn here as light ink on a dark sheet so that it
+  // appears as a written page. Continents are handwriting; the sea is ruled.
+  vec4 writtenWorld(vec3 n, vec3 view) {
+    vec3 local = normalize(vLocal);
+    float land = landAt(local);
+    float lat = asin(clamp(local.y, -1.0, 1.0)), lon = atan(local.z, local.x);
+    float rows = lat * 15.0, row = floor(rows), within = fract(rows);
+    float x = lon * 15.0 * max(.25, cos(lat));
+    float seed = hash3(vec3(row, 1.7, 2.3)) * 6.2832;
+    // A line of cursive: small waves with the odd ascender loop, in words.
+    float y = .42 + .13 * sin(x * 5.3 + seed) * sin(x * 1.7 + seed * 2.0) + .3 * pow(max(0.0, sin(x * .9 + seed * 3.0)), 14.0);
+    float inWord = step(fract(x * .21 + hash3(vec3(row, 3.1, 4.7))), .8);
+    float thickness = fwidth(rows) * 1.1;
+    float script = (1.0 - smoothstep(.045, .045 + thickness, abs(within - y))) * inWord * step(.5, land);
+    float ruled = (1.0 - smoothstep(0.0, thickness, abs(within - .1))) * (land < .5 ? .5 : .18);
+    float coast = 1.0 - smoothstep(0.0, fwidth(land) * 1.6, abs(land - .5));
+    // Each line is written left to right as the preview comes in.
+    float written = step((lon + 3.1416) / 6.2832, uReveal * 1.45 - hash3(vec3(row, 5.3, 6.1)) * .45);
+    float light = smoothstep(-.4, .95, dot(n, SUN));
+    vec3 sheet = mix(vec3(.11,.1,.09), vec3(.02,.022,.026), light);
+    vec3 color = sheet;
+    color = mix(color, vec3(.62,.9,.95), ruled * .6);
+    color = mix(color, vec3(.72,.95,.78), script * written);
+    color = mix(color, vec3(.95,.62,.56), coast * .9);
+    float limb = 1.0 - smoothstep(.05, .25, dot(n, view));
+    color = mix(color, vec3(.85,.85,.82), limb * .8);
+    return vec4(color, smoothstep(0.0, .35, uReveal));
+  }
 `;
 const SURFACE = /* glsl */`
   ${UNIFORMS}
   ${WEATHER}
+  ${REVEAL}
   void main() {
     vec3 n = normalize(vNormalWorld);
     vec3 view = normalize(cameraPosition - vWorld);
@@ -101,6 +200,16 @@ const SURFACE = /* glsl */`
     result += uHaze * limb * (.15 + scattering * .33);
     // Subsurface-looking light follows weather filaments, not random sparkles.
     result += uLight * filaments * smoothstep(.48, .65, density) * (.05 + uHover * .025);
+    if (uReveal > .001) {
+      vec4 styled;
+      if (uStyle < .5) {
+        bool outside;
+        styled = pixelWorld(mod(gl_FragCoord.xy, uPixel) - uPixel * .5, outside);
+        if (outside && styled.a > .5) discard;
+      } else if (uStyle < 1.5) styled = engravedWorld(n, view);
+      else styled = writtenWorld(n, view);
+      result = mix(result, styled.rgb, styled.a);
+    }
     gl_FragColor = vec4(result, 1.0);
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
@@ -115,7 +224,7 @@ const CLOUDS = /* glsl */`
     vec3 warp = weatherWarp(p);
     float cloud = fbm(p * 1.7 + warp * 1.9);
     float silk = fbm(p * 3.8 + warp * 2.2);
-    float alpha = smoothstep(.43, .72, cloud * .72 + silk * .28) * .34;
+    float alpha = smoothstep(.43, .72, cloud * .72 + silk * .28) * .34 * (1.0 - uReveal);
     float daylight = smoothstep(-.4, .9, dot(n, normalize(vec3(-1.0,.65,.65))));
     vec3 tint = mix(uLight, uPearl, silk) * (.38 + daylight * .7);
     gl_FragColor = vec4(tint, alpha);
@@ -132,7 +241,8 @@ export function createPlanet(THREE, world) {
   weather.rotation.z = spec.tilt;
   planet.add(weather);
   const uniforms = {
-    uTime: { value: 0 }, uHover: { value: 0 },
+    uTime: { value: 0 }, uHover: { value: 0 }, uReveal: { value: 0 }, uPixel: { value: 4 },
+    uStyle: { value: ['cindra', 'commissionmatch', 'mangue'].indexOf(world) === -1 ? 0 : ['cindra', 'commissionmatch', 'mangue'].indexOf(world) },
     uSeed: { value: spec.seed }, uBands: { value: spec.bands }, uTwist: { value: spec.twist },
     uDeep: { value: new THREE.Color(spec.colors[0]) },
     uMid: { value: new THREE.Color(spec.colors[1]) },
@@ -158,11 +268,11 @@ export function createPlanet(THREE, world) {
   // Integrated optical depth through a thin spherical atmosphere. Zero opacity
   // at its outer boundary avoids the hard outline of an oversized glass shell.
   const atmosphere = mesh(spec.radius * 1.065, new THREE.ShaderMaterial({
-    uniforms: { uTint: uniforms.uHaze, uHover: uniforms.uHover },
+    uniforms: { uTint: uniforms.uHaze, uHover: uniforms.uHover, uReveal: uniforms.uReveal },
     vertexShader: VERTEX,
     fragmentShader: /* glsl */`
       uniform vec3 uTint;
-      uniform float uHover;
+      uniform float uHover, uReveal;
       varying vec3 vWorld, vNormalWorld;
       void main() {
         vec3 n = normalize(vNormalWorld);
@@ -170,7 +280,7 @@ export function createPlanet(THREE, world) {
         float facing = max(0.0, dot(n, view));
         float opticalDepth = smoothstep(0.0, .19, facing) * exp(-facing * 6.5);
         float day = smoothstep(-.45, .9, dot(n, normalize(vec3(-1.0,.65,.65))));
-        gl_FragColor = vec4(uTint, opticalDepth * (.23 + day * .48 + uHover * .08));
+        gl_FragColor = vec4(uTint, opticalDepth * (.23 + day * .48 + uHover * .08) * (1.0 - uReveal * .9));
         #include <tonemapping_fragment>
         #include <colorspace_fragment>
       }
@@ -183,6 +293,7 @@ export function createPlanet(THREE, world) {
     // Broad translucent dust bands, with fine density variations and a gap.
     const rings = new THREE.Mesh(new THREE.RingGeometry(1.03, 1.36, 180, 1), new THREE.ShaderMaterial({
       uniforms: {
+        uReveal: uniforms.uReveal,
         uInk: { value: new THREE.Color('#78816a') },
         uDust: { value: new THREE.Color('#d9cd9e') },
       },
@@ -192,6 +303,7 @@ export function createPlanet(THREE, world) {
       `,
       fragmentShader: /* glsl */`
         uniform vec3 uInk, uDust;
+        uniform float uReveal;
         varying vec3 vRing;
         void main() {
           float r = length(vRing.xy);
@@ -203,7 +315,10 @@ export function createPlanet(THREE, world) {
           // The planet blocks the sun across the rear sector of the rings.
           float shadow = smoothstep(-.7, .08, vRing.x + .25) * smoothstep(.1, .55, vRing.y);
           vec3 tint = mix(uInk, uDust, bands * .6 + grain * .4) * (1.0 - shadow * .65);
-          gl_FragColor = vec4(tint, alpha);
+          // Engraved: a few crisp parchment-coloured circles.
+          float engraved = edge * (1.0 - smoothstep(.25, .5, abs(fract(r * 24.0) - .5) * 2.0)) * (1.0 - gap);
+          tint = mix(tint, vec3(.937,.890,.769) * (1.0 - shadow * .4), uReveal);
+          gl_FragColor = vec4(tint, mix(alpha, engraved * .95, uReveal));
           #include <tonemapping_fragment>
           #include <colorspace_fragment>
         }
@@ -224,6 +339,8 @@ export function createPlanet(THREE, world) {
       const approach = THREE.MathUtils.clamp(Number(interaction?.approach ?? interaction?.progress ?? 0) || 0, 0, 1);
       uniforms.uTime.value = time;
       uniforms.uHover.value = hover + approach * .6;
+      uniforms.uReveal.value = THREE.MathUtils.clamp(Number(interaction?.reveal) || 0, 0, 1);
+      if (interaction?.pixel) uniforms.uPixel.value = interaction.pixel;
       clouds.rotation.y = time * .012;
       clouds.rotation.z = Math.sin(time * .035) * .018;
     },

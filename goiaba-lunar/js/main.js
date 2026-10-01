@@ -4,6 +4,7 @@ import { setupDemos } from './demos.js';
 import { routeFromHash } from './story.js';
 import { loadShipAsset } from './three/ship-asset.js';
 import { setupKnight } from './knight.js';
+import { setupHero } from './hero.js';
 
 function startStudio() {
 const $ = selector => document.querySelector(selector);
@@ -11,47 +12,21 @@ const stars = new Starfield($('#space-canvas'));
 const objects = new StudioObjects();
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 const names = { galaxy:'Galáxia', cindra:'Cindra', commissionmatch:'CommissionMatch', mangue:'Mangue' };
-const order = ['galaxy', 'cindra', 'commissionmatch', 'mangue'];
-const visited = new Set();
-const readPreference = key => { try { return localStorage.getItem(key); } catch { return null; } };
-const savePreference = (key, value) => { try { localStorage.setItem(key, value); } catch {} };
-let paused = reduced.matches || readPreference('goiaba-motion') === 'paused';
+// Motion follows the system setting; there is no in-page toggle.
+let paused = reduced.matches;
 let current = 'galaxy', lastPlanet = 'cindra', flight = null, arriving = false, petTimer;
-const arrivalColors = { galaxy:'#091016',cindra:'#f0ede5',commissionmatch:'#1b211a',mangue:'#0b2c24' };
+const arrivalColors = { galaxy:'#091016',cindra:'#efe4d4',commissionmatch:'#efe6d2',mangue:'#13160f' };
 
-function setMotion(value, { save = false } = {}) {
+function setMotion(value) {
   paused = value;
   document.body.classList.toggle('motion-paused', paused);
   stars.setPaused(paused);
   objects.setPaused(paused);
-  $('#motion-toggle').setAttribute('aria-pressed', String(paused));
-  const label = paused ? 'Retomar movimento' : 'Pausar movimento';
-  $('#motion-toggle').setAttribute('aria-label', label);
-  $('#motion-toggle').title = label;
   $('#replay-arrival').disabled = paused;
   if (paused) { completeFlight(); endArrival(); }
-  if (save) savePreference('goiaba-motion', paused ? 'paused' : 'running');
 }
 
-$('#motion-toggle').addEventListener('click', () => setMotion(!paused, { save:true }));
-reduced.addEventListener('change', event => { if (event.matches) setMotion(true); });
-
-function syncRoute() {
-  document.querySelectorAll('[data-route]').forEach(link => {
-    const active = link.dataset.route === current;
-    if (active) link.setAttribute('aria-current', 'page');
-    else link.removeAttribute('aria-current');
-    link.toggleAttribute('data-visited', visited.has(link.dataset.route));
-    link.toggleAttribute('data-pending', flight?.world === link.dataset.route);
-  });
-  if (current === 'galaxy') $('.route-home').setAttribute('aria-current', 'page');
-  else $('.route-home').removeAttribute('aria-current');
-  const next = order[(order.indexOf(current) + 1) % order.length];
-  const label = next === 'galaxy' ? 'Voltar à galáxia' : (current === 'galaxy' ? 'Começar por ' : 'Seguir para ') + names[next];
-  $('#route-next').href = '#' + (next === 'galaxy' ? 'galaxia' : next);
-  $('#route-next-label').textContent = label;
-  $('#route-next').setAttribute('aria-label', label);
-}
+reduced.addEventListener('change', event => setMotion(event.matches));
 
 function showWorld(world, { focus = false } = {}) {
   const old = current;
@@ -59,10 +34,9 @@ function showWorld(world, { focus = false } = {}) {
   document.body.dataset.world = world;
   $('#galaxia').hidden = world !== 'galaxy';
   document.querySelectorAll('[data-view]').forEach(view => { view.hidden = view.dataset.view !== world; });
-  if (world !== 'galaxy') { lastPlanet = world; visited.add(world); }
+  if (world !== 'galaxy') lastPlanet = world;
   document.title = world === 'galaxy' ? 'Goiaba Lunar — ideias fora de órbita' : `${names[world]} · Goiaba Lunar`;
-  syncRoute();
-  $('#navigation-status').textContent = world === 'galaxy' ? 'Você está na galáxia. Escolha um destino.' : `Você chegou a ${names[world]}. A rota para continuar está na base da tela.`;
+  $('#navigation-status').textContent = world === 'galaxy' ? 'Você está na galáxia. Escolha um destino.' : `Você chegou a ${names[world]}. Goiaba Lunar, no alto da tela, leva de volta à galáxia.`;
   if (focus) {
     const target = world === 'galaxy' ? $(`[data-planet="${old === 'galaxy' ? lastPlanet : old}"]`) : $(`[data-view="${world}"] h2`);
     target?.focus({ preventScroll:true });
@@ -128,7 +102,6 @@ function navigate({ instant = false, focus = true } = {}) {
   $('#flight-caption').hidden = false;
   $('#skip-flight').focus({ preventScroll:true });
   $('#main-content').inert = true;
-  syncRoute();
 }
 
 function endArrival() {
@@ -151,7 +124,7 @@ function startArrival() {
 addEventListener('hashchange', () => navigate());
 $('#skip-flight').addEventListener('click', completeFlight);
 $('#replay-arrival').addEventListener('click', startArrival);
-$('#skip-arrival').addEventListener('click', () => { endArrival(); $('#route-next').focus({ preventScroll:true }); });
+$('#skip-arrival').addEventListener('click', () => { endArrival(); $(`[data-planet="${lastPlanet}"]`).focus({ preventScroll:true }); });
 $('.skip-link').addEventListener('click', event => { event.preventDefault(); $('#main-content').focus({ preventScroll:true }); });
 addEventListener('keydown', event => {
   if (event.key !== 'Escape') return;
@@ -176,8 +149,10 @@ let arrived = false;
 try { arrived = sessionStorage.getItem('goiaba-arrived') === 'yes'; } catch {}
 setupDemos();
 setupKnight();
+setupHero(objects);
 setMotion(paused);
-navigate({ instant:true, focus:!!location.hash });
+// A deep link to a world focuses its title; the galaxy itself needs no focus.
+navigate({ instant:true, focus:!!location.hash && location.hash !== '#galaxia' });
 if (!location.hash && !arrived && !paused) startArrival();
 }
 

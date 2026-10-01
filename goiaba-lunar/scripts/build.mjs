@@ -17,12 +17,12 @@ export async function buildStudio(output = resolve(root, 'dist')) {
   await rm(output, { recursive:true, force:true });
   await mkdir(output, { recursive:true });
   const historical = new Set(['assets/audio', 'js/audio.js', ...['cindra', 'commissionmatch', 'mangue', 'morfeu'].map(name => `assets/art/${name}.webp`)]);
-  for (const entry of ['index.html', 'styles.css', 'drawn.css', 'js', 'assets']) {
+  for (const entry of ['index.html', 'styles.css', 'drawn.css', 'commission.css', 'cindra.css', 'mangue.css', 'js', 'assets']) {
     await cp(resolve(root, entry), resolve(output, entry), {
       recursive:true,
       filter: source => {
         const path = relative(root, source);
-        return !historical.has(path) && (!path.startsWith('assets/models/') || path === 'assets/models/morfeu-scout-v06.glb');
+        return !historical.has(path) && (!path.startsWith('assets/models/') || path === 'assets/models/morfeu-scout-v07.glb');
       }
     });
   }
@@ -35,7 +35,7 @@ export async function buildStudio(output = resolve(root, 'dist')) {
     if (extname(path)==='.css') {
       const css=await readFile(path,'utf8');
       for (const [,ref] of css.matchAll(/url\(["']?([^)'"\s]+)["']?\)/g)) {
-        if (/^(?:data:|https?:)/.test(ref)) continue;
+        if (/^(?:data:|https?:|#)/.test(ref)) continue;
         await stat(resolve(dirname(path), ref));
       }
     }

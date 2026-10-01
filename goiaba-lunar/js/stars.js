@@ -10,6 +10,9 @@ export class Starfield {
     let seed = 7825;
     const random = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
     this.stars = Array.from({ length:180 }, () => ({ x:random(), y:random(), depth:.2 + random() * .8, phase:random() * Math.PI * 2 }));
+    // A comet now and then rewards whoever lingers in the galaxy.
+    this.comet = null;
+    this.nextComet = performance.now() + 7000;
     this.resize = () => {
       const ratio = Math.min(devicePixelRatio || 1, 1.5);
       this.width = innerWidth;
@@ -57,6 +60,41 @@ export class Starfield {
       }
     }
     if (this.flight && progress >= 1) this.flight = null;
+    this.drawComet(time, intensity);
+  }
+  drawComet(time, intensity) {
+    const { ctx, width:w, height:h } = this;
+    if (!this.comet && time > this.nextComet && !intensity && document.body.dataset.world === 'galaxy') {
+      const angle = Math.PI * (.8 + Math.random() * .1);
+      this.comet = { start:time, duration:1800 + Math.random() * 900, x:w * (.45 + Math.random() * .6), y:h * (Math.random() * .3 - .05), angle, travel:Math.max(w, h) * (.55 + Math.random() * .3) };
+    }
+    const comet = this.comet;
+    if (!comet) return;
+    const t = (time - comet.start) / comet.duration;
+    if (t >= 1 || intensity) {
+      this.comet = null;
+      this.nextComet = time + 16000 + Math.random() * 22000;
+      return;
+    }
+    const eased = 1 - Math.pow(1 - t, 1.6), fade = Math.sin(t * Math.PI);
+    const dx = Math.cos(comet.angle), dy = -Math.sin(comet.angle);
+    const x = comet.x + dx * comet.travel * eased, y = comet.y - dy * comet.travel * eased;
+    const tail = 150 * fade + 30;
+    const gradient = ctx.createLinearGradient(x, y, x - dx * tail, y + dy * tail);
+    gradient.addColorStop(0, `rgba(255,236,244,${.85 * fade})`);
+    gradient.addColorStop(.25, `rgba(239,171,195,${.4 * fade})`);
+    gradient.addColorStop(1, 'rgba(239,171,195,0)');
+    ctx.strokeStyle = gradient;
+    ctx.lineWidth = 1.6;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x - dx * tail, y + dy * tail);
+    ctx.stroke();
+    ctx.fillStyle = `rgba(255,246,250,${fade})`;
+    ctx.beginPath();
+    ctx.arc(x, y, 1.6, 0, Math.PI * 2);
+    ctx.fill();
   }
   start() { if (!this.frame && !this.paused && !document.hidden && this.ctx) this.frame = requestAnimationFrame(this.tick); }
   setPaused(value) { this.paused = value; if (value) { cancelAnimationFrame(this.frame); this.frame = 0; this.endWarp(); } else this.start(); }

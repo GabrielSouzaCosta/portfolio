@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero scene draft</title>
+<link rel="stylesheet" href="../css/fonts.css">
+<style>
+  body { margin: 0; background: #eee7d8; font-family: Manrope, sans-serif; color: #29352c; }
+  .hero { position: relative; height: 100vh; overflow: hidden; }
+  .scene { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .copy { position: absolute; left: 11.4vw; top: 30%; z-index: 2; }
+  h1 { font: 400 clamp(64px, 6.8vw, 96px)/1.04 "Instrument Serif", serif; letter-spacing: -.025em; margin: 0; }
+  h1 em { color: #28543c; }
+  .wash { position: absolute; inset: 0; background: linear-gradient(90deg, #eee7d899, #eee7d829 46%, #eee7d800 70%); }
+</style>
+</head>
+<body>
+<div class="hero">
+<svg class="scene" id="scene" viewBox="0 0 1600 900" preserveAspectRatio="xMaxYMax slice" fill="none" stroke="#28543c" stroke-linecap="round" stroke-linejoin="round">
+  <defs>
+    <pattern id="hs-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(25)"><path d="M0 0V6" stroke="#28543c" stroke-width=".8" opacity=".32"/></pattern>
+    <pattern id="hs-hatch-dense" width="3.6" height="3.6" patternUnits="userSpaceOnUse" patternTransform="rotate(25)"><path d="M0 0V3.6" stroke="#28543c" stroke-width=".8" opacity=".4"/></pattern>
+    <pattern id="hs-dots" width="11" height="11" patternUnits="userSpaceOnUse"><circle cx="2.5" cy="3" r="1" fill="#28543c" stroke="none" opacity=".35"/><circle cx="8" cy="8.5" r=".8" fill="#28543c" stroke="none" opacity=".3"/></pattern>
+    <pattern id="hs-water" width="46" height="9" patternUnits="userSpaceOnUse"><path d="M3 4.5h15M26 4.5h8" stroke="#28543c" stroke-width="1" opacity=".3"/></pattern>
+    <pattern id="hs-water-far" width="30" height="6" patternUnits="userSpaceOnUse"><path d="M9 3h9" stroke="#28543c" stroke-width=".8" opacity=".22"/></pattern>
+    <mask id="hs-moon-shade" maskUnits="userSpaceOnUse"><circle cx="1385" cy="175" r="118" fill="#fff" stroke="none"/><circle cx="1352" cy="150" r="116" fill="#000" stroke="none"/></mask>
+  </defs>
+
+  <!-- Sky: moon, a ringed planet, a few sparks. -->
+  <g class="hs-sky">
+    <circle cx="1385" cy="175" r="118" fill="#ebe6d2" stroke-width="2.2"/>
+    <circle cx="1385" cy="175" r="118" fill="url(#hs-hatch-dense)" stroke="none" mask="url(#hs-moon-shade)"/>
+    <g fill="#dcdcc3" stroke-width="1.5">
+      <circle cx="1348" cy="132" r="15"/><circle cx="1424" cy="212" r="21"/><circle cx="1368" cy="236" r="9"/><circle cx="1440" cy="128" r="8"/><circle cx="1318" cy="196" r="6"/>
+    </g>
+    <path d="M1340 140c4-4 10-5 15-3M1414 204c6-6 14-6 20-2" stroke-width="1"/>
+    <path d="M1097 118c-6-5 3-14 38-19s50 0 48 7-19 12-43 16-39 1-43-4Z" stroke-width="1.4"/>
+    <circle cx="1135" cy="110" r="23" fill="#b3ba91" stroke-width="2"/>
+    <path d="M1135 110m-23 0a23 23 0 0 1 46 0" fill="url(#hs-hatch)" stroke="none"/>
+    <path d="M1112 114c-10 6-12 11-2 11 12 1 40-5 58-13 12-5 16-11 12-12" stroke-width="1.6"/>
+    <g fill="#28543c" stroke="none">
+      <path d="m1040 60 3 9 9 3-9 3-3 9-3-9-9-3 9-3Z"/><path d="m1250 298 2 6 6 2-6 2-2 6-2-6-6-2 6-2Z" opacity=".7"/><path d="m905 150 2 6 6 2-6 2-2 6-2-6-6-2 6-2Z" opacity=".6"/><path d="m1560 330 2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" opacity=".7"/>
+    </g>
+  </g>
+
+  <!-- Clouds -->
+  <g class="hs-clouds" fill="#f3eee2" stroke-width="1.8">
+    <g class="hs-cloud"><path d="M1082 346c-6-20 10-30 24-26 2-22 30-30 44-16 10-20 42-16 46 4 20-4 34 12 28 38Z"/><path d="M1108 330c6-6 14-7 20-4M1162 318c6-4 14-4 18 0" stroke-width="1.1"/><path d="M1070 346h168" stroke-width="1.2"/></g>
+    <g class="hs-cloud"><path d="M842 254c-4-14 8-22 18-19 2-15 22-21 32-11 8-14 30-11 32 3 14-3 24 9 20 27Z" /><path d="M862 242c4-4 10-5 14-3" stroke-width="1.1"/><path d="M834 254h120" stroke-width="1.2"/></g>
+    <g class="hs-cloud"><path d="M1238 452c-3-12 6-18 14-16 2-12 18-16 26-8 6-11 24-8 25 3 11-2 19 7 16 21Z"/><path d="M1230 452h98" stroke-width="1.2"/></g>
+  </g>
+
+  <!-- Far mountains and the nearer hills. -->
+  <g class="hs-far" stroke-width="1.5" opacity=".8">
+    <path d="M600 616 646 584l22 12 44-48 30 30 36-26 34 30 40-58 30 36 28-24 30 30 36-44 38 40 30-22 40 34 36-50 42 42 34-26 46 38 34-30 34 34 16-8v76H600Z" fill="#e6e2cc"/>
+    <path d="m712 548 10 20m70 4 6 12m94-58 8 18m160 28 6 16m150-40 10 20m112 26 8 14" stroke-width="1"/>
+    <path d="m700 552 12-4-4 10m192-24 12-6-4 12m152 24 10-6-2 10m168-18 8-6v8" stroke-width="1"/>
+  </g>
+  <g class="hs-hills" stroke-width="1.7">
+    <path d="M560 648c40-22 90-30 132-18 30-18 74-24 110-6 40-20 96-22 138 0 40-16 100-18 150 4 40-12 80-10 110 6v40H560Z" fill="#dde0c6"/>
+    <path d="M610 640c20-6 40-8 58-4M760 626c24-8 46-8 66-2M960 628c24-8 52-8 76 0" stroke-width="1"/>
+  </g>
+
+  <!-- The spire city the knight is looking at. -->
+  <g class="hs-city" stroke-width="1.6">
+    <path d="M912 636V560h26v76M946 636V506h30v130M988 636V420h36v216M1036 636V520h28v116M1074 636V572h22v64" fill="#f1ebdd"/>
+    <path d="M988 636V420h36v216" fill="url(#hs-hatch)" stroke="none" transform="translate(18 0) scale(.5 1) translate(988 0)"/>
+    <path d="M908 562 925 512l17 50ZM942 508l19-66 19 66ZM984 422l22-100 22 100ZM1032 522l18-54 18 54ZM1070 574l15-40 15 40Z" fill="#b3ba91"/>
+    <path d="M925 512v-18l14 5-14 5M1006 322v-26l20 8-20 8" stroke-width="1.4"/>
+    <path d="M1006 296l20 8-20 8Z" fill="#efabc3" stroke-width="1.2"/>
+    <path d="M1024 590c6-18 22-18 28 0M938 600c4-12 14-12 18 0M964 470v10M1006 460v14M1006 520v14M1050 548v10M958 540v10M924 580v8M1085 596v8" stroke-width="1.4"/>
+    <path d="M938 616h8M1024 610h12M1064 612h10" stroke-width="1"/>
+  </g>
+
+  <!-- Water, then the shore where the creatures walk. -->
+  <g class="hs-water">
+    <rect x="0" y="664" width="1180" height="236" fill="url(#hs-water)" stroke="none"/>
+    <rect x="0" y="664" width="1180" height="60" fill="url(#hs-water-far)" stroke="none"/>
+    <path d="M300 700h60M520 690h40M760 706h70M980 694h40M420 736h90M680 752h60M880 742h80M220 790h110M600 800h90M940 790h60M360 846h140M760 856h120" stroke-width="1.2" opacity=".55"/>
+  </g>
+  <g class="hs-shore" stroke-width="1.8">
+    <path d="M250 660c80-14 190-12 300-6 140-12 300-8 430-12l160-8v24c-100 10-240 12-380 14-160 4-340 2-510-2Z" fill="#dde0c6"/>
+    <path d="M250 660c80-14 190-12 300-6 140-12 300-8 430-12l160-8v24c-100 10-240 12-380 14-160 4-340 2-510-2Z" fill="url(#hs-dots)" stroke="none"/>
+    <path d="M320 654l-4-12M326 654l2-14M332 655l6-10M700 648l-3-12M706 648l2-14M712 649l5-10M1010 642l-3-12M1016 642l2-13" stroke-width="1.3"/>
+    <path d="M470 664c4-8 16-9 20 0M860 660c6-10 20-10 24 0" fill="#eee7d8" stroke-width="1.4"/>
+  </g>
+  <!-- Reeds and rocks in the marsh. -->
+  <g class="hs-reeds" stroke-width="1.6">
+    <path d="M380 690c-2-20 0-40 4-58M390 692c2-18 6-32 12-46M372 692c-4-14-8-24-14-32" />
+    <path d="M384 632c-4 0-6-12 0-16 6 4 4 16 0 16ZM402 646c-4-1-4-12 2-15 5 5 2 15-2 15Z" fill="#b3ba91"/>
+    <path d="M430 790c10-26 40-34 64-24 18-10 44-4 50 16 4 8-2 14-10 14H440c-8 0-12-2-10-6Z" fill="#dde0c6"/>
+    <path d="M430 790c10-26 40-34 64-24 18-10 44-4 50 16" fill="url(#hs-hatch)" stroke="none"/>
+    <path d="M420 804h140M440 814h90" stroke-width="1.1" opacity=".6"/>
+    <path d="M780 836c8-18 30-24 46-14 14-6 30 0 32 14H780Z" fill="#dde0c6"/>
+    <path d="M772 846h96" stroke-width="1.1" opacity=".6"/>
+  </g>
+
+  <!-- The cliff, with its tree. -->
+  <g class="hs-cliff" stroke-width="2.2">
+    <path d="M1070 900c-6-50 8-104 36-146 18-30 34-58 58-82 16-16 40-24 70-26 110-6 240-6 366-4v258Z" fill="#eee7d8"/>
+    <path d="M1070 900c-6-50 8-104 36-146 18-30 34-58 58-82" fill="none"/>
+    <path d="M1106 754c30 8 60 4 84-10 26 18 70 20 100 6M1164 672c20 22 26 50 20 72M1290 750c10 30 8 70-6 100M1180 820c40-10 80-8 110 6M1360 700c30 24 70 30 110 20M1420 780c20 30 60 44 100 40M1470 720c10 40 4 90-14 130" stroke-width="1.6"/>
+    <path d="M1106 754c30 8 60 4 84-10l-6 156h-114c-6-50 8-104 36-146ZM1290 750c10 30 8 70-6 100l-100-30c10-30 10-60 6-76 26 18 70 20 100 6ZM1420 780c20 30 60 44 100 40l80 4v76h-140c14-40 20-80 6-100Z" fill="url(#hs-hatch)" stroke="none"/>
+    <path d="M1164 672c20-6 40-14 70-16 110-6 240-6 366-4v14c-120-2-250 0-366 6-26 2-50 6-70 0Z" fill="#b3ba91" stroke-width="1.8"/>
+    <path d="M1180 664l-4-12M1188 664l2-14M1196 664l6-10M1430 656l-4-12M1438 656l2-14M1446 657l6-10" stroke-width="1.4"/>
+    <circle cx="1230" cy="662" r="3.4" fill="#efabc3" stroke-width="1.1"/><circle cx="1470" cy="654" r="3" fill="#efabc3" stroke-width="1.1"/>
+  </g>
+  <g class="hs-tree" stroke-width="2">
+    <path d="M1552 656c-6-50-2-96-16-140-12-36-8-80 4-120l14 4c-10 36-12 76 0 112 12 40 12 90 16 144Z" fill="#eee7d8"/>
+    <path d="M1544 470c-20-14-44-18-66-12M1540 420c20-18 36-22 56-18M1538 540c-24-8-42-2-56 10" stroke-width="2.2"/>
+    <g class="hs-leaves" fill="#b3ba91" stroke-width="1.8">
+      <path d="M1444 470c-20-4-24-30-6-38-2-22 26-30 38-14 16-12 40 0 34 22 14 12 4 34-16 32-10 14-40 12-50-2Z"/>
+      <path d="M1470 360c-18-6-20-32 0-38 0-24 30-32 42-12 20-10 44 6 36 28 16 12 4 36-18 32-12 14-44 10-60-10Z"/>
+      <path d="M1540 300c-10-18 6-40 26-32 12-20 44-10 40 14v42c-20 8-50 2-66-24Z"/>
+      <path d="M1456 560c-14-8-12-30 6-32 6-18 32-18 38 0 16 2 18 24 2 30-10 12-34 12-46 2Z"/>
+      <path d="M1444 470c-20-4-24-30-6-38-2-22 26-30 38-14 16-12 40 0 34 22 14 12 4 34-16 32-10 14-40 12-50-2ZM1470 360c-18-6-20-32 0-38 0-24 30-32 42-12 20-10 44 6 36 28 16 12 4 36-18 32-12 14-44 10-60-10Z" fill="url(#hs-dots)" stroke="none"/>
+    </g>
+  </g>
+
+  <!-- The knight, from behind: origin at his feet. -->
+  <g class="hs-knight" transform="translate(1316 648)" stroke-width="2.2">
+    <path d="M-82 -118 C-96 -90 -112 -64 -126 -40 l-8 6 4-12 C-116 -72 -100 -98 -88 -124Z" fill="#b3ba91"/>
+    <path d="M-44 0 C-48 -12 -40 -22 -30 -22 L-12 -22 C-8 -12 -8 -4 -10 0Z M10 0 C8 -8 10 -22 16 -22 L34 -22 C44 -20 48 -10 46 0Z" fill="#b3ba91"/>
+    <path d="M-40 -20 C-44 -60 -46 -100 -40 -140 L-14 -140 C-12 -100 -12 -60 -14 -20Z M14 -20 C12 -60 12 -100 14 -140 L40 -140 C44 -100 44 -60 38 -20Z" fill="#eee7d8"/>
+    <path d="M26 -30 C28 -60 30 -100 28 -136 L40 -140 C44 -100 44 -60 38 -20Z" fill="url(#hs-hatch)" stroke="none"/>
+    <ellipse cx="-27" cy="-90" rx="15" ry="11" fill="#eee7d8"/><ellipse cx="27" cy="-90" rx="15" ry="11" fill="#eee7d8"/>
+    <path d="M-38 -60h22M16 -60h22M-38 -118h22M16 -118h22" stroke-width="1.3"/>
+    <ellipse cx="-68" cy="-250" rx="22" ry="17" fill="#eee7d8"/><ellipse cx="68" cy="-250" rx="22" ry="17" fill="#eee7d8"/>
+    <path d="M-86 -246 C-94 -210 -96 -180 -90 -152 L-70 -150 C-70 -180 -68 -212 -62 -244Z M86 -246 C94 -210 96 -180 90 -152 L70 -150 C70 -180 68 -212 62 -244Z" fill="#eee7d8"/>
+    <path d="M-92 -156c-4 8-2 18 8 20 10 2 16-4 16-14 0-6-4-8-10-8Z M92 -156c4 8 2 18-8 20-10 2-16-4-16-14 0-6 4-8 10-8Z" fill="#b3ba91"/>
+    <path class="hs-cape" d="M-60 -268 C-80 -230 -96 -180 -104 -128 C-86 -118 -70 -132 -54 -120 C-36 -110 -18 -126 0 -116 C18 -126 36 -110 54 -120 C72 -132 88 -118 104 -128 C96 -180 80 -230 60 -268 C30 -280 -30 -280 -60 -268Z" fill="#b3ba91"/>
+    <path d="M10 -272 C40 -272 58 -270 60 -268 C80 -230 96 -180 104 -128 C88 -118 72 -132 54 -120 C44 -126 30 -120 22 -118 C24 -170 20 -230 10 -272Z" fill="url(#hs-hatch)" stroke="none"/>
+    <path d="M-30 -262 C-40 -210 -48 -170 -54 -122 M0 -268 C-2 -220 2 -170 0 -118 M30 -262 C40 -210 48 -170 54 -122" stroke-width="1.4"/>
+    <path d="M-26 -276 C-20 -292 20 -292 26 -276Z" fill="#eee7d8"/>
+    <path d="M-48 -300 C-50 -345 -26 -366 0 -366 C26 -366 50 -345 48 -300 C60 -290 70 -278 74 -270 C40 -262 -40 -262 -74 -270 C-70 -278 -60 -290 -48 -300Z" fill="#eee7d8"/>
+    <path d="M14 -364 C34 -356 48 -334 48 -300 C60 -290 70 -278 74 -270 C60 -268 44 -266 30 -265 C38 -300 32 -340 14 -364Z" fill="url(#hs-hatch)" stroke="none"/>
+    <path d="M0 -366 C4 -330 4 -300 0 -268 M-58 -284 C-20 -278 20 -278 58 -284" stroke-width="1.4"/>
+    <g fill="#28543c" stroke="none"><circle cx="-40" cy="-276" r="2"/><circle cx="-14" cy="-273" r="2"/><circle cx="14" cy="-273" r="2"/><circle cx="40" cy="-276" r="2"/></g>
+    <g class="hs-plume">
+      <path d="M-4 -362 C-14 -400 14 -426 48 -418 C72 -412 84 -390 78 -370 C68 -392 42 -396 26 -384 C16 -376 8 -368 4 -362Z" fill="#efabc3"/>
+      <path d="M10 -380 C20 -398 40 -404 58 -398 M18 -372 C30 -386 48 -390 66 -384" stroke-width="1.3"/>
+    </g>
+  </g>
+
+  <!-- Creatures: each drawn around its feet (0, 0). -->
+  <g class="hs-strider" transform="translate(760 648) scale(.72)" stroke-width="2.8">
+    <path class="leg-far" d="M34 -126 C36 -90 40 -50 36 0 M-54 -128 C-58 -90 -60 -50 -62 0" stroke-width="9" stroke="#28543c"/>
+    <path class="leg-far-fill" d="M34 -126 C36 -90 40 -50 36 0 M-54 -128 C-58 -90 -60 -50 -62 0" stroke-width="5" stroke="#b3ba91"/>
+    <path d="M72 -160 C100 -150 114 -118 112 -80 C112 -72 104 -70 100 -78 C100 -112 90 -136 70 -144Z" fill="#b3ba91"/>
+    <path d="M104 -84 c-8 10-10 22-4 30 4-8 10-12 14-12 0 8 4 14 10 16-2-12-8-26-20-34Z" fill="#b3ba91"/>
+    <path d="M-72 -150 C-72 -186 -30 -200 10 -196 C50 -192 78 -176 78 -148 C78 -122 50 -110 10 -112 C-30 -112 -72 -118 -72 -150Z" fill="#eee7d8"/>
+    <path d="M-66 -134 C-40 -118 30 -114 76 -140 C72 -118 48 -110 10 -112 C-30 -112 -60 -118 -66 -134Z" fill="url(#hs-hatch-dense)" stroke="none"/>
+    <path d="M-40 -194 C-50 -170 -50 -130 -40 -114 M-8 -198 C-16 -170 -16 -134 -8 -112 M26 -196 C18 -170 18 -134 26 -112 M56 -186 C50 -166 50 -134 56 -118" stroke-width="1.8"/>
+    <path d="M-44 -192 l6 -16 6 14 M-12 -197 l6 -16 6 15 M20 -196 l6 -15 6 14 M50 -188 l6 -14 5 12" stroke-width="1.8" fill="#b3ba91"/>
+    <g class="strider-neck">
+      <path d="M-50 -186 C-70 -214 -84 -244 -100 -262 L-84 -272 C-66 -250 -48 -224 -36 -196Z" fill="#eee7d8"/>
+      <path d="M-58 -206 l12 -8 M-68 -224 l12 -8 M-78 -242 l12 -8" stroke-width="1.6"/>
+      <g class="strider-head">
+        <path d="M-102 -292 C-94 -330 -64 -352 -28 -348 C-60 -342 -86 -326 -92 -290Z M-96 -296 C-84 -326 -60 -338 -36 -330 C-62 -326 -80 -312 -88 -292Z M-110 -294 C-112 -326 -96 -350 -72 -360 C-92 -346 -102 -322 -102 -296Z" fill="#b3ba91" stroke-width="2"/>
+        <path d="M-120 -276 C-126 -294 -106 -302 -94 -292 C-84 -284 -86 -270 -96 -254 C-104 -240 -114 -226 -122 -220 C-130 -216 -138 -222 -134 -230 C-128 -244 -122 -258 -120 -276Z" fill="#eee7d8"/>
+        <circle cx="-108" cy="-280" r="7" fill="#eee7d8" stroke-width="2"/><circle cx="-109" cy="-279" r="3.2" fill="#28543c" stroke="none"/>
+        <path d="M-128 -236 l-6 4 M-118 -250 c-4 4-6 8-6 12" stroke-width="1.6"/>
+      </g>
+    </g>
+    <path class="leg-near" d="M44 -128 C46 -90 50 -50 50 0 M-40 -130 C-42 -90 -44 -50 -46 0" stroke-width="10" stroke="#28543c"/>
+    <path class="leg-near-fill" d="M44 -128 C46 -90 50 -50 50 0 M-40 -130 C-42 -90 -44 -50 -46 0" stroke-width="5.6" stroke="#eee7d8"/>
+    <g fill="#eee7d8" stroke-width="2.2"><circle cx="47" cy="-66" r="7"/><circle cx="-43" cy="-66" r="7"/></g>
+  </g>
+
+  <g class="hs-turtle" transform="translate(560 676) scale(.82)" stroke-width="2.6">
+    <path d="M-70 -20 l-16 -4 8 12Z" fill="#b3ba91"/>
+    <path d="M-50 -22 c-4 10-6 18-4 22h18c0-8 0-16-2-22ZM24 -22c0 8 0 16 2 22h18c2-6 0-14-4-22Z" fill="#b3ba91"/>
+    <path d="M64 -40 C74 -46 90 -52 102 -48 C114 -44 118 -32 110 -26 C102 -20 88 -24 76 -24 L64 -24Z" fill="#eee7d8"/>
+    <circle cx="100" cy="-40" r="4.4" fill="#eee7d8" stroke-width="1.8"/><circle cx="101" cy="-40" r="2" fill="#28543c" stroke="none"/>
+    <path d="M110 -30 l6 2" stroke-width="1.6"/>
+    <path d="M-70 -20 C-70 -70 -36 -96 0 -96 C36 -96 70 -70 70 -20Z" fill="#b3ba91"/>
+    <path d="M-70 -20 C-70 -70 -36 -96 0 -96 C36 -96 70 -70 70 -20Z" fill="url(#hs-dots)" stroke="none"/>
+    <path d="M-44 -24 C-40 -50 -24 -64 0 -66 C24 -64 40 -50 44 -24 M-20 -64 C-16 -80 16 -80 20 -64 M-58 -44 C-50 -52 -40 -54 -34 -54 M58 -44 C50 -52 40 -54 34 -54" stroke-width="1.8"/>
+    <path d="M-30 -90 l4 -14 6 12 M-4 -96 l4 -15 5 14 M22 -91 l4 -13 5 11" fill="#eee7d8" stroke-width="2"/>
+    <path d="M-78 -20 C-60 -10 60 -10 78 -20 C74 -30 -74 -30 -78 -20Z" fill="#eee7d8"/>
+    <path d="M-32 -22 c-2 8-2 16 0 22h16c2-6 2-14 0-22ZM46 -22c2 8 2 14 0 22h16c2-8 0-16-4-22Z" fill="#eee7d8"/>
+  </g>
+
+  <g class="hs-bird" transform="translate(960 250)" stroke-width="2.2">
+    <path d="M26 -2 C60 6 90 30 130 34 M24 2 C58 14 84 44 118 60 M22 0 C54 24 70 60 96 82" stroke-width="1.8"/>
+    <path d="M-4 -6 C10 -40 40 -70 70 -84 C60 -60 58 -40 64 -20 C44 -22 24 -12 10 0Z" fill="#b3ba91"/>
+    <path d="M-30 0 C-20 -12 10 -12 26 -4 C14 6 -16 8 -30 0Z" fill="#eee7d8"/>
+    <path d="M-30 -2 C-40 -12 -54 -8 -58 -2 L-74 2 L-56 4 C-50 10 -38 8 -30 4Z" fill="#eee7d8"/>
+    <circle cx="-46" cy="-3" r="3" fill="#28543c" stroke="none"/>
+    <path d="M-10 -4 C-20 -40 -30 -70 -20 -96 C0 -80 20 -50 30 -26 C20 -18 6 -8 -10 -4Z" fill="#eee7d8"/>
+    <path d="M-10 -4 C-20 -40 -30 -70 -20 -96 M-16 -40 C-4 -46 10 -44 20 -40 M-20 -68 C-10 -70 0 -66 8 -60" stroke-width="1.5"/>
+  </g>
+</svg>
+<div class="wash"></div>
+<div class="copy"><h1>Imaginar é<br><em>o primeiro passo.</em></h1></div>
+</div>
+</body>
+</html>

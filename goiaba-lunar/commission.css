@@ -1,0 +1,98 @@
+/* CommissionMatch: O Mapa dos Traços. Ink on parchment, one rubric red, a great knight as herald. */
+body[data-world=commissionmatch]{--ink:#1c1814;--muted:#5a4f45;--accent:#8e2a1f;--line:#1c181433;--rubric:#8e2a1f;--parchment:#efe6d2;--paper:#f6f0e2;color:var(--ink);color-scheme:light}
+body[data-world=commissionmatch] .world-color{background:var(--parchment)}
+body[data-world=commissionmatch] #space-canvas{opacity:0}
+
+body[data-world=commissionmatch]:not(.is-traveling) .morfeu-companion{visibility:hidden}
+
+.map-view{padding:0;overflow:hidden;container-type:size;font-synthesis:style}
+.map-viewport{position:absolute;inset:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain;cursor:grab}
+.map-viewport::-webkit-scrollbar{display:none}
+.map-stage{position:relative;height:100cqh;width:calc(100cqh * 1.608);margin-inline:auto;container-type:inline-size}
+.map-art{width:100%;height:100%;user-select:none;pointer-events:none}
+.map-route{position:absolute;inset:0;width:100%;height:100%;stroke:var(--rubric);stroke-width:3;stroke-dasharray:9 9;vector-effect:non-scaling-stroke;pointer-events:none}
+.map-route path{vector-effect:non-scaling-stroke}
+.map-ship{position:absolute;left:21.5%;top:40%;width:11%;text-align:center;pointer-events:none}
+.map-ship img{width:100%;rotate:-6deg}
+.map-ship span{display:block;font:italic clamp(11px,1.05cqw,16px)/1.2 Fell,Georgia,serif;white-space:nowrap}
+
+/* Lands: tags pinned to landmarks, or ink written straight into the map's own cartouches. */
+.region{position:absolute;left:var(--x);top:var(--y);color:var(--ink);text-align:left;transition:translate .2s var(--ease),box-shadow .2s,background .2s,opacity .2s}
+.region-text{display:flex;flex-direction:column}
+.region-name{font:clamp(12px,1.12cqw,17px)/1.1 Fell,Georgia,serif}
+.region-toll{font:italic clamp(11px,.98cqw,15px)/1.25 Fell,Georgia,serif;color:var(--rubric)}
+.region-tag{display:flex;align-items:center;gap:8px;transform:translate(-14px,-50%);padding:5px 11px 5px 6px;background:var(--paper);border:1.5px solid var(--ink);box-shadow:3px 3px 0 #1c181440}
+.region-tag:hover,.region-tag[aria-pressed=true]{translate:0 -2px;box-shadow:5px 5px 0 #1c181455}
+.region-tag[aria-pressed=true]{outline:2px solid var(--rubric);outline-offset:3px}
+.region-seal{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--rubric);color:var(--paper);flex-shrink:0}
+.region-seal svg{width:12px;height:12px;stroke-width:2.5}
+.seal-closed{display:none}
+.region-tag[data-open=false]{background:#efe6d2cc;border:1px solid #1c181466;box-shadow:none;color:#1c1814a6}
+.region-tag[data-open=false] .region-toll{color:#1c181499}
+.region-tag[data-open=false] .region-seal{background:none;border:1px solid #1c181466;color:#1c181499}
+.region-tag[data-open=false] .seal-open{display:none}
+.region-tag[data-open=false] .seal-closed{display:block}
+.region-cartouche{transform:translate(-50%,-50%);text-align:center}
+.region-cartouche .region-text{align-items:center}
+.region-cartouche .region-name{font-size:clamp(10px,1.05cqw,16px)}.region-cartouche .region-toll{font-size:clamp(9px,.95cqw,15px)}
+.region-cartouche[data-region=tatuagem]{width:12.5%}
+.region-cartouche[data-region=pixel]{width:9.8%}
+.region-cartouche[data-region=livros]{width:14%}
+.region-cartouche[data-open=false]{opacity:.62}
+.region-cartouche[data-open=false] .region-toll{color:var(--ink)}
+.region-cartouche:hover .region-name,.region-cartouche[aria-pressed=true] .region-name{text-decoration:underline;text-decoration-color:var(--rubric);text-underline-offset:3px}
+
+/* Title cartouche, top left. The only piece of interface that sits outside the map. */
+.map-title{position:absolute;left:4.5%;top:16px;z-index:2;padding:16px 22px 14px;background:var(--paper);border:2px solid var(--ink);box-shadow:4px 4px 0 #1c181433}
+.map-arrival{display:flex;align-items:center;gap:9px;font:12px/1.2 Fell,Georgia,serif;letter-spacing:.14em;text-transform:uppercase;color:var(--rubric)}
+.map-arrival img{width:20px;height:20px}
+.map-title h2{font:clamp(34px,3.4vw,50px)/1.02 Fell,Georgia,serif;margin-top:6px;white-space:nowrap}
+.map-line{font:italic 17px/1.3 Fell,Georgia,serif;color:#4a4038;margin-top:5px}
+.map-hint{font-size:12px;line-height:1.5;color:#4a4038;margin-top:8px}
+.map-exit{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:12px;font-weight:700;text-decoration:underline;text-underline-offset:4px}
+.map-exit svg{width:14px;height:14px}
+
+/* The knight is a game piece. He rides from land to land and speaks from a ribbon. */
+.map-piece{position:absolute;left:var(--x);top:var(--y);z-index:2;width:7%;translate:-50% -94%;pointer-events:none;transition:left .9s var(--ease),top .9s var(--ease)}
+.map-piece img{width:100%;filter:drop-shadow(3px 4px 0 #1c181426)}
+.map-piece.is-riding img{animation:ride .9s var(--ease)}
+@keyframes ride{0%,100%{translate:0 0;rotate:0deg}25%{translate:0 -9%;rotate:-5deg}50%{translate:0 0;rotate:3deg}75%{translate:0 -5%;rotate:-2deg}}
+.piece-speech{position:absolute;bottom:100%;left:50%;translate:-50% -6px;width:max(210px,21cqw);padding:.6cqw .9cqw;background:var(--paper);border:1.5px solid var(--ink);box-shadow:3px 3px 0 #1c181433;font:clamp(12px,1.08cqw,16px)/1.35 Fell,Georgia,serif;color:var(--ink)}
+.piece-speech:after{content:"";position:absolute;left:50%;top:100%;width:10px;height:10px;background:var(--paper);border:solid var(--ink);border-width:0 1.5px 1.5px 0;translate:-50% -5px;rotate:45deg}
+.map-piece[data-below=true] .piece-speech{bottom:auto;top:100%;translate:-50% 8px}
+.map-piece[data-below=true] .piece-speech:after{top:auto;bottom:100%;translate:-50% 5px;rotate:225deg}
+.map-piece[data-side=left] .piece-speech{left:auto;right:30%;translate:0 -6px}
+.map-piece[data-side=left] .piece-speech:after{left:auto;right:18px}
+.map-piece[data-side=right] .piece-speech{left:30%;translate:0 -6px}
+.map-piece[data-side=right] .piece-speech:after{left:18px}
+.map-piece[data-below=true][data-side=left] .piece-speech,.map-piece[data-below=true][data-side=right] .piece-speech{translate:0 8px}
+.map-dragons{position:absolute;left:84.2%;top:15.6%;width:13%;translate:-50% -50%;text-align:center;font:italic clamp(12px,1.3cqw,19px)/1.15 Fell,Georgia,serif;color:var(--rubric);pointer-events:none}
+.map-dragons small{display:block;font-size:.72em;color:var(--ink)}
+
+/* The purse is written into the empty cartouche at the bottom left of the map. */
+.map-purse{position:absolute;left:10.4%;top:74.4%;width:13%;height:12%;display:grid;grid-template-columns:auto auto;grid-template-areas:"label label" "amount cur" "range range";justify-content:center;align-content:center;align-items:center;gap:.2cqw .6cqw}
+.purse-head{display:contents}
+.purse-head label{grid-area:label;text-align:center;font:italic clamp(10px,.95cqw,14px)/1.1 Fell,Georgia,serif;white-space:nowrap}
+.purse-currency{grid-area:cur;display:flex;flex-direction:column;border:1px solid var(--ink)}
+.purse-currency button{padding:0 .3cqw;font:700 clamp(7px,.62cqw,10px)/1.5 Manrope,sans-serif;min-height:0}
+.purse-currency button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.purse-amount{grid-area:amount;font:clamp(18px,2.2cqw,34px)/1 Fell,Georgia,serif;font-variant-numeric:lining-nums;white-space:nowrap}
+#purse-range{grid-area:range;-webkit-appearance:none;appearance:none;width:100%;height:14px;background:linear-gradient(var(--ink),var(--ink)) 0 50%/var(--fill,30%) 3px no-repeat,linear-gradient(#1c181440,#1c181440) 0 50%/100% 1.5px no-repeat;cursor:pointer}
+#purse-range::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;background:var(--rubric);border:1.5px solid var(--ink);rotate:45deg}
+#purse-range::-moz-range-thumb{width:10px;height:10px;border-radius:0;background:var(--rubric);border:1.5px solid var(--ink);rotate:45deg}
+#purse-range:focus-visible{outline:2px solid var(--rubric);outline-offset:3px}
+.map-view :focus-visible{outline-color:var(--rubric)}
+
+@media(max-width:760px){
+  .map-title{left:12px;right:12px;top:10px;padding:9px 13px}.map-title h2{font-size:28px;margin-top:3px}.map-line{display:none}.map-hint{font-size:11px;margin-top:4px}.map-exit{margin-top:4px;font-size:11px}
+  .map-arrival{font-size:10px}.map-arrival img{width:15px;height:15px}
+}
+@media(max-height:680px) and (min-width:761px){.map-title{padding:12px 16px}.map-title h2{font-size:36px}.map-line{display:none}}
+@media(prefers-reduced-motion:reduce){.region,.map-piece{transition:none}.map-piece.is-riding img{animation:none}}
+
+/* The brand is a second cartouche, pinned to the map's other corner like the title. */
+body[data-world=commissionmatch] .site-header{left:auto;right:16px}
+body[data-world=commissionmatch] .site-header .studio-brand{padding:5px 12px 5px 5px;background:var(--paper);border:2px solid var(--ink);box-shadow:4px 4px 0 #1c181433}
+body[data-world=commissionmatch] .site-header .studio-brand .brand-original{filter:sepia(.45) saturate(.8)}
+body[data-world=commissionmatch] .brand-name{font:17px/.92 Fell,Georgia,serif;letter-spacing:.08em;text-transform:uppercase;color:var(--ink)}
+@media(max-width:760px){.map-title{top:64px}}

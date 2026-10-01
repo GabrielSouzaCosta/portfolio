@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strider prototype</title>
+<style>
+  body { margin: 0; background: #e7decd; color: #2a2620; font: 13px system-ui, sans-serif; overflow-x: hidden; }
+  .stage { position: relative; width: 100vw; aspect-ratio: 1672 / 941; background: url('../assets/images/hero-life/plate-ink.webp') 0 0 / 100% 100%; overflow: hidden; transform-origin: 42% 76%; transition: transform .6s; }
+  .stage.zoom { transform: scale(2.3); }
+  canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .bar { position: fixed; left: 12px; bottom: 12px; display: flex; gap: 8px; }
+  button { font: inherit; padding: 7px 11px; background: #2a2620; color: #e7decd; border: 0; border-radius: 3px; cursor: pointer; }
+</style>
+</head>
+<body>
+<div class="stage" id="stage"><canvas id="c"></canvas></div>
+<div class="bar"><button id="zoom">Zoom</button><button id="turn">Turn now</button><button id="graze">Graze</button><button id="pause">Pause</button></div>
+<script type="module">
+// Throwaway prototype: one creature built in 3D and drawn as an engraving,
+// to judge motion and look before replacing the hero's cut-outs.
+import * as THREE from '../goiaba-lunar/node_modules/three/build/three.module.js';
+
+const W = 1672, H = 941;
+const stage = document.getElementById('stage');
+const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('c'), alpha: true, antialias: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setClearColor(0x000000, 0);
+const scene = new THREE.Scene();
+// Plate pixels as world units (y up), so the creature sits exactly on the drawing.
+const camera = new THREE.OrthographicCamera(0, W, 0, -H, -3000, 3000);
+camera.position.z = 1000;
+const resize = () => renderer.setSize(stage.clientWidth, stage.clientHeight, false);
+resize();
+addEventListener('resize', resize);
+
+const INK = new THREE.Color('#2a2620');
+const PAPER = new THREE.Color('#e6dccb');
+const LIGHT = new THREE.Vector3(-.45, .75, .55).normalize();
+const SPACING = 4;
+
+// ---------------------------------------------------------------- engraving
+// Rings follow each part's length; lines swell into shadow, and a second set
+// crosses them in the darkest tones, like cuts of a burin.
+const engraveVertex = `
+  varying vec3 vN; varying vec2 vUv;
+  void main() { vUv = uv; vN = normalize(normalMatrix * normal); gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.); }`;
+const engraveFragment = `
+  uniform vec3 uInk, uPaper, uLight; uniform float uAlong, uAround, uTone;
+  varying vec3 vN; varying vec2 vUv;
+  float lines(float a, float w) {
+    float fw = fwidth(a);
+    float d = abs(fract(a + .5) - .5);
+    float ink = 1. - smoothstep(w - fw, w + fw, d);
+    return mix(ink, clamp(w * 2., 0., 1.), smoothstep(.25, .5, fw));
+  }
+  void main() {
+    vec3 n = normalize(vN);
+    if (!gl_FrontFacing) n = -n;
+    float tone = clamp(.42 - .6 * dot(n, uLight) + uTone, 0., 1.);
+    tone = max(tone, smoothstep(.35, .0, n.z) * .7);
+    float a = vUv.y * uAlong + .16 * sin(vUv.x * 25.13 + vUv.y * 9.);
+    float b = vUv.x * uAround + .12 * sin(vUv.y * uAlong * .37);
+    float ink = lines(a, .5 * smoothstep(.08, .9, tone));
+    ink = max(ink, lines(b, .42 * smoothstep(.72, 1., tone)));
+    gl_FragColor = vec4(mix(uPaper, uInk, ink), 1.);
+  }`;
+const outline = new THREE.ShaderMaterial({
+  uniforms: { uInk: { value: INK }, uThick: { value: 1.25 } },
+  vertexShader: `uniform float uThick;
+    void main() { vec4 mv = modelViewMatrix * vec4(position, 1.); mv.xyz += normalize(normalMatrix * normal) * uThick; mv.z -= 1.5; gl_Position = projectionMatrix * mv; }`,
+  fragmentShader: `uniform vec3 uInk; void main() { gl_FragColor = vec4(uInk, 1.); }`,
+  side: THREE.BackSide
+});
+const solidInk = new THREE.MeshBasicMaterial({ color: INK });
+
+function part(geometry, { along = 20, around = 20, tone = 0 } = {}) {
+  const material = new THREE.ShaderMaterial({
+    uniforms: { uInk: { value: INK }, uPaper: { value: PAPER }, uLight: { value: LIGHT }, uAlong: { value: along }, uAround: { value: around }, uTone: { value: tone } },
+    vertexShader: engraveVertex, fragmentShader: engraveFragment
+  });
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.add(new THREE.Mesh(geometry, outline));
+  return mesh;
+}
+
+// A tapered limb from its base (origin) to its tip (y = 1), scaled to length.
+function limb(r0, r1, tone = 0) {
+  const geometry = new THREE.CylinderGeometry(r1, r0, 1, 12, 6);
+  geometry.translate(0, .5, 0);
+  const mesh = part(geometry, { around: Math.PI * (r0 + r1) / SPACING, tone });
+  mesh.userData.radius = (r0 + r1) / 2;
+  return mesh;
+}
+const UP = new THREE.Vector3(0, 1, 0);
+const tmp = new THREE.Vector3();
+function span(mesh, a, b) {
+  tmp.subVectors(b, a);
+  const length = Math.max(.001, tmp.length());
+  mesh.position.copy(a);
+  mesh.quaternion.setFromUnitVectors(UP, tmp.divideScalar(length));
+  mesh.scale.set(1, length, 1);
+  mesh.material.uniforms.uAlong.value = length / SPACING;
+}
+function lathe(profile, segments = 24) {
+  return new THREE.LatheGeometry(profile.map(([r, y]) => new THREE.Vector2(Math.max(.4, r), y)), segments);
+}
+// A curved horn that thins toward its tip.
+function horn(points, radius) {
+  const curve = new THREE.CatmullRomCurve3(points);
+  const geometry = new THREE.TubeGeometry(curve, 24, radius, 7, false);
+  const position = geometry.attributes.position, centre = new THREE.Vector3(), p = new THREE.Vector3();
+  for (let i = 0; i <= 24; i++) {
+    curve.getPointAt(i / 24, centre);
+    for (let j = 0; j <= 7; j++) {
+      const k = i * 8 + j;
+      p.fromBufferAttribute(position, k).sub(centre).multiplyScalar(1 - .85 * i / 24).add(centre);
+      position.setXYZ(k, p.x, p.y, p.z);
+    }
+  }
+  geometry.computeVertexNormals();
+  return part(geometry, { along: curve.getLength() / SPACING, around: 2 * Math.PI * radius / SPACING, tone: .05 });
+}
+
+// ---------------------------------------------------------------- the strider
+const root = new THREE.Group();
+root.position.set(740, -782, 0);
+root.rotation.x = .22; // a little from above, like the plate's horizon
+scene.add(root);
+
+// Hatched cast shadow: horizontal lines, like the plate's water and ground.
+const shadow = new THREE.Mesh(new THREE.PlaneGeometry(170, 60), new THREE.ShaderMaterial({
+  uniforms: { uInk: { value: INK } },
+  vertexShader: `varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.); }`,
+  fragmentShader: `uniform vec3 uInk; varying vec2 vUv;
+    void main() { vec2 p = vUv * 2. - 1.; float fade = smoothstep(1., .15, length(p));
+      float line = abs(fract(gl_FragCoord.y / 5.) - .5);
+      if (line > .12 + .2 * fade || fade < .05) discard; gl_FragColor = vec4(uInk, 1.); }`,
+  transparent: true, depthWrite: false
+}));
+shadow.rotation.x = -Math.PI / 2;
+shadow.position.y = .5;
+root.add(shadow);
+
+const body = new THREE.Group();
+root.add(body);
+const BODY_L = 124;
+const bodyProfile = [];
+for (let i = 0; i <= 48; i++) {
+  const t = i / 48;
+  const bands = Math.exp(-((((t * 6) % 1) - .5) ** 2) * 30);
+  bodyProfile.push([34 * Math.pow(Math.sin(Math.PI * t), .55) * (1 + .07 * bands), t * BODY_L - BODY_L / 2]);
+}
+const barrel = lathe(bodyProfile);
+barrel.rotateZ(-Math.PI / 2);
+barrel.scale(1, .92, .78);
+body.add(part(barrel, { along: BODY_L / SPACING, around: 2 * Math.PI * 30 / SPACING }));
+for (let i = 0; i < 7; i++) {
+  const x = -44 + i * 14;
+  const spine = part(new THREE.ConeGeometry(4.2, 16 - Math.abs(i - 3) * 1.5, 7), { along: 5, around: 8, tone: .1 });
+  spine.position.set(x, 30 * Math.pow(Math.sin(Math.PI * (x / BODY_L + .5)), .55) * .9 + 5, 0);
+  spine.rotation.z = .5;
+  body.add(spine);
+}
+
+const neck = Array.from({ length: 9 }, (_, i) => { const m = limb(15.5 - i * .75, 13 - i * .75); root.add(m); return m; });
+const head = new THREE.Group();
+root.add(head);
+// The skull points along its local +y, from the crown (0) to the snout.
+const skull = lathe([[2, 0], [11, 2], [13, 9], [12, 18], [9, 28], [7, 38], [5.5, 46], [3, 51], [.5, 53]], 18);
+skull.scale(1, 1, .75);
+head.add(part(skull, { along: 53 / SPACING, around: 2 * Math.PI * 10 / SPACING }));
+for (const side of [-1, 1]) {
+  const eye = new THREE.Mesh(new THREE.SphereGeometry(2.6, 10, 8), solidInk);
+  eye.position.set(-3, 13, side * 8.5);
+  head.add(eye);
+}
+// A crest of long spines sweeping back from the crown, as in the plate.
+const V = (x, y, z) => new THREE.Vector3(x, y, z);
+[[-4, 0, 30, -60], [-2, 3, 40, -68], [0, -3, 48, -62], [2, 4, 52, -48], [4, -5, 44, -34]].forEach(([z, dz, len, rise]) => {
+  head.add(horn([V(2, 4, z), V(len * .35, rise * .25, z + dz), V(len * .75, rise * .75, z + dz * 1.8), V(len, rise, z + dz * 2.4)], 2.6));
+});
+
+const tail = Array.from({ length: 8 }, (_, i) => { const m = limb(6 - i * .55, 5.4 - i * .55, .05); root.add(m); return m; });
+
+// Legs: hip and resting foot in body space, gait phase, and which way the knee bends.
+const LEGS = [
+  { hip: V(38, -10, 15), rest: V(40, 0, 20), phase: .25, bend: 1 },
+  { hip: V(38, -10, -15), rest: V(40, 0, -20), phase: .75, bend: 1 },
+  { hip: V(-38, -8, 15), rest: V(-42, 0, 20), phase: 0, bend: -1 },
+  { hip: V(-38, -8, -15), rest: V(-42, 0, -20), phase: .5, bend: -1 }
+].map(leg => {
+  const thigh = limb(4.8, 3.5), shin = limb(3.4, 2.5), toe = limb(2.8, 1, .1);
+  const knee = part(new THREE.SphereGeometry(4.2, 12, 10), { along: 8, around: 10, tone: .05 });
+  const ankle = part(new THREE.SphereGeometry(3, 10, 8), { along: 6, around: 8, tone: .05 });
+  root.add(thigh, shin, toe, knee, ankle);
+  return { ...leg, thigh, shin, toe, knee, ankle, planted: new THREE.Vector3(), from: new THREE.Vector3(), to: new THREE.Vector3(), foot: new THREE.Vector3(), swinging: false };
+});
+const THIGH = 44, SHIN = 47, HIP_HEIGHT = 88;
+
+// ---------------------------------------------------------------- motion
+const state = {
+  x: 0, z: 0, yaw: 0, yawRate: 0, speed: 0, gait: 0,
+  mode: 'walk', timer: 5, graze: 0, target: { speed: 22, graze: 0 },
+  turn: null, turnSide: 1, paused: false
+};
+const CYCLE = 2.1, SWING = .26, LIFT = 11;
+const forward = (yaw, out = new THREE.Vector3()) => out.set(Math.cos(yaw), 0, -Math.sin(yaw));
+
+function bodyPoint(local, x, z, yaw, out) {
+  const c = Math.cos(yaw), s = Math.sin(yaw);
+  return out.set(x + local.x * c + local.z * s, local.y, z - local.x * s + local.z * c);
+}
+LEGS.forEach(leg => { bodyPoint(leg.rest, 0, 0, 0, leg.planted); leg.foot.copy(leg.planted); });
+
+// Two-bone IK: the knee sits where both bones reach, bent toward `pole`.
+const hipW = new THREE.Vector3(), kneeW = new THREE.Vector3(), dir = new THREE.Vector3(), side = new THREE.Vector3(), pole = new THREE.Vector3();
+function solve(leg, hip, foot) {
+  dir.subVectors(foot, hip);
+  const d = Math.min(THIGH + SHIN - .5, Math.max(Math.abs(THIGH - SHIN) + 1, dir.length()));
+  dir.normalize();
+  forward(state.yaw, pole).multiplyScalar(leg.bend).addScaledVector(UP, .15);
+  side.copy(pole).addScaledVector(dir, -pole.dot(dir)).normalize();
+  const cos = (THIGH * THIGH + d * d - SHIN * SHIN) / (2 * THIGH * d);
+  const sin = Math.sqrt(Math.max(0, 1 - cos * cos));
+  kneeW.copy(hip).addScaledVector(dir, THIGH * cos).addScaledVector(side, THIGH * sin);
+  const ankle = new THREE.Vector3().copy(foot).addScaledVector(UP, 5);
+  span(leg.thigh, hip, kneeW);
+  span(leg.shin, kneeW, ankle);
+  leg.knee.position.copy(kneeW);
+  leg.ankle.position.copy(ankle);
+  span(leg.toe, ankle, forward(state.yaw, new THREE.Vector3()).multiplyScalar(9).add(foot).setY(1));
+}
+
+function behave(dt) {
+  state.timer -= dt;
+  const edge = state.x > 55 ? 1 : state.x < -110 ? -1 : 0;
+  const heading = Math.cos(state.yaw);
+  if (state.mode === 'walk') {
+    state.target = { speed: 22, graze: 0 };
+    if (edge && Math.sign(heading) === edge) startTurn();
+    else if (state.timer < 0) { state.mode = 'graze'; state.timer = 3 + Math.random() * 3; }
+  } else if (state.mode === 'graze') {
+    state.target = { speed: 0, graze: 1 };
+    if (state.timer < 0) { state.mode = 'walk'; state.timer = 4 + Math.random() * 4; }
+  } else if (state.mode === 'turn') {
+    state.target = { speed: 11, graze: 0 };
+    const left = state.turn.to - state.yaw;
+    state.yawRate = Math.sign(left) * Math.min(Math.PI / 3.4, Math.abs(left) * 2 + .15);
+    if (Math.abs(left) < .01) { state.yaw = state.turn.to; state.yawRate = 0; state.mode = 'walk'; state.timer = 4 + Math.random() * 3; }
+  }
+  state.speed += (state.target.speed - state.speed) * Math.min(1, dt * 1.6);
+  state.graze += (state.target.graze - state.graze) * Math.min(1, dt * 1.2);
+}
+function startTurn() {
+  // U-turn through a three-quarter view, alternating toward and away from us.
+  state.turnSide = -state.turnSide;
+  state.mode = 'turn';
+  state.turn = { to: state.yaw + Math.PI * state.turnSide };
+}
+
+const predicted = new THREE.Vector3(), fwd = new THREE.Vector3();
+function step(dt) {
+  behave(dt);
+  state.yaw += state.yawRate * dt;
+  forward(state.yaw, fwd);
+  state.x += fwd.x * state.speed * dt;
+  state.z += fwd.z * state.speed * dt;
+  state.z *= 1 - dt * .15; // drift back toward the drawing's depth after a turn
+
+  // The gait runs while moving, and always finishes a step already in the air.
+  const moving = Math.min(1, state.speed / 22 + Math.abs(state.yawRate));
+  const airborne = LEGS.some(leg => leg.swinging);
+  state.gait = (state.gait + dt / CYCLE * Math.max(moving, airborne ? .6 : 0)) % 1;
+
+  for (const leg of LEGS) {
+    const p = (state.gait + leg.phase) % 1;
+    const swinging = p < SWING && (moving > .05 || leg.swinging);
+    if (swinging && !leg.swinging) {
+      // Aim where the body will be midway through this foot's next stance.
+      const ahead = (SWING * (1 - p / SWING) + (1 - SWING) / 2) * CYCLE;
+      const yaw = state.yaw + state.yawRate * ahead;
+      forward(state.yaw + state.yawRate * ahead / 2, predicted).multiplyScalar(state.speed * ahead);
+      bodyPoint(leg.rest, state.x + predicted.x, state.z + predicted.z, yaw, leg.to);
+      leg.from.copy(leg.planted);
+    }
+    if (swinging) {
+      const s = Math.min(1, p / SWING), e = s * s * (3 - 2 * s);
+      leg.foot.lerpVectors(leg.from, leg.to, e);
+      leg.foot.y = LIFT * Math.sin(Math.PI * s);
+    } else if (leg.swinging) {
+      leg.planted.copy(leg.to);
+      leg.foot.copy(leg.planted);
+    }
+    leg.swinging = swinging;
+  }
+
+  const bob = Math.sin(state.gait * Math.PI * 4) * 1.8 * moving;
+  body.position.set(state.x, HIP_HEIGHT + 8 + bob - state.graze * 4, state.z);
+  body.rotation.set(0, state.yaw, Math.sin(state.gait * Math.PI * 2) * .025 * moving - state.graze * .06);
+  body.updateMatrix();
+  for (const leg of LEGS) solve(leg, hipW.copy(leg.hip).applyMatrix4(body.matrix), leg.foot);
+
+  // Neck: a curve from the withers to the skull, lowered to graze.
+  const t = performance.now() / 1000;
+  const nod = Math.sin(state.gait * Math.PI * 4) * 3 * moving;
+  const chew = state.graze * Math.sin(t * 7) * 2;
+  const k = state.graze;
+  const pts = [V(54, 20, 0), V(80 - k * 2, 72 - k * 34, 0), V(108 - k * 2, 86 - k * 86 + nod, 0), V(120 - k * 4, 62 - k * 120 + nod + chew, 0)]
+    .map(p => p.applyMatrix4(body.matrix));
+  const curve = new THREE.CubicBezierCurve3(...pts);
+  const neckPoints = curve.getSpacedPoints(neck.length);
+  neck.forEach((m, i) => span(m, neckPoints[i], neckPoints[i + 1]));
+  const end = neckPoints[neckPoints.length - 1];
+  head.position.copy(end);
+  // The skull hangs snout-down; grazing brings it nearly vertical.
+  const tilt = -1.2 - k * .3 + Math.sin(state.gait * Math.PI * 4) * .04 * moving;
+  head.rotation.set(0, state.yaw, 0);
+  head.rotateZ(tilt - Math.PI / 2);
+
+  // Tail: hangs from the rump to near the ground and sways with the gait.
+  const sway = Math.sin(state.gait * Math.PI * 2 + 1) * 6 * moving;
+  const tailPts = new THREE.CubicBezierCurve3(V(-58, 8, 0), V(-84, -10, sway * .3), V(-96, -50, sway), V(-104, -86, sway * 1.6))
+    .getSpacedPoints(tail.length).map(p => p.applyMatrix4(body.matrix));
+  tail.forEach((m, i) => span(m, tailPts[i], tailPts[i + 1]));
+
+  shadow.position.set(state.x, .5, state.z);
+  shadow.rotation.z = state.yaw;
+}
+
+// ---------------------------------------------------------------- controls
+document.getElementById('zoom').onclick = () => stage.classList.toggle('zoom');
+document.getElementById('turn').onclick = () => { if (state.mode !== 'turn') startTurn(); };
+document.getElementById('graze').onclick = () => { state.mode = 'graze'; state.timer = 4; };
+document.getElementById('pause').onclick = () => { state.paused = !state.paused; };
+let last = performance.now();
+function frame(now) {
+  // A frame's timestamp can precede the one taken at startup.
+  const dt = Math.max(0, Math.min(.05, (now - last) / 1000));
+  last = now;
+  if (!state.paused) step(dt);
+  renderer.render(scene, camera);
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+window.__strider = state;
+window.__legs = LEGS; window.__body = body;
+</script>
+</body>
+</html>

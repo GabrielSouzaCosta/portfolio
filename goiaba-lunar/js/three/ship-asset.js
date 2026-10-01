@@ -9,7 +9,7 @@ export async function loadShipAsset() {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 8000);
   try {
-    const url = new URL('assets/models/morfeu-scout-v06.glb?revision=sclera-white-1', document.baseURI);
+    const url = new URL('assets/models/morfeu-scout-v07.glb?revision=scarf-1', document.baseURI);
     const response = await fetch(url, { signal: controller.signal });
     if (!response.ok) throw new Error(`Morfeu model: HTTP ${response.status}`);
     asset = await new GLTFLoader().parseAsync(await response.arrayBuffer(), url.href);
@@ -21,7 +21,7 @@ export async function loadShipAsset() {
 export function createBlenderShip(THREE) {
   if (!asset) return null;
   const model = clone(asset.scene);
-  model.name = 'Morfeu · explorador orbital · Blender v06';
+  model.name = 'Morfeu · explorador orbital · Blender v07';
   // Flight copies are disposed independently of the atlas and cached source.
   const materials = new Map(), textures = new Map(), geometries = new Map();
   const copyMaterial = source => {
@@ -54,8 +54,20 @@ export function createBlenderShip(THREE) {
   const cores = [...materials.values()].filter(material => material.name === 'Ship | ion cores');
   const rotors = ['L', 'R'].map(side => model.getObjectByName('EngineRotor_' + side)).filter(Boolean);
   const fins = ['L', 'R'].map(side => model.getObjectByName('VectorFin_' + side)).filter(Boolean);
+  const ears = ['earL', 'earR'].map(name => model.getObjectByName(name)).filter(Boolean);
+  // The scarf's free ends are fluttered here, from their rest pose each frame.
+  const scarf = [];
+  model.traverse(object => {
+    if (!object.isMesh || !/^Scarf_tail/.test(object.name)) return;
+    const position = object.geometry.getAttribute('position');
+    const rest = Float32Array.from(position.array);
+    let near = Infinity, far = -Infinity;
+    for (let i = 2; i < rest.length; i += 3) { near = Math.min(near, -rest[i]); far = Math.max(far, -rest[i]); }
+    object.frustumCulled = false;
+    scarf.push({ position, rest, near, span:Math.max(1e-4, far - near), phase:scarf.length * 1.7 });
+  });
   const clamp = value => Number.isFinite(value) ? THREE.MathUtils.clamp(value, 0, 1) : 0;
-  model.userData.assetVersion = 'morfeu-scout-v06';
+  model.userData.assetVersion = 'morfeu-scout-v07';
   model.userData.throttle = 0;
   model.userData.setFlight = value => { model.userData.throttle = clamp(value); };
   model.userData.animate = (time = 0, hover = 0, interaction = {}) => {
@@ -63,8 +75,25 @@ export function createBlenderShip(THREE) {
     if (head) {
       const x = THREE.MathUtils.clamp(interaction.lookX || 0, -1, 1);
       const y = THREE.MathUtils.clamp(interaction.lookY || 0, -1, 1);
-      look.setFromEuler(euler.set(-y * .07, x * .13, -clamp(interaction.pet) * .08));
+      const focus = clamp(interaction.focus);
+      look.setFromEuler(euler.set(-y * (.07 + focus * .1), x * (.13 + focus * .3), -clamp(interaction.pet) * .08 - x * focus * .08));
       head.quaternion.multiply(look);
+    }
+    ears.forEach(ear => {
+      look.setFromEuler(euler.set(-clamp(interaction.focus) * .16, 0, 0));
+      ear.quaternion.multiply(look);
+    });
+    const clock = Number.isFinite(time) ? time : 0;
+    const gust = .025 + clamp(interaction.thrust ?? model.userData.throttle) * .05;
+    for (const tail of scarf) {
+      const { array } = tail.position;
+      for (let i = 0; i < array.length; i += 3) {
+        const t = (-tail.rest[i + 2] - tail.near) / tail.span, weight = t * t;
+        array[i] = tail.rest[i] + Math.sin(clock * 8.5 - t * 6.5 + tail.phase) * gust * weight;
+        array[i + 1] = tail.rest[i + 1] + Math.sin(clock * 6.1 - t * 5 + tail.phase + 1.3) * gust * .6 * weight;
+        array[i + 2] = tail.rest[i + 2];
+      }
+      tail.position.needsUpdate = true;
     }
     for (const lid of lids) {
       const index = lid.morphTargetDictionary.Blink;

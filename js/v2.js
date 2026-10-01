@@ -18,8 +18,6 @@ let touchStart = null;
 let touchDelta = 0;
 let touchClaimed = false;
 let navigationDrag = false;
-let renderHeroPixels = () => {};
-let stopHeroResolution = () => {};
 
 function resetPull() {
   root.classList.remove('dragging');
@@ -37,7 +35,6 @@ function previewPull(delta) {
 function setPage(index, { focus = false, history = true, initial = false } = {}) {
   if (index < 0 || index >= scenes.length) { resetPull(); return; }
   const changed = index !== page;
-  if (changed) stopHeroResolution();
   resetPull();
   page = index;
   root.style.setProperty('--page', page);
@@ -68,7 +65,6 @@ function setPage(index, { focus = false, history = true, initial = false } = {})
   if (focus) scenes[page].querySelector('h1,h2').focus({ preventScroll: true });
   if (!initial) status.textContent = `${page + 1} de ${scenes.length}: ${navigation[page].querySelector('.nav-name').childNodes[0].textContent}`;
   lockedUntil = performance.now() + (reducedMotion.matches ? 180 : 900);
-  if (page === 0 && changed) requestAnimationFrame(() => renderHeroPixels());
   document.dispatchEvent(new CustomEvent('portfolio:sectionchange', { detail: { id: scenes[page].id, initial, changed } }));
 }
 function scrollContainer() { return scenes[page].querySelector('.scene-scroll'); }
@@ -287,218 +283,3 @@ form.addEventListener('submit', async event => {
   } catch { formStatus.textContent = 'Não foi possível enviar. Seus campos foram preservados; tente novamente.'; }
   finally { button.disabled = false; label.textContent = 'Enviar mensagem'; }
 });
-
-// A temporary visual plate resolves the entire hero together. The real DOM
-// remains underneath, accessible and interactive; nothing depends on this effect.
-const heroSurface = document.querySelector('.hero-inner');
-const pixelCanvas = document.querySelector('.hero-pixels');
-const pixelContext = pixelCanvas.getContext('2d');
-const engraving = new Image();
-let pixelFrame = 0;
-let pixelFinishTimer = 0;
-let heroReady = false;
-
-function backgroundOffset(value, remaining) {
-  if (value === 'center') return remaining / 2;
-  if (value === 'bottom' || value === 'right') return remaining;
-  return value.endsWith('%') ? remaining * parseFloat(value) / 100 : parseFloat(value) || 0;
-}
-
-function paintHeroBox(ctx, element, origin) {
-  const rect = element.getBoundingClientRect();
-  if (!rect.width || !rect.height) return;
-  const style = getComputedStyle(element);
-  const x = rect.left - origin.left, y = rect.top - origin.top;
-  ctx.fillStyle = style.backgroundColor;
-  ctx.beginPath();
-  ctx.roundRect(x, y, rect.width, rect.height, parseFloat(style.borderRadius) || 0);
-  ctx.fill();
-  const border = parseFloat(style.borderLeftWidth);
-  if (border) {
-    ctx.fillStyle = style.borderLeftColor;
-    ctx.fillRect(x, y, border, rect.height);
-  }
-}
-
-function paintHeroText(ctx, element, origin) {
-  const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
-  const range = document.createRange();
-  while (walker.nextNode()) {
-    const node = walker.currentNode;
-    const style = getComputedStyle(node.parentElement);
-    ctx.font = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
-    ctx.fillStyle = style.color;
-    ctx.textBaseline = 'alphabetic';
-    ctx.letterSpacing = style.letterSpacing === 'normal' ? '0px' : style.letterSpacing;
-    const metrics = ctx.measureText('Hg');
-    const ascent = metrics.fontBoundingBoxAscent ?? parseFloat(style.fontSize) * .8;
-    const descent = metrics.fontBoundingBoxDescent ?? parseFloat(style.fontSize) * .2;
-    // DOM ranges retain the browser's actual wrapping, spacing and font choice.
-    for (const word of node.textContent.matchAll(/\S+/g)) {
-      range.setStart(node, word.index);
-      range.setEnd(node, word.index + word[0].length);
-      const rect = range.getBoundingClientRect();
-      if (!rect.width || !rect.height) continue;
-      const baseline = rect.top - origin.top + (rect.height - ascent - descent) / 2 + ascent;
-      ctx.fillText(word[0], rect.left - origin.left, baseline);
-    }
-  }
-}
-
-function paintHeroIcon(ctx, svg, origin) {
-  const rect = svg.getBoundingClientRect();
-  if (!rect.width || !rect.height) return;
-  const use = svg.querySelector('use');
-  const source = use ? document.querySelector(use.getAttribute('href')) : svg;
-  if (!source) return;
-  const viewBox = (source.getAttribute('viewBox') || '0 0 24 24').split(/\s+/).map(Number);
-  const style = getComputedStyle(svg);
-  ctx.save();
-  ctx.translate(rect.left - origin.left, rect.top - origin.top);
-  ctx.scale(rect.width / viewBox[2], rect.height / viewBox[3]);
-  ctx.translate(-viewBox[0], -viewBox[1]);
-  ctx.lineWidth = parseFloat(style.strokeWidth);
-  ctx.strokeStyle = style.stroke;
-  ctx.fillStyle = style.fill;
-  for (const element of source.querySelectorAll('path')) {
-    const path = new Path2D(element.getAttribute('d'));
-    ctx.globalAlpha = Number(element.getAttribute('opacity') || 1);
-    if (style.fill !== 'none') ctx.fill(path);
-    if (style.stroke !== 'none') ctx.stroke(path);
-  }
-  ctx.restore();
-}
-
-function makeHeroPlate(width, height, ratio) {
-  const plate = document.createElement('canvas');
-  plate.width = Math.round(width * ratio);
-  plate.height = Math.round(height * ratio);
-  const ctx = plate.getContext('2d');
-  if (!ctx) return null;
-  ctx.scale(ratio, ratio);
-  ctx.fillStyle = getComputedStyle(heroSurface).backgroundColor;
-  ctx.fillRect(0, 0, width, height);
-  const artStyle = getComputedStyle(document.querySelector('.hero-art'));
-  const size = artStyle.backgroundSize.split(' ');
-  const scale = artStyle.backgroundSize === 'cover'
-    ? Math.max(width / engraving.width, height / engraving.height)
-    : (parseFloat(size[1]) || height) / engraving.height;
-  const imageWidth = engraving.width * scale, imageHeight = engraving.height * scale;
-  const position = artStyle.backgroundPosition.split(' ');
-  ctx.drawImage(engraving, backgroundOffset(position[0], width - imageWidth),
-    backgroundOffset(position[1] || '50%', height - imageHeight), imageWidth, imageHeight);
-
-  const style = getComputedStyle(heroSurface);
-  const vertical = style.getPropertyValue('--veil-angle').trim() === '180deg';
-  const wash = ctx.createLinearGradient(0, 0, vertical ? 0 : width, vertical ? height : 0);
-  wash.addColorStop(0, style.getPropertyValue('--veil-start').trim());
-  wash.addColorStop(parseFloat(style.getPropertyValue('--veil-stop')) / 100, style.getPropertyValue('--veil-mid').trim());
-  wash.addColorStop(parseFloat(style.getPropertyValue('--veil-clear')) / 100, style.getPropertyValue('--veil-end').trim());
-  ctx.fillStyle = wash;
-  ctx.fillRect(0, 0, width, height);
-
-  const origin = heroSurface.getBoundingClientRect();
-  for (const element of heroSurface.querySelectorAll('.button, .button-icon, .mobile-name small b')) {
-    paintHeroBox(ctx, element, origin);
-  }
-  for (const element of heroSurface.querySelectorAll('.hero-copy, .mobile-brand')) {
-    paintHeroText(ctx, element, origin);
-  }
-  for (const svg of heroSurface.querySelectorAll('.hero-copy svg, .mobile-brand svg')) {
-    paintHeroIcon(ctx, svg, origin);
-  }
-  return plate;
-}
-
-stopHeroResolution = () => {
-  cancelAnimationFrame(pixelFrame);
-  clearTimeout(pixelFinishTimer);
-  pixelFrame = 0;
-  pixelCanvas.classList.remove('rendering');
-  pixelCanvas.style.opacity = '0';
-  // Release the full-size backing store after the short entrance.
-  pixelCanvas.width = 1;
-  pixelCanvas.height = 1;
-};
-
-renderHeroPixels = () => {
-  stopHeroResolution();
-  if (!pixelContext || !heroReady || reducedMotion.matches || document.hidden || page !== 0) return;
-  // Never cover a person already interacting with or reading a scrolled hero.
-  if (heroSurface.parentElement.scrollTop > 0 || heroSurface.contains(document.activeElement)) return;
-  const width = heroSurface.clientWidth, height = heroSurface.clientHeight;
-  if (!width || !height) return;
-  const ratio = Math.min(devicePixelRatio, 1.5);
-  try {
-    const plate = makeHeroPlate(width, height, ratio);
-    if (!plate) return;
-    const cells = width <= 850 ? [20, 13, 8, 5, 3, 2, 1] : [30, 19, 12, 7, 4, 2, 1];
-    const levels = cells.map(cell => {
-      const layer = document.createElement('canvas');
-      layer.width = Math.max(1, Math.ceil(width / cell));
-      layer.height = Math.max(1, Math.ceil(height / cell));
-      const ctx = layer.getContext('2d');
-      ctx.imageSmoothingQuality = 'high';
-      ctx.drawImage(plate, 0, 0, layer.width, layer.height);
-      return layer;
-    });
-    pixelCanvas.width = Math.round(width * ratio);
-    pixelCanvas.height = Math.round(height * ratio);
-    pixelContext.setTransform(ratio, 0, 0, ratio, 0, 0);
-    pixelContext.imageSmoothingEnabled = false;
-    const columns = 6, rows = 4;
-    const patches = Array.from({ length: columns * rows }, (_, index) => ({
-      x: index % columns / columns,
-      y: Math.floor(index / columns) / rows,
-      delay: ((index * 13 + 7) % 23) / 23 * .28
-    }));
-    const smooth = value => { const t = Math.max(0, Math.min(1, value)); return t * t * (3 - 2 * t); };
-    const started = performance.now();
-    function draw(now) {
-      if (page !== 0 || reducedMotion.matches || document.hidden) { stopHeroResolution(); return; }
-      // A RAF timestamp can precede performance.now() within the same frame.
-      const progress = Math.max(0, Math.min(1, (now - started) / 1650));
-      const detail = (1 - Math.pow(1 - progress, 1.35)) * (levels.length - 1);
-      const lower = Math.min(levels.length - 2, Math.floor(detail));
-      const blend = detail - lower;
-      pixelContext.globalAlpha = 1;
-      pixelContext.drawImage(levels[lower], 0, 0, width, height);
-      const next = levels[lower + 1];
-      for (const patch of patches) {
-        pixelContext.globalAlpha = smooth((blend - patch.delay) / (1 - patch.delay));
-        pixelContext.drawImage(next, patch.x * next.width, patch.y * next.height,
-          next.width / columns, next.height / rows,
-          patch.x * width, patch.y * height, width / columns, height / rows);
-      }
-      pixelCanvas.style.opacity = String(1 - smooth((progress - .72) / .28));
-      if (progress < 1) pixelFrame = requestAnimationFrame(draw);
-      else stopHeroResolution();
-    }
-    draw(started);
-    pixelCanvas.classList.add('rendering');
-    pixelFinishTimer = setTimeout(stopHeroResolution, 1800);
-  } catch {
-    // Canvas/font support is optional; keep the actual composition visible.
-    stopHeroResolution();
-  }
-};
-
-const heroLoaded = new Promise(resolve => {
-  engraving.onload = () => resolve(true);
-  engraving.onerror = () => resolve(false);
-});
-engraving.src = 'assets/images/hero.webp';
-Promise.all([heroLoaded, document.fonts.ready]).then(([loaded]) => {
-  heroReady = loaded;
-  // Only decorate the first paint when everything is already ready. A late image
-  // or font must never cover content that the visitor can already read.
-  const canObservePaint = window.PerformanceObserver?.supportedEntryTypes?.includes('paint');
-  const contentPainted = performance.getEntriesByName('first-contentful-paint', 'paint').length > 0;
-  if (canObservePaint && !contentPainted) renderHeroPixels();
-});
-window.addEventListener('resize', stopHeroResolution, { passive: true });
-heroSurface.addEventListener('pointerdown', stopHeroResolution, { passive: true });
-heroSurface.addEventListener('focusin', stopHeroResolution);
-heroSurface.parentElement.addEventListener('scroll', stopHeroResolution, { passive: true });
-reducedMotion.addEventListener('change', stopHeroResolution);
-document.addEventListener('visibilitychange', () => { if (document.hidden) stopHeroResolution(); });
