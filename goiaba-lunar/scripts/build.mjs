@@ -17,7 +17,7 @@ export async function buildStudio(output = resolve(root, 'dist')) {
   await rm(output, { recursive:true, force:true });
   await mkdir(output, { recursive:true });
   const historical = new Set(['assets/audio', 'js/audio.js', ...['cindra', 'commissionmatch', 'mangue', 'morfeu'].map(name => `assets/art/${name}.webp`)]);
-  for (const entry of ['index.html', 'styles.css', 'drawn.css', 'commission.css', 'cindra.css', 'mangue.css', 'js', 'assets']) {
+  for (const entry of ['index.html', 'styles.css', 'drawn.css', 'commission.css', 'cindra.css', 'mangue.css', 'hero.css', 'js', 'assets']) {
     await cp(resolve(root, entry), resolve(output, entry), {
       recursive:true,
       filter: source => {
@@ -26,6 +26,7 @@ export async function buildStudio(output = resolve(root, 'dist')) {
       }
     });
   }
+  for (const ref of localRefs) await stat(resolve(output, ref.split(/[?#]/)[0]));
   const files = await readdir(output, { recursive:true });
   let bytes = 0;
   for (const file of files) {
@@ -35,7 +36,7 @@ export async function buildStudio(output = resolve(root, 'dist')) {
     if (extname(path)==='.css') {
       const css=await readFile(path,'utf8');
       for (const [,ref] of css.matchAll(/url\(["']?([^)'"\s]+)["']?\)/g)) {
-        if (/^(?:data:|https?:|#)/.test(ref)) continue;
+        if (/^(?:data:|https?:|#|%23)/.test(ref)) continue;
         await stat(resolve(dirname(path), ref));
       }
     }
