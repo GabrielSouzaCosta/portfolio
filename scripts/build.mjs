@@ -53,8 +53,8 @@ function asset(reference, owner = 'index.html') {
   if (emitted.has(reference)) return reference;
   const absolute = localPath(reference, owner);
   assert(absolute.startsWith(assetRoot), `Expected a file in assets/: ${reference}`);
-  assert(/\.(?:webp|woff2)$/i.test(absolute) || absolute === path.join(root, 'assets/favicon.svg'),
-    `Only optimized WebP images, WOFF2 fonts, and the SVG favicon may be served: ${reference}`);
+  assert(/\.(?:webp|woff2|mp3)$/i.test(absolute) || absolute === path.join(root, 'assets/favicon.svg'),
+    `Only optimized WebP images, WOFF2 fonts, MP3 audio, and the SVG favicon may be served: ${reference}`);
   if (!copied.has(absolute)) copied.set(absolute, emit(path.basename(absolute), readFileSync(absolute)));
   const fragment = reference.includes('#') ? `#${reference.split('#').slice(1).join('#')}` : '';
   return copied.get(absolute) + fragment;
@@ -94,7 +94,7 @@ const scripts = scriptTags.map(([tag]) => {
   assert(/^\s*$/.test(tag.slice(opening.length).replace(/<\/script\s*>$/i, '')),
     `Inline script contents need explicit build support: ${opening}`);
   return readFileSync(localPath(reference, 'index.html'), 'utf8')
-    .replace(/(["'])(assets\/[^"'\s]+\.(?:webp|woff2|svg)(?:\?[^"'\s]*)?)\1/g,
+    .replace(/(["'])(assets\/[^"'\s]+\.(?:webp|woff2|svg|mp3)(?:\?[^"'\s]*)?)\1/g,
       (_match, quote, value) => `${quote}${asset(value)}${quote}`);
 });
 

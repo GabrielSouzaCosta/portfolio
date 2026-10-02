@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero: generated scene</title>
+<link rel="stylesheet" href="../css/fonts.css">
+<style>
+  :root { --paper: #e6d4b5; --ink: #22261f; --gold: #b08d4a; --lapis: #1e2d5c; --rubric: #9a3322; --ink-delay: 0ms; }
+  html, body { margin: 0; height: 100%; background: var(--paper); overflow: hidden; }
+  body { font-family: Manrope, sans-serif; color: var(--ink); }
+  .scene, .fallback { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+  .fallback { object-fit: cover; object-position: 80% center; display: none; }
+  .no-gl .fallback { display: block; }
+  .scene { opacity: 0; transition: opacity .8s ease; }
+  .ready .scene { opacity: 1; }
+
+  .copy { position: absolute; z-index: 1; top: 50%; transform: translateY(-50%); pointer-events: none; }
+  .copy a { pointer-events: auto; }
+  .copy, .copy * { transition: color .5s ease var(--ink-delay), background-color .5s ease var(--ink-delay), border-color .5s ease var(--ink-delay); }
+  .folio { display: flex; gap: 14px; align-items: center; margin-bottom: 44px; }
+  .folio i { font: italic 18px "Instrument Serif", serif; color: #8a6d3b; }
+  .folio b { width: 56px; height: 1px; background: var(--gold); }
+  .folio span { font-size: 11px; font-weight: 600; letter-spacing: 4px; color: #5a4a33; }
+  /* The initial spans all three lines, so "passo." hangs from the same edge as the others. */
+  h1 { width: max-content; margin: 0; font: 400 80px/.98 "Instrument Serif", serif; letter-spacing: -.018em; white-space: nowrap; }
+  h1 .line { display: block; }
+  .dropcap { float: left; width: 1.16em; height: 2.74em; margin: .12em .2em 0 0; display: grid; place-items: center; box-sizing: border-box; background: var(--lapis); border: 2px solid var(--gold); outline: 1px solid var(--gold); outline-offset: 4px; color: #d9b768; }
+  .dropcap b { font: 400 2.5em/1 "Instrument Serif", serif; margin-top: .06em; }
+  h1 em { color: var(--rubric); }
+  .lede { margin: 40px 0 32px; font-size: 16px; line-height: 1.8; color: #3a3a2c; }
+  .lede strong { color: var(--ink); }
+  .cta { display: inline-flex; align-items: center; gap: 22px; padding: 9px 9px 9px 24px; background: var(--rubric); color: #f3e9d6; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-decoration: none; }
+  .cta span { display: grid; place-items: center; width: 40px; height: 40px; background: #f3e9d6; color: var(--rubric); font-size: 18px; }
+
+  /* Worlds that darken the page: the copy re-inks when the front reaches it. */
+  .night .copy { color: #f1e7d0; }
+  .night .lede, .night .lede strong { color: #ddd2bb; }
+  .night h1 em { color: #e8957a; }
+  .night .folio i, .night .folio span { color: #d9b768; }
+
+  .tag { position: fixed; left: 0; top: 0; z-index: 3; pointer-events: none; padding: 9px 14px 10px; background: rgba(241, 232, 212, .94); border: 1px solid var(--gold); box-shadow: 0 0 0 3px rgba(241, 232, 212, .5); opacity: 0; transition: opacity .25s ease; }
+  .tag.on { opacity: 1; }
+  .tag i { display: block; font: italic 22px/1.1 "Instrument Serif", serif; color: var(--ink); }
+  .tag span { display: block; margin-top: 3px; font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--rubric); }
+  .night .tag { background: rgba(14, 20, 46, .92); }
+  .night .tag i { color: #f1e7d0; }
+  .night .tag span { color: #e2b765; }
+
+  .hint { position: fixed; right: 24px; bottom: 20px; z-index: 2; margin: 0; font: italic 15px "Instrument Serif", serif; color: #f1e7d0; opacity: 0; transition: opacity 1s ease 2.4s; text-shadow: 0 1px 6px rgba(0, 0, 0, .6); }
+  .ready .hint { opacity: .85; }
+  .hint .touch { display: none; }
+  @media (hover: none) { .hint .hover { display: none; } .hint .touch { display: inline; } }
+
+  /* Phones and tall windows: copy first on paper, then the living plate. */
+  html:has(.stacked), body.stacked { height: auto; overflow: auto; }
+  .stacked .scene { position: relative; height: 62vh; }
+  .stacked .copy { position: relative; top: 0; left: 0; transform: none; padding: 40px 16px 32px; }
+  .stacked.night .copy { color: var(--ink); }
+  .stacked.night .lede, .stacked.night .lede strong { color: #3a3a2c; }
+  .stacked.night h1 em { color: var(--rubric); }
+  .stacked .hint { position: absolute; }
+
+  @media (prefers-reduced-motion: reduce) { .copy, .copy * { transition: none; } }
+</style>
+</head>
+<body>
+<img class="fallback" src="hero-gpt/v1-procissao.webp" alt="">
+<div class="copy" id="copy">
+  <div class="folio"><i>fol. i</i><b></b><span>LIBER DE IMAGINATIONE</span></div>
+  <h1 aria-label="Imaginar é o primeiro passo."><span class="dropcap" aria-hidden="true"><b>I</b></span><span class="line" aria-hidden="true">maginar é</span><em class="line" aria-hidden="true">o primeiro</em><em class="line" aria-hidden="true">passo.</em></h1>
+  <p class="lede">Sou <strong>Gabriel Souza Costa</strong>, desenvolvedor de software. Crio produtos web e mobile, combinando experiência técnica, visão de produto e agentes de IA.</p>
+  <a class="cta" href="#">VAMOS DAR FORMA À SUA IDEIA <span>↗</span></a>
+</div>
+<canvas class="scene" id="scene" data-src="hero-gpt/v1-procissao.webp" aria-hidden="true"></canvas>
+<div class="tag" id="tag" aria-hidden="true"></div>
+<p class="hint" aria-hidden="true"><span class="hover">Passe pelas criaturas</span><span class="touch">Toque nas criaturas</span> ✦</p>
+<script src="hero-gpt/scene.js"></script>
+</body>
+</html>

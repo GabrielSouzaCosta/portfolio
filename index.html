@@ -8,9 +8,7 @@
   <title>Gabriel Souza Costa — Imaginar é o primeiro passo.</title>
   <link rel="canonical" href="https://gabriel.goiabalunar.tech/">
   <link rel="icon" href="assets/favicon.svg?v=ink-2" type="image/svg+xml">
-  <link rel="preload" href="assets/images/hero-sketch.webp" as="image" type="image/webp" fetchpriority="high">
-  <link rel="preload" href="assets/images/hero-life/plate-ink.webp" as="image" type="image/webp">
-  <link rel="preload" href="assets/images/hero-life/plate-sketch.webp" as="image" type="image/webp">
+  <link rel="preload" href="assets/images/hero-plate.webp" as="image" type="image/webp" fetchpriority="high">
   <link rel="preload" href="assets/fonts/instrument-serif-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/instrument-serif-italic-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/manrope-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -19,12 +17,13 @@
   <link rel="stylesheet" href="css/v2-studio.css?portal=5">
   <link rel="stylesheet" href="css/essence.css">
   <link rel="stylesheet" href="css/v2-viewport.css">
-  <link rel="stylesheet" href="css/hero-engraving.css">
+  <link rel="stylesheet" href="css/hero-scene.css">
   <link rel="stylesheet" href="css/v2-mobile-nav.css">
   <link rel="stylesheet" href="css/contact.css">
   <link rel="stylesheet" href="css/morfeu-cursor.css">
   <script src="js/v2.js" defer></script>
-  <script src="js/hero-engraving.js" defer></script>
+  <script src="js/hero-scene.js" defer></script>
+  <script src="js/hero-sound.js" defer></script>
   <script src="js/studio-portal.js?portal=5" defer></script>
   <script src="js/morfeu-cursor.js" defer></script>
   <script src="js/essence-physics.js" defer></script>
@@ -95,12 +94,15 @@
     <section id="inicio" class="scene hero is-active" style="--order:0" aria-labelledby="hero-title">
       <div class="scene-scroll"><div class="hero-inner">
         <a class="mobile-brand" href="#inicio" aria-label="Gabriel Souza Costa, Desenvolvedor de Software"><span class="mobile-mark" aria-hidden="true"><svg class="identity-symbol" viewBox="0 0 64 64" aria-hidden="true"><path d="M54 5H23L6 22v21l16 16h22l15-15V29H34l-8 9h22v3l-8 8H27L16 38V26l11-11h17Z" mask="url(#identity-ink)"/><path d="m51 14 1.5 4.5L57 20l-4.5 1.5L51 26l-1.5-4.5L45 20l4.5-1.5Z" fill="#d94283"/></svg></span><span class="mobile-name">Gabriel Souza Costa<small><b>DESENVOLVEDOR</b> de software</small></span></a>
-        <div class="hero-art" aria-hidden="true"></div><canvas class="hero-ink" aria-hidden="true"></canvas><div class="hero-wash" aria-hidden="true"></div><svg class="hero-burin" viewBox="0 0 48 48" aria-hidden="true"><g transform="rotate(45 24 24)"><path class="burin-handle" d="M14 11a10 10 0 0 1 20 0v2H14Z"/><path class="burin-shaft" d="M21 13h6v4h-6Zm1.5 4h3v27l-1.5 6-1.5-6Z"/><path class="burin-tip" d="M22.5 44h3l-1.5 6Z"/><path d="M18 7.5q6-3 12 0" stroke-width=".8"/></g></svg>
+        <div class="hero-art" aria-hidden="true"></div><canvas class="hero-scene" aria-hidden="true"></canvas>
         <div class="hero-copy">
-          <h1 id="hero-title" tabindex="-1">Imaginar é<br><em>o primeiro passo.</em></h1>
-          <p class="hero-description">Sou <strong>Gabriel Souza Costa</strong>, desenvolvedor de software.<br>Crio produtos web e mobile, combinando experiência técnica, visão de produto e agentes de IA.</p>
-          <a class="button button-green" href="#contato"><span>Vamos dar forma à sua ideia</span><span class="button-icon" aria-hidden="true"><svg><use href="#arrow"/></svg></span></a>
+          <p class="hero-folio" aria-hidden="true"><i>fol. i</i><b></b><span>Liber de imaginatione</span></p>
+          <h1 id="hero-title" tabindex="-1" aria-label="Imaginar é o primeiro passo."><span class="hero-initial" aria-hidden="true">I</span><span class="hero-line" aria-hidden="true">maginar é</span><em class="hero-line" aria-hidden="true">o primeiro</em><em class="hero-line" aria-hidden="true">passo.</em></h1>
+          <p class="hero-description">Sou <strong>Gabriel Souza Costa</strong>, desenvolvedor de software. Crio produtos web e mobile, combinando experiência técnica, visão de produto e agentes de IA.</p>
+          <a class="button button-rubric" href="#contato"><span>Vamos dar forma à sua ideia</span><span class="button-icon" aria-hidden="true"><svg><use href="#arrow"/></svg></span></a>
         </div>
+        <div class="hero-tag" aria-hidden="true"></div>
+        <p class="hero-hint" aria-hidden="true"><span class="hint-hover">Passe pelas criaturas</span><span class="hint-touch">Toque nas criaturas</span> ✦</p>
       </div></div>
     </section>
     <section id="essencia" class="scene essence" style="--order:1" aria-labelledby="essence-title">
@@ -326,6 +328,7 @@
       </div></div>
     </section>
   </main>
+  <button class="sound-toggle" type="button" aria-pressed="false" aria-label="Ativar som" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4Z"/><path class="sound-waves" d="M15.5 9.5a3.5 3.5 0 0 1 0 5M18 7a7 7 0 0 1 0 10"/><path class="sound-off" d="m15.5 10 5 4m0-4-5 4"/></svg><span>Som</span></button>
   <!-- Morfeu: an original articulated pixel sprite. The little star is the exact click point. -->
   <div class="cat-cursor" aria-hidden="true">
     <svg class="morfeu-pointer" viewBox="0 0 12 12" width="12" height="12"><path d="M6 1 7 4 11 6 7 7 6 11 4 7 1 6 4 4Z" fill="#fff5df" stroke="#493426" stroke-width="1"/></svg>

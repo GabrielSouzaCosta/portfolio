@@ -1,0 +1,71 @@
+/* Hero plate (js/hero-scene.js): one generated image, many worlds. Without WebGL2
+   the plate stays a plain background and the copy reads the same. */
+.hero-inner { --rubric: #9a3322; --lapis: #1e2d5c; --gilt: #b08d4a; --ink-delay: 0ms; background: #e6d4b5; }
+.hero-art { background: url('../assets/images/hero-plate.webp') 78% center/cover no-repeat; }
+.hero-scene { position: absolute; left: 0; top: 0; z-index: -2; display: block; width: 100%; height: 100%; opacity: 0; transition: opacity .9s ease; }
+.scene-live .hero-scene { opacity: 1; }
+.scene-live .hero-art { opacity: 0; transition: opacity 0s .9s; } /* the canvas has faded in over it */
+.hero-inner.is-pointing { cursor: pointer; }
+
+.hero-folio { display: flex; align-items: center; gap: 14px; margin-bottom: 40px; white-space: nowrap; }
+.hero-folio i { font: italic 18px var(--serif); color: #8a6d3b; }
+.hero-folio b { width: 56px; height: 1px; background: var(--gilt); }
+.hero-folio span { font-size: 11px; font-weight: 600; letter-spacing: .36em; text-transform: uppercase; color: #5a4a33; }
+
+/* The initial spans all three lines, so "passo." hangs from the same edge as the others. */
+.hero-copy h1 { width: max-content; font-size: clamp(56px, 5.6vw, 88px); line-height: .98; letter-spacing: -.018em; white-space: nowrap; color: #22261f; }
+.hero-copy h1 .hero-line { display: block; }
+.hero-copy h1 em { display: block; font-size: 1em; color: var(--rubric); }
+.hero-initial { float: left; display: grid; place-items: center; box-sizing: border-box; width: .464em; height: 1.096em; margin: .048em .08em 0 0; padding-top: .03em; font-size: 2.5em; line-height: 1; background: var(--lapis); border: 2px solid var(--gilt); outline: 1px solid var(--gilt); outline-offset: 4px; color: #d9b768; }
+.hero-description { max-width: 420px; margin: 36px 0 30px; color: #3a3a2c; text-wrap: pretty; }
+.hero-description strong { color: #22261f; }
+.button-rubric { background: var(--rubric); color: #f3e9d6; }
+.button-rubric:hover { background: #7f2a1b; }
+.button-rubric .button-icon { border-left-color: #f3e9d640; }
+
+.hero-tag { position: fixed; left: 0; top: 0; z-index: 5; padding: 9px 14px 10px; pointer-events: none; background: #f1e8d4f0; border: 1px solid var(--gilt); box-shadow: 0 0 0 3px #f1e8d480; opacity: 0; transition: opacity .25s ease; }
+.hero-tag.is-on { opacity: 1; }
+.hero-tag i { display: block; font: italic 22px/1.1 var(--serif); color: #22261f; }
+.hero-tag span { display: block; margin-top: 3px; font-size: 10px; font-weight: 700; letter-spacing: .25em; text-transform: uppercase; color: var(--rubric); }
+.hero-night .hero-tag { background: #0e142eeb; box-shadow: 0 0 0 3px #0e142e66; }
+.hero-night .hero-tag i { color: #f1e7d0; }
+.hero-night .hero-tag span { color: #e2b765; }
+
+.hero-hint { position: absolute; right: 124px; bottom: 26px; z-index: 1; font: italic 15px var(--serif); color: #f1e7d0; text-shadow: 0 1px 6px #000a; opacity: 0; pointer-events: none; transition: opacity 1s ease 2.4s; }
+.scene-live .hero-hint { opacity: .85; }
+.hint-touch { display: none; }
+@media (hover: none) { .hint-hover { display: none; } .hint-touch { display: inline; } }
+/* Sound (js/hero-sound.js) covers the music on every chapter, so its switch sits on the page, not in the hero. */
+.sound-toggle { position: fixed; right: 24px; bottom: 18px; z-index: 30; display: inline-flex; align-items: center; gap: 7px; min-height: 36px; padding: 0 14px 0 10px; border: 1px solid #b08d4a99; border-radius: 18px; background: #0e142e99; color: #f1e7d0; font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; backdrop-filter: blur(4px); transition: background .25s, border-color .25s, bottom .5s var(--ease); }
+.sound-toggle[hidden] { display: none; }
+.sound-toggle:hover { background: #0e142ecc; border-color: #b08d4a; }
+.sound-toggle svg { width: 18px; height: 18px; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.sound-toggle .sound-waves, .sound-toggle[aria-pressed="true"] .sound-off { display: none; }
+.sound-toggle[aria-pressed="true"] .sound-waves { display: inline; }
+.sound-toggle[aria-pressed="true"] { border-color: #b08d4a; color: #f3dca0; }
+body[data-section="contato"] .sound-toggle { bottom: 106px; } /* clear of the footer's "De volta ao início" */
+
+/* Worlds that darken the page re-ink the copy and the index when the front reaches them. */
+@media (min-width: 851px) {
+  .hero-copy :is(h1, em, .hero-description, strong, .hero-folio i, .hero-folio span) { transition: color .5s ease var(--ink-delay); }
+  .hero-night .hero-copy h1 { color: #f1e7d0; }
+  .hero-night .hero-copy h1 em { color: #e8957a; }
+  .hero-night .hero-description { color: #ddd2bb; }
+  .hero-night .hero-description strong { color: #f6eedb; }
+  .hero-night .hero-folio i, .hero-night .hero-folio span { color: #d9b768; }
+  body.hero-night[data-section="inicio"] .sidebar { color: #efe3c8; }
+  body.hero-night[data-section="inicio"] .sidebar .brand-role b { background: #efe3c8; color: var(--lapis, #1e2d5c); }
+}
+/* Over the plate the index is sepia ink, not the site green: green and lapis clash. */
+body[data-section="inicio"] .sidebar { color: #3b3024; transition: color .5s ease .35s; }
+body[data-section="inicio"] .sidebar .brand-role b { background: #3b3024; color: #efe6d2; transition: background-color .5s ease .35s, color .5s ease .35s; }
+@media (max-width: 850px) {
+  .hero-art { background-size: auto 48%; background-position: 70% bottom; }
+  .hero-folio { margin-bottom: 22px; gap: 10px; }
+  .hero-folio b { width: 32px; }
+  .hero-folio span { letter-spacing: .24em; }
+  .hero-description { margin: 22px 0; }
+  .hero-hint { bottom: 22px; right: 112px; }
+  .sound-toggle { right: 16px; bottom: 14px; }
+  body[data-section="contato"] .sound-toggle { display: none; } /* the fitted letter leaves no free corner; music keeps playing */
+}
