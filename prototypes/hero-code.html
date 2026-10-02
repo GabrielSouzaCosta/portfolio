@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero: drawn heavens</title>
+<link rel="stylesheet" href="../css/fonts.css">
+<style>
+  :root { --paper: #ece4d2; --ink: #22261f; --gold: #b08d4a; --lapis: #1e2d5c; --rubric: #9a3322; }
+  html, body { margin: 0; height: 100%; background: var(--paper); overflow: hidden; }
+  body { font-family: Manrope, sans-serif; color: var(--ink); }
+  /* A fixed 1440x900 page scaled to the window, like the Brilliant frames. */
+  .stage { position: absolute; left: 50%; top: 50%; width: 1440px; height: 900px; transform-origin: 0 0; background: var(--paper); overflow: hidden; }
+  .stage > * { position: absolute; }
+  .grain { inset: 0; width: 1440px; height: 900px; opacity: .55; mix-blend-mode: multiply; pointer-events: none; }
+  .folio { left: 132px; top: 64px; display: flex; gap: 14px; align-items: center; }
+  .folio i { font: italic 18px "Instrument Serif", serif; color: #8a6d3b; }
+  .folio b { width: 56px; height: 1px; background: var(--gold); }
+  .folio span, .index span { font-size: 11px; font-weight: 600; letter-spacing: 4px; color: #5a4a33; }
+  .headline { left: 132px; top: 190px; margin: 0; font: 400 88px/.98 "Instrument Serif", serif; letter-spacing: -1.5px; white-space: nowrap; }
+  .dropcap { float: left; width: 124px; height: 164px; margin: 0 16px 0 0; display: grid; place-items: center; background: var(--lapis); border: 2px solid var(--gold); color: #d9b768; font-size: 164px; line-height: 1; }
+  .headline em { color: var(--rubric); }
+  .lede { left: 132px; top: 484px; width: 420px; margin: 0; font-size: 16px; line-height: 1.8; color: #3a3a2c; }
+  .lede strong { color: var(--ink); }
+  .cta { left: 132px; top: 604px; display: flex; align-items: center; gap: 22px; padding: 9px 9px 9px 24px; background: var(--rubric); color: #f3e9d6; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-decoration: none; }
+  .cta span { display: grid; place-items: center; width: 40px; height: 40px; background: #f3e9d6; color: var(--rubric); font-size: 18px; letter-spacing: 0; }
+  .index { left: 132px; top: 820px; display: flex; gap: 26px; }
+  .index span { letter-spacing: 2px; }
+  .index b { color: var(--rubric); font-weight: 600; margin-right: 5px; }
+  .heavens { left: 730px; top: 60px; width: 580px; height: 780px; }
+  .frame { left: 700px; top: 30px; overflow: visible; }
+  .tools { position: fixed; right: 16px; bottom: 16px; display: flex; gap: 8px; }
+  .tools button { font: 600 12px Manrope, sans-serif; padding: 9px 13px; border: 1px solid #2e2418; border-radius: 3px; background: #eee7d8; color: #2e2418; cursor: pointer; }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <svg class="grain" aria-hidden="true"><filter id="paper"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" seed="4"/><feColorMatrix values="0 0 0 0 .55  0 0 0 0 .47  0 0 0 0 .34  0 0 0 .22 0"/></filter><rect width="100%" height="100%" filter="url(#paper)"/></svg>
+  <div class="folio"><i>fol. i</i><b></b><span>LIBER DE IMAGINATIONE</span></div>
+  <h1 class="headline"><span class="dropcap" aria-hidden="true">I</span>maginar é<br><em>o primeiro<br>passo.</em></h1>
+  <p class="lede">Sou <strong>Gabriel Souza Costa</strong>, desenvolvedor de software. Crio produtos web e mobile, combinando experiência técnica, visão de produto e agentes de IA.</p>
+  <a class="cta" href="#">VAMOS DAR FORMA À SUA IDEIA <span>↗</span></a>
+  <nav class="index"><span><b>I</b>INÍCIO</span><span><b>II</b>ESSÊNCIA</span><span><b>III</b>GOIABA LUNAR</span></nav>
+  <canvas class="heavens" aria-hidden="true"></canvas>
+  <svg class="frame" width="640" height="840" viewBox="700 30 640 840" aria-hidden="true"></svg>
+</div>
+<div class="tools"><button type="button" data-zoom>Ver de perto</button></div>
+<script src="hero-code/heavens.js"></script>
+</body>
+</html>

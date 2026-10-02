@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero B: living portal</title>
+<link rel="stylesheet" href="../css/fonts.css">
+<style>
+  :root { --paper: #ece4d2; --ink: #22261f; --gold: #b08d4a; --cap: #1e2d5c; --accent: #24376f; --cta: #1e2d5c; --cta-box: #f3e9d6; --cta-arrow: #1e2d5c; --numeral: #a8823e; }
+  :root[data-palette="rubric"] { --accent: #9a3322; --cta: #9a3322; --cta-arrow: #9a3322; --numeral: #9a3322; }
+  :root[data-palette="sepia"] { --cap: #2e2318; --accent: #7a5a2c; --cta: #2e2318; --cta-box: #c9a55c; --cta-arrow: #2e2318; }
+  html, body { margin: 0; height: 100%; background: var(--paper); overflow: hidden; }
+  body { font-family: Manrope, sans-serif; color: var(--ink); }
+  /* The concept is a fixed 1440x900 page scaled to the window, so the test matches the Brilliant frame. */
+  .stage { position: absolute; left: 50%; top: 50%; width: 1440px; height: 900px; transform-origin: 0 0; background: var(--paper); overflow: hidden; }
+  .stage > * { position: absolute; }
+  .folio { left: 132px; top: 64px; display: flex; gap: 14px; align-items: center; }
+  .folio i { font: italic 18px "Instrument Serif", serif; color: #8a6d3b; }
+  .folio b { width: 56px; height: 1px; background: var(--gold); }
+  .folio span, .index span { font-size: 11px; font-weight: 600; letter-spacing: 4px; color: #5a4a33; }
+  .headline { left: 132px; top: 190px; margin: 0; font: 400 88px/.98 "Instrument Serif", serif; letter-spacing: -1.5px; white-space: nowrap; }
+  .dropcap { float: left; width: 124px; height: 164px; margin: 0 16px 0 0; display: grid; place-items: center; background: var(--cap); border: 2px solid var(--gold); color: #d9b768; font-size: 164px; line-height: 1; }
+  .headline em { color: var(--accent); }
+  .lede { left: 132px; top: 484px; width: 420px; margin: 0; font-size: 16px; line-height: 1.8; color: #3a3a2c; }
+  .lede strong { color: var(--ink); }
+  .cta { left: 132px; top: 604px; display: flex; align-items: center; gap: 22px; padding: 9px 9px 9px 24px; background: var(--cta); color: #f3e9d6; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-decoration: none; }
+  .cta span { display: grid; place-items: center; width: 40px; height: 40px; background: var(--cta-box); color: var(--cta-arrow); font-size: 18px; letter-spacing: 0; }
+  .index { left: 132px; top: 820px; display: flex; gap: 26px; }
+  .index span { letter-spacing: 2px; }
+  .index b { color: var(--numeral); font-weight: 600; margin-right: 5px; }
+
+  /* The portal, back to front: sky, orrery, creatures, gilt rules, the world, the stag. */
+  .sky { left: 698px; top: 64px; width: 600px; height: 650px; border-radius: 300px 300px 0 0; overflow: hidden; background: #16224a; z-index: 1; }
+  .sky > * { position: absolute; will-change: transform; }
+  .sky .stars { left: -425px; top: -20px; width: 1451px; height: 816px; }
+  .sky .glow { left: 0; top: 380px; width: 600px; height: 270px; background: linear-gradient(#3c548c00, #5c74aa8c); }
+  .sky canvas { left: 0; top: 0; width: 600px; height: 650px; }
+  .sky .whale { left: 70px; top: 46px; width: 370px; height: 158px; }
+  .sky .turtle { left: 318px; top: 350px; width: 92px; height: 65px; }
+  .rules { left: 680px; top: 46px; z-index: 2; overflow: visible; }
+  .world { left: 0; top: 0; width: 1440px; height: 900px; z-index: 3; will-change: transform; }
+  canvas.stag { z-index: 4; }
+  canvas.dust { z-index: 5; }
+  canvas, .world { pointer-events: none; }
+  .tools { position: fixed; right: 16px; bottom: 16px; z-index: 3; display: flex; gap: 8px; }
+  .tools button { font: 600 12px Manrope, sans-serif; padding: 9px 13px; border: 1px solid #2e2418; border-radius: 3px; background: #eee7d8; color: #2e2418; cursor: pointer; }
+  .tools button[aria-pressed="true"] { background: #2e2418; color: #eee7d8; }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="folio"><i>fol. i</i><b></b><span>LIBER DE IMAGINATIONE</span></div>
+  <h1 class="headline"><span class="dropcap" aria-hidden="true">I</span>maginar é<br><em>o primeiro<br>passo.</em></h1>
+  <p class="lede">Sou <strong>Gabriel Souza Costa</strong>, desenvolvedor de software. Crio produtos web e mobile, combinando experiência técnica, visão de produto e agentes de IA.</p>
+  <a class="cta" href="#">VAMOS DAR FORMA À SUA IDEIA <span>↗</span></a>
+  <nav class="index"><span><b>I</b>INÍCIO</span><span><b>II</b>ESSÊNCIA</span><span><b>III</b>GOIABA LUNAR</span></nav>
+
+  <div class="sky" aria-hidden="true">
+    <img class="stars" src="firmament/cosmos.webp" alt="">
+    <div class="glow"></div>
+    <canvas class="heavens"></canvas>
+    <img class="whale" src="firmament/whale.webp" alt="">
+    <img class="turtle" src="firmament/turtle.webp" alt="">
+  </div>
+  <svg class="rules" width="636" height="600" viewBox="680 46 636 600" aria-hidden="true">
+    <path d="M686 604V364a312 312 0 0 1 624 0v240" fill="none" stroke="#b08d4a" stroke-width="1.2"/>
+    <path d="M692 604V364a306 306 0 0 1 612 0v240" fill="none" stroke="#b08d4a" stroke-width=".6"/>
+    <path d="M698 604V364a300 300 0 0 1 600 0v240" fill="none" stroke="#2e2418" stroke-width="1.6"/>
+    <path class="keystone" d="M998 46l3.5 9 9 3.5-9 3.5-3.5 9-3.5-9-9-3.5 9-3.5z" fill="#b08d4a"/>
+  </svg>
+  <img class="world" src="hero-b/world.webp" alt="" aria-hidden="true">
+  <canvas class="stag" aria-hidden="true"></canvas>
+  <canvas class="dust" aria-hidden="true"></canvas>
+</div>
+<div class="tools">
+  <button type="button" data-palette="lapis">Lápis</button>
+  <button type="button" data-palette="rubric">Rubrica</button>
+  <button type="button" data-palette="sepia">Sépia</button>
+  <button type="button" data-zoom>Ver de perto</button>
+</div>
+<script src="hero-b/portal.js"></script>
+<script src="hero-b/stag-life.js"></script>
+</body>
+</html>
