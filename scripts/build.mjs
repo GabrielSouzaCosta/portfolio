@@ -98,8 +98,7 @@ const scripts = scriptTags.map(([tag]) => {
       (_match, quote, value) => `${quote}${asset(value)}${quote}`);
 });
 
-// Transform classic script text in HTML order. Bundling/importing the UMD physics
-// files would change their browser globals and break the interactive bow.
+// Transform classic script text in HTML order; the page scripts are classic globals, not modules.
 const [css, js] = await Promise.all([
   transform(stylesheets.join('\n'), { loader: 'css', minify: true, legalComments: 'none' }),
   transform(scripts.join('\n;\n'), { loader: 'js', minify: true, target: 'es2022', legalComments: 'none' }),

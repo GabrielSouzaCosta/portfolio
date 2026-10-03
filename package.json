@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "node scripts/build.mjs",
-    "test": "node --test tests/*.test.cjs"
+    "build": "node scripts/build.mjs"
   },
   "devDependencies": {
     "esbuild": "0.28.2"

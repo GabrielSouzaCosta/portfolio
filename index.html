@@ -26,8 +26,6 @@
   <script src="js/hero-sound.js" defer></script>
   <script src="js/studio-portal.js?portal=5" defer></script>
   <script src="js/morfeu-cursor.js" defer></script>
-  <script src="js/essence-physics.js" defer></script>
-  <script src="js/essence-flight.js" defer></script>
   <script src="js/essence.js" defer></script>
   <script src="js/contact.js" defer></script>
 </head>
@@ -45,23 +43,6 @@
     <symbol id="nav-celestial" viewBox="0 0 48 48"><circle cx="24" cy="24" r="13"/><ellipse cx="24" cy="24" rx="21" ry="7" transform="rotate(-40 24 24)"/><path d="M24 4v7m0 26v7M4 24h7m26 0h7"/><circle cx="24" cy="24" r="3"/></symbol>
     <symbol id="nav-lunar" viewBox="0 0 48 48"><path d="M35 34A18 18 0 0 1 15 6a18 18 0 1 0 20 28Z"/><path d="m34 5 2 6 6 2-6 2-2 6-2-6-6-2 6-2Z"/></symbol>
     <symbol id="nav-message" viewBox="0 0 48 48"><path d="M7 12h34v26H7Zm0 0 17 15 17-15M7 38l12-15m22 15L29 23"/><path d="M20 6h8M24 2v8"/></symbol>
-    <linearGradient id="essence-laminate" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#bca775"/><stop offset=".24" stop-color="#e0cd98"/><stop offset=".5" stop-color="#8f7c50"/><stop offset=".76" stop-color="#e0cd98"/><stop offset="1" stop-color="#bca775"/></linearGradient>
-    <linearGradient id="essence-jade" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a7d7bd"/><stop offset=".46" stop-color="#458c70"/><stop offset="1" stop-color="#193e32"/></linearGradient>
-    <g id="essence-bow-leaf" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M-3-16C-12-28-4-40-10-52C6-39 10-26 3-16Z" fill="#264838" stroke="#d7c58e" stroke-width=".8"/>
-      <path d="M-2-18C2-29 0-39-10-52M0-27-6-33M0-34 4-31M-3-42 2-39" fill="none" stroke="#d7c58e" stroke-width=".6"/>
-      <path d="M-1-32 3-26-1-20-5-26Z" fill="url(#essence-jade)" stroke="#efe0ad" stroke-width=".7"/>
-      <path d="M-1-30-1-26-3-25" fill="none" stroke="#d7efcf" stroke-width=".65"/>
-      <path d="M-7-55-10-60-13-65M-10-60l-2 3m2-3 3-1" fill="none" stroke="#e4d5a6" stroke-width=".7"/>
-    </g>
-    <g id="essence-bow-fittings" transform="translate(0 -79) rotate(-90)" stroke-linecap="round" stroke-linejoin="round">
-      <use href="#essence-bow-leaf"/>
-      <use href="#essence-bow-leaf" transform="scale(1 -1)"/>
-      <path d="M-4-17Q1-19 6-16C3-5 3 5 6 16Q1 19-4 17C-2 5-2-5-4-17Z" fill="#203e31" stroke="#b9a675" stroke-width=".8"/>
-      <path d="M-3-13Q1-10 5-11M-3-8Q1-5 4-6M-2-3Q1 0 4-1M-2 2Q1 5 4 4M-3 7Q1 10 5 9M-3 12Q1 15 5 14" fill="none" stroke="#819777" stroke-width=".65"/>
-      <path d="M-5-18Q1-21 7-17L6-13Q1-17-4-14ZM-4 14Q1 17 6 13L7 17Q1 21-5 18Z" fill="#a18a57" stroke="#ead8a0" stroke-width=".7"/>
-      <path d="M6-10Q4 0 6 10" fill="none" stroke="#ead8a0" stroke-width=".6"/>
-    </g>
   </defs></svg>
   <aside class="sidebar" aria-label="Identidade e navegação">
     <a class="brand" href="#inicio" aria-label="Gabriel Souza Costa, Desenvolvedor de software, início">
@@ -105,80 +86,37 @@
         <p class="hero-hint" aria-hidden="true"><span class="hint-hover">Passe pelas criaturas</span><span class="hint-touch">Toque nas criaturas</span> ✦</p>
       </div></div>
     </section>
-    <section id="essencia" class="scene essence" style="--order:1" aria-labelledby="essence-title">
+    <section id="essencia" class="scene essence" style="--order:1" aria-labelledby="essence-title" data-house="0">
       <div class="scene-scroll"><div class="essence-inner">
-        <div class="essence-color-field" aria-hidden="true"></div>
-        <svg class="essence-atmosphere" viewBox="0 0 1200 760" aria-hidden="true" focusable="false"><g class="essence-optics"></g><g class="essence-dust"></g></svg>
-        <div class="essence-figure">
-          <svg class="essence-emblem" viewBox="0 0 440 460" aria-hidden="true" focusable="false">
-            <g transform="translate(175 220) rotate(90)" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M-182.31 0.17L-180.05 4.15L-177.68 7.71L-175.20 10.83L-172.64 13.49L-169.99 15.67L-167.28 17.36L-164.51 18.50L-161.69 19.07L-158.85 19.02L-156.05 18.29L-153.37 16.86L-150.85 14.75L-148.54 11.96L-146.46 8.50L-144.62 4.35L-143.04 -0.49L-139.55 -12.51L-134.56 -23.09L-128.23 -32.42L-120.72 -40.60L-112.18 -47.73L-102.79 -53.86L-92.70 -59.08L-82.10 -63.44L-71.15 -67.03L-60.04 -69.90L-48.94 -72.13L-38.04 -73.79L-27.52 -74.96L-17.55 -75.70L-8.32 -76.09L0.00 -76.20L8.32 -76.09L17.55 -75.70L27.52 -74.96L38.04 -73.79L48.94 -72.13L60.04 -69.90L71.15 -67.03L82.10 -63.44L92.70 -59.08L102.79 -53.86L112.18 -47.73L120.72 -40.60L128.23 -32.42L134.56 -23.09L139.55 -12.51L143.02 -0.60L144.62 4.35L146.46 8.50L148.54 11.96L150.85 14.75L153.37 16.86L156.05 18.29L158.85 19.02L161.69 19.07L164.51 18.50L167.28 17.36L169.99 15.67L172.64 13.49L175.20 10.83L177.68 7.71L180.05 4.15L182.31 0.17L181.69 -0.17L179.31 3.67L176.82 7.05L174.25 9.95L171.64 12.35L169.03 14.24L166.45 15.59L163.95 16.40L161.56 16.68L159.31 16.43L157.18 15.68L155.17 14.39L153.24 12.53L151.43 10.04L149.76 6.89L148.26 3.05L146.98 -1.40L143.51 -13.98L138.39 -25.24L131.81 -35.22L123.97 -43.99L115.07 -51.61L105.30 -58.14L94.85 -63.68L83.90 -68.31L72.64 -72.10L61.25 -75.13L49.90 -77.48L38.77 -79.24L28.04 -80.47L17.88 -81.26L8.47 -81.68L0.00 -81.80L-8.47 -81.68L-17.88 -81.26L-28.04 -80.47L-38.77 -79.24L-49.90 -77.48L-61.25 -75.13L-72.64 -72.10L-83.90 -68.31L-94.85 -63.68L-105.30 -58.14L-115.07 -51.61L-123.97 -43.99L-131.81 -35.22L-138.39 -25.24L-143.51 -13.98L-146.96 -1.51L-148.26 3.05L-149.76 6.89L-151.43 10.04L-153.24 12.53L-155.17 14.39L-157.18 15.68L-159.31 16.43L-161.56 16.68L-163.95 16.40L-166.45 15.59L-169.03 14.24L-171.64 12.35L-174.25 9.95L-176.82 7.05L-179.31 3.67L-181.69 -0.17Z" fill="url(#essence-laminate)" stroke="#ead8a0" stroke-width=".55"/>
-              <path d="M-181.87 -0.07L-179.53 3.81L-177.07 7.24L-174.53 10.21L-171.93 12.68L-169.31 14.65L-166.69 16.10L-164.11 17.01L-161.60 17.37L-159.18 17.18L-156.86 16.43L-154.64 15.11L-152.55 13.17L-150.59 10.60L-148.80 7.36L-147.20 3.43L-145.82 -1.21L-142.36 -13.56L-137.28 -24.61L-130.77 -34.41L-123.03 -43.01L-114.23 -50.48L-104.57 -56.90L-94.23 -62.35L-83.38 -66.90L-72.21 -70.63L-60.90 -73.61L-49.62 -75.93L-38.56 -77.66L-27.89 -78.87L-17.78 -79.65L-8.43 -80.06L0.00 -80.18L8.43 -80.06L17.78 -79.65L27.89 -78.87L38.56 -77.66L49.62 -75.93L60.90 -73.61L72.21 -70.63L83.38 -66.90L94.23 -62.35L104.57 -56.90L114.23 -50.48L123.03 -43.01L130.77 -34.41L137.28 -24.61L142.36 -13.56L145.83 -1.17L147.20 3.43L148.80 7.36L150.59 10.60L152.55 13.17L154.64 15.11L156.86 16.43L159.18 17.18L161.60 17.37L164.11 17.01L166.69 16.10L169.31 14.65L171.93 12.68L174.53 10.21L177.07 7.24L179.53 3.81L181.87 -0.07" fill="none" stroke="#fff0c1" stroke-width=".55" opacity=".85"/>
-              <path d="M-182 0 0 0 182 0" stroke-width=".9" opacity=".65"/>
-              <use href="#essence-bow-fittings"/>
-            </g>
-            <g class="essence-rest-arrow" transform="translate(175 220)" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round"><path d="M0 0H230M218-5 230 0 218 5M18 0 6-6H-8L3 0-8 6H6Z"/></g>
-          </svg>
-          <button class="essence-bow-control" type="button" hidden aria-label="Puxar e soltar o arco" aria-describedby="essence-bow-keyboard"><span class="sr-only" id="essence-bow-keyboard">Segure e arraste para trás; solte para atirar. No teclado, segure Espaço ou Enter. Use as setas para mirar. Escape cancela.</span></button>
-          <span class="essence-caption">Visão. Direção. Execução.</span>
+        <canvas class="ess-gl" aria-hidden="true"></canvas>
+        <div class="ess-slot">
+          <div class="ess-wheel-hit" role="slider" tabindex="0" aria-label="Roda das casas. Use as setas para girar." aria-valuemin="1" aria-valuemax="3" aria-valuenow="1" aria-valuetext="Visão"></div>
+          <p class="ess-hint" aria-hidden="true"><span class="hint-hover">Arraste o ponteiro</span><span class="hint-touch">Gire o ponteiro</span> ✦</p>
         </div>
-        <svg class="essence-motion" viewBox="0 0 1200 760" aria-hidden="true" focusable="false">
-          <defs>
-            <linearGradient id="essence-arrow-ink" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="230" y2="0"><stop stop-color="#c4c89f" stop-opacity=".65"/><stop offset="1" stop-color="#f6edd4"/></linearGradient>
-            <g id="essence-arrow-shape" stroke-linecap="round" stroke-linejoin="round"><path d="M0 0H230" stroke-width="1.4"/><path d="m214-5 16 5-16 5 3-5Z" stroke-width="1"/><path d="m20 0-14-7H-9L3 0-12 7H5Z" stroke-width=".9"/><path d="M1-5 9 0 0 5M6-5 14 0 5 5" stroke-width=".65"/></g>
-          </defs>
-          <g class="essence-ripples"></g>
-          <g class="essence-morph" stroke-linecap="round" stroke-linejoin="round">
-            <path class="essence-limb-shadow" stroke="#051b17" stroke-width="6"/>
-            <path class="essence-limb-material" fill="url(#essence-laminate)" stroke="#ead8a0" stroke-width=".55"/>
-            <path class="essence-limb" stroke-width="2.2"/>
-            <path class="essence-limb-detail" stroke="#fff0c1" stroke-width=".55"/>
-            <path class="essence-string" stroke-width="1"/>
-            <g class="essence-iris"><circle r="49" stroke-width="1.1"/><circle r="40" stroke-width=".6" opacity=".5"/><path class="essence-iris-fibers" stroke-width=".65" opacity=".65"/><circle class="essence-pupil" r="18" stroke="none" fill="currentColor"/><path d="M-58 0h8M50 0h8M0-58v8M0 50v8" stroke-width=".7"/><circle class="essence-eye-highlight" cx="-8" cy="-9" r="4" stroke="none"/></g>
-            <g class="essence-grip"><use href="#essence-bow-fittings"/></g>
-          </g>
-          <g class="essence-projectiles"></g>
-          <g class="essence-flying-arrow" stroke="url(#essence-arrow-ink)"><use href="#essence-arrow-shape"/></g>
-          <circle class="essence-nock-indicator" r="13" stroke-width=".75" stroke-dasharray="2 5"/>
-          <g class="essence-flight-scene" opacity="0">
-            <g class="essence-flight-far"></g>
-            <g class="essence-flight-near"></g>
-            <g class="essence-flight-world">
-              <g class="essence-flight-target" stroke="#bec6a1" fill="none">
-                <ellipse class="essence-target-shadow" cx="9" cy="3" rx="53" ry="132" fill="#031d18" stroke="#60745b" stroke-width="1.2"/>
-                <ellipse rx="53" ry="132" fill="#173d30" stroke-width="1.5"/>
-                <ellipse rx="44" ry="111" stroke-width=".7" opacity=".7"/>
-                <ellipse rx="33" ry="83" stroke-width="1" opacity=".75"/>
-                <ellipse rx="22" ry="55" fill="#284d38" stroke-width=".7"/>
-                <ellipse rx="10" ry="25" stroke="#e4ddaf" stroke-width="1.2"/>
-                <path d="M0-139v12M0 127v12M-60 0h12M48 0h12" stroke-width=".7"/>
-                <ellipse rx="3.5" ry="9" fill="#d3d2a8" stroke="none"/>
-              </g>
-              <g class="essence-arrival-arrow" stroke="url(#essence-arrow-ink)"><use href="#essence-arrow-shape"/></g>
-              <g class="essence-target-wound" fill="#0a261e" stroke="#b4be92" stroke-width=".7" opacity="0">
-                <path d="M-3-6 1-3 8-5 11 1 7 5 0 3-4 7Z"/>
-                <path d="m0-4-4-9M7-3l8-7M6 4l8 9" fill="none" opacity=".65"/>
-              </g>
-              <g class="essence-impact-fragments" stroke="#d2d3a9" fill="none"></g>
-            </g>
-          </g>
-        </svg>
-        <div class="essence-copy">
-          <h2 id="essence-title" tabindex="-1"><span class="essence-line">Enxergar longe.</span><em><span class="essence-line"> Construir com</span><span class="essence-line"> direção.</span></em></h2>
-          <div class="essence-body">
-            <div class="essence-work">
-              <h3>Na Pátio Mobile</h3>
-              <p class="essence-work-meta">Desenvolvedor front-end <span>· Ago. 2022 — atual</span></p>
-              <p>Desenvolvo aplicativos móveis e sistemas web para a gestão de pátios de veículos.</p>
-            </div>
-            <div class="essence-work">
-              <h3>No Goiaba Lunar</h3>
-              <p>Nos meus projetos, defino o produto, o design e a tecnologia. Crio soluções web e mobile com IA, da ideia à implementação.</p>
-            </div>
+        <div class="ess-copy">
+          <p class="ess-folio" aria-hidden="true"><i>fol. ii</i><b></b><span>Rota artis</span></p>
+          <h2 id="essence-title" tabindex="-1"><span class="ess-line">Enxergar longe.</span> <em class="ess-line">Construir com direção.</em></h2>
+          <p class="ess-lede">Todo produto passa pelas mesmas três casas. Gire a roda: cada uma mostra como eu trabalho nela.</p>
+          <div class="ess-houses" role="tablist" aria-label="As três casas">
+            <button role="tab" type="button" id="ess-tab-0" aria-controls="ess-house" aria-selected="true"><b>I</b> Visão</button>
+            <button role="tab" type="button" id="ess-tab-1" aria-controls="ess-house" aria-selected="false" tabindex="-1"><b>II</b> Direção</button>
+            <button role="tab" type="button" id="ess-tab-2" aria-controls="ess-house" aria-selected="false" tabindex="-1"><b>III</b> Execução</button>
           </div>
-          <a class="text-link" href="#estudio">Conheça meu estúdio <svg aria-hidden="true"><use href="#arrow"/></svg></a>
+          <article class="ess-house" id="ess-house" role="tabpanel" aria-labelledby="ess-tab-0" aria-live="polite">
+            <p class="ess-house-kicker"><span class="ess-house-num">I</span><span class="ess-house-latin">Domus prima</span></p>
+            <h3 class="ess-house-title">Visão</h3>
+            <p class="ess-house-text">Antes do código, a pergunta certa. Entendo o problema, as pessoas e o negócio, e enxergo o produto antes que ele exista.</p>
+            <ul class="ess-house-tags"><li>Descoberta</li><li>Pesquisa</li><li>Estratégia</li></ul>
+          </article>
+          <div class="ess-chronicle">
+            <div class="ess-row"><h3 class="ess-row-name">Pátio Mobile <em>· front-end</em></h3><span class="ess-row-meta">Ago. 2022 — atual</span></div>
+            <p class="ess-row-text">Aplicativos móveis e sistemas web para a gestão de pátios de veículos.</p>
+            <div class="ess-row"><h3 class="ess-row-name">Goiaba Lunar <em>· meu estúdio</em></h3><span class="ess-row-meta">3 obras</span></div>
+            <p class="ess-row-text">Cindra <i>no ar</i> · CommissionMatch <i>prévia</i> · Mangue <i class="is-new">em criação</i></p>
+            <p class="ess-tools"><b>Instrumenta</b> TypeScript · SvelteKit · React Native & Expo · PostgreSQL · Docker · agentes de IA & MCP</p>
+            <a class="text-link ess-studio-link" href="#estudio">Conheça meu estúdio <svg aria-hidden="true"><use href="#arrow"/></svg></a>
+          </div>
         </div>
-        <p class="sr-only essence-shot-status" role="status" aria-live="polite"></p>
       </div></div>
     </section>
     <section id="estudio" class="scene studio" style="--order:2" aria-labelledby="studio-title">

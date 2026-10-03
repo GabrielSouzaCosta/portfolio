@@ -1,17 +1,13 @@
-/* Essência — Rota artis, a working volvelle.
-   One WebGL2 scene: four paper discs cut from one engraved plate (assets/images/volvella-plate.webp),
-   stacked in real perspective, lit by a lamp that follows the cursor (gold specular from volvella-maps.webp:
-   normal xy, gold mask, star sparkle), geared to a pointer you drag. Each house (Visão, Direção, Execução)
-   lights its own effect on the page. Draws only while the section is active.
-   Debug: ?e-at=<s> freezes time; &e-mx=&e-my= place the cursor; &e-house=0..2; &e-fx=<s since lock>; &e-explode=0..1.
-   Source art and the cut-out script live outside the repo; prototypes/essencia-b.html is the standalone study. */
+/* Rota artis — a working volvelle.
+   One WebGL2 scene: four paper discs cut from one engraved plate (prototypes/essencia-b/plate.webp),
+   stacked in real perspective, lit by a lamp that follows the cursor (gold specular from maps.webp),
+   geared to a pointer you drag. Each house (Visão, Direção, Execução) lights its own effect on the page.
+   Debug: ?at=<s> freezes time; &mx=&my= place the cursor; &house=0..2; &fx=<s since lock>; &explode=0..1. */
 (() => {
   'use strict';
 
-  const section = document.querySelector('#essencia');
+  const section = document.querySelector('.ess');
   if (!section) return;
-  const inner = section.querySelector('.essence-inner');
-  const slot = section.querySelector('.ess-slot');
   const canvas = section.querySelector('.ess-gl');
   const hit = section.querySelector('.ess-wheel-hit');
   const hint = section.querySelector('.ess-hint');
@@ -20,7 +16,7 @@
   const panel = section.querySelector('.ess-house');
 
   const params = new URLSearchParams(location.search);
-  const frozenAt = params.has('e-at') ? parseFloat(params.get('e-at')) : null;
+  const frozenAt = params.has('at') ? parseFloat(params.get('at')) : null;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const TAU = Math.PI * 2;
@@ -48,29 +44,14 @@
   const D = 2000; // camera distance, css px
   const LAMP_Z = 560;
 
-  function fillHouse(h) {
-    const d = HOUSES[h];
-    section.dataset.house = String(h);
-    tabs.forEach((t, i) => { t.setAttribute('aria-selected', String(i === h)); t.tabIndex = i === h ? 0 : -1; });
-    panel.setAttribute('aria-labelledby', tabs[h].id);
-    panel.querySelector('.ess-house-num').textContent = d.num;
-    panel.querySelector('.ess-house-latin').textContent = d.latin;
-    panel.querySelector('.ess-house-title').textContent = d.title;
-    panel.querySelector('.ess-house-text').textContent = d.text;
-    panel.querySelector('.ess-house-tags').replaceChildren(...d.tags.map((t) => Object.assign(document.createElement('li'), { textContent: t })));
-  }
-
   /* ---------------- GL ---------------- */
   const gl = canvas.getContext('webgl2', { antialias: true, alpha: false, premultipliedAlpha: true });
   if (!gl) {
     const img = document.createElement('img');
-    img.src = 'assets/images/volvella-plate.webp'; img.alt = ''; img.className = 'ess-fallback';
-    slot.prepend(img);
-    hit.remove(); hint.remove();
-    tabs.forEach((t, i) => t.addEventListener('click', () => select(i)));
-    let current = 0;
-    function select(i) { current = i; fillHouse(i); }
-    fillHouse(current);
+    img.src = 'essencia-b/plate.webp'; img.alt = ''; img.className = 'ess-fallback';
+    img.style.cssText = 'position:absolute;left:4%;top:50%;transform:translateY(-50%);width:min(52vw,80vh);';
+    section.prepend(img);
+    section.classList.add('is-ready');
     return;
   }
 
@@ -390,22 +371,27 @@
   const lockAt = [-99, -99, -99];
   const level = [0, 0, 0];
   let time = 0, last = performance.now(), introStart = null;
-  let raf = 0, keepUntil = 0;
   let ready = false;
   let touched = false, nextTour = Infinity;
 
   function layout() {
-    W = inner.clientWidth; H = inner.clientHeight;
-    const ib = inner.getBoundingClientRect(), sb = slot.getBoundingClientRect();
-    const hintRoom = 44;
-    R = Math.max(120, Math.min(sb.width * 0.47, (sb.height - hintRoom) * 0.47, 420));
-    cx = sb.left - ib.left + sb.width / 2;
-    cy = sb.top - ib.top + (sb.height - hintRoom * 0.5) / 2;
+    const narrow = section.clientWidth <= 860;
+    W = section.clientWidth;
+    if (narrow) {
+      R = Math.min(W * 0.44, 320);
+      copy.style.paddingTop = Math.round(2 * R + 110) + 'px';
+      cx = W / 2; cy = R + 48;
+    } else {
+      copy.style.paddingTop = '';
+      const h = section.clientHeight;
+      R = Math.min(h * 0.41, W * 0.255);
+      cx = Math.min(W * 0.31, W * 0.6 - R - 60); cy = h * 0.5;
+    }
+    H = section.clientHeight;
     dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
-    const lx = cx - (sb.left - ib.left), ly = cy - (sb.top - ib.top);
-    Object.assign(hit.style, { left: (lx - R) + 'px', top: (ly - R) + 'px', width: 2 * R + 'px', height: 2 * R + 'px' });
-    Object.assign(hint.style, { left: lx + 'px', top: (ly + R + 18) + 'px' });
+    Object.assign(hit.style, { left: (cx - R) + 'px', top: (cy - R) + 'px', width: 2 * R + 'px', height: 2 * R + 'px' });
+    Object.assign(hint.style, { left: cx + 'px', top: (cy + R * 1.0 + 26) + 'px' });
     if (!mouse.has) { lamp.x = cx - R * 0.55; lamp.y = cy - R * 0.85; }
   }
 
@@ -434,14 +420,19 @@
     if (h === house && !fromWheel) return;
     house = h;
     section.dataset.house = String(h);
+    tabs.forEach((t, i) => t.setAttribute('aria-selected', String(i === h)));
     hit.setAttribute('aria-valuenow', String(h + 1));
     hit.setAttribute('aria-valuetext', HOUSES[h].title);
-    tabs.forEach((t, i) => { t.setAttribute('aria-selected', String(i === h)); t.tabIndex = i === h ? 0 : -1; });
     panel.classList.add('is-swapping');
     setTimeout(() => {
-      fillHouse(h);
+      const d = HOUSES[h];
+      panel.querySelector('.ess-house-num').textContent = d.num;
+      panel.querySelector('.ess-house-latin').textContent = d.latin;
+      panel.querySelector('.ess-house-title').textContent = d.title;
+      panel.querySelector('.ess-house-text').textContent = d.text;
+      panel.querySelector('.ess-house-tags').innerHTML = d.tags.map((t) => `<li>${t}</li>`).join('');
       requestAnimationFrame(() => panel.classList.remove('is-swapping'));
-    }, frozenAt === null && !reduced ? 260 : 0);
+    }, frozenAt === null ? 260 : 0);
   }
 
   function aimAt(h) {
@@ -451,8 +442,8 @@
   }
 
   /* ---------------- input ---------------- */
-  function local(e) { const b = inner.getBoundingClientRect(); return [e.clientX - b.left, e.clientY - b.top]; }
-  inner.addEventListener('pointermove', (e) => {
+  function local(e) { const b = section.getBoundingClientRect(); return [e.clientX - b.left, e.clientY - b.top]; }
+  section.addEventListener('pointermove', (e) => {
     [mouse.x, mouse.y] = local(e); mouse.inside = true; mouse.has = true;
     if (dragging) {
       dragMoved += Math.abs(e.movementX) + Math.abs(e.movementY);
@@ -460,9 +451,7 @@
       phiTarget = phi + wrap(a - phi);
     }
   });
-  inner.addEventListener('pointerleave', () => { mouse.inside = false; });
-  // the wheel owns its gestures: keep the page's swipe navigation out of a drag
-  for (const type of ['touchstart', 'touchmove', 'touchend']) hit.addEventListener(type, (e) => e.stopPropagation(), { passive: true });
+  section.addEventListener('pointerleave', () => { mouse.inside = false; });
   const touch = () => { touched = true; };
   hit.addEventListener('pointerdown', (e) => {
     touch();
@@ -500,24 +489,15 @@
     e.preventDefault(); touch(); section.classList.add('has-turned');
     aimAt((house + dir + 3) % 3);
   });
-  tabs.forEach((t, i) => {
-    t.addEventListener('click', () => { touch(); section.classList.add('has-turned'); aimAt(i); });
-    t.addEventListener('keydown', (e) => {
-      const dir = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
-      if (!dir) return;
-      e.preventDefault();
-      const n = (i + dir + 3) % 3;
-      tabs[n].focus(); tabs[n].click();
-    });
-  });
+  tabs.forEach((t, i) => t.addEventListener('click', () => { touch(); section.classList.add('has-turned'); aimAt(i); }));
 
   /* ---------------- frame ---------------- */
   let tex = null;
   function draw(now) {
-    raf = 0;
     const dt = Math.min(0.05, (now - last) / 1000); last = now;
-    if (frozenAt !== null) { time = frozenAt; if (introStart === null) introStart = 0; } else time += dt;
-    const t = introStart === null ? -10 : reduced ? time + 4 : time - introStart;
+    if (frozenAt !== null) time = frozenAt; else time += dt;
+    if (introStart === null) introStart = frozenAt !== null ? 0 : time;
+    const t = reduced ? time + 4 : time - introStart;
     const stepDt = frozenAt !== null ? 0 : dt;
 
     // lamp follows the cursor, else drifts above-left of the wheel
@@ -530,7 +510,7 @@
     const near = mouse.inside ? clamp(1.5 - Math.hypot(mouse.x - cx, mouse.y - cy) / R, 0, 1) : 0;
     const dx = mouse.inside ? clamp((mouse.x - cx) / R, -1.3, 1.3) : 0.45, dy = mouse.inside ? clamp((mouse.y - cy) / R, -1.3, 1.3) : -0.4;
     const trx = 0.04 + dy * 0.15 * (0.4 + 0.6 * near), tryy = -dx * 0.15 * (0.4 + 0.6 * near);
-    const gTarget = params.has('e-explode') ? parseFloat(params.get('e-explode')) : dragging ? 1.0 : 0.12 + near * 0.55;
+    const gTarget = params.has('explode') ? parseFloat(params.get('explode')) : dragging ? 1.0 : 0.12 + near * 0.55;
     const kt = frozenAt !== null ? 1 : 1 - Math.exp(-dt * 4);
     tilt.x += (trx - tilt.x) * kt; tilt.y += (tryy - tilt.y) * kt;
     gap += (gTarget - gap) * (frozenAt !== null ? 1 : 1 - Math.exp(-dt * 5));
@@ -538,7 +518,7 @@
     // pointer spring (+ entrance swing)
     if (t >= POINTER_LAND || frozenAt !== null) {
       if (frozenAt !== null) {
-        const fh = params.has('e-house') ? parseInt(params.get('e-house'), 10) : 0;
+        const fh = params.has('house') ? parseInt(params.get('house'), 10) : 0;
         const settle = Math.max(0, t - POINTER_LAND);
         phi = HOUSES[fh].angle + (-2.6 - HOUSES[fh].angle) * Math.exp(-settle * 4.5) * Math.cos(settle * 9);
         if (t < POINTER_LAND) phi = -2.6;
@@ -552,9 +532,9 @@
         }
       }
     }
-    if (frozenAt !== null && params.has('e-house')) {
-      const fh = parseInt(params.get('e-house'), 10);
-      lockAt[fh] = time - (params.has('e-fx') ? parseFloat(params.get('e-fx')) : 0.6);
+    if (frozenAt !== null && params.has('house')) {
+      const fh = parseInt(params.get('house'), 10);
+      lockAt[fh] = time - (params.has('fx') ? parseFloat(params.get('fx')) : 0.6);
       if (house !== fh) setHouse(fh);
     }
     for (let i = 0; i < 3; i++) {
@@ -585,7 +565,7 @@
     const eye = project(M, HOUSES[0].at[0], HOUSES[0].at[1], 3 * 1.5 + gap * 3 * 30);
     const compass = project(M, HOUSES[1].at[0], HOUSES[1].at[1], 3 * 1.5 + gap * 3 * 30);
     const anvil = project(M, HOUSES[2].at[0], HOUSES[2].at[1] - 0.03, 3 * 1.5 + gap * 3 * 30);
-    const cb = copy.getBoundingClientRect(), sb = inner.getBoundingClientRect();
+    const cb = copy.getBoundingClientRect(), sb = section.getBoundingClientRect();
     const beamTo = [cb.left - sb.left + 80, cb.top - sb.top + 120];
     gl.uniform2f(u.uView, W, H); gl.uniform2f(u.uCenter, cx, cy); gl.uniform1f(u.uR, R);
     gl.uniform1f(u.uTime, time); gl.uniform1f(u.uDpr, dpr); gl.uniform1f(u.uChart, chartRot);
@@ -691,43 +671,21 @@
       gl.uniform2f(pu.uAnvil, anvil[0], anvil[1]);
       gl.uniform1f(pu.uTime, time); gl.uniform1f(pu.uDpr, dpr); gl.uniform1f(pu.uR, R); gl.uniform1f(pu.uIntro, intro);
       gl.uniform1f(pu.uBurst, lockAt[2]);
-      const base = introStart ?? -99;
+      const base = introStart;
       gl.uniform4f(pu.uPuffs, base + RINGS[0].land, base + RINGS[1].land, base + RINGS[2].land, base + RINGS[3].land);
       gl.drawArrays(gl.POINTS, 0, nPart);
     }
 
-    if (running()) raf = requestAnimationFrame(draw);
-    else if (frozenAt !== null) window.__essFrame = (window.__essFrame || 0) + 1;
+    if (frozenAt === null) requestAnimationFrame(draw);
+    else if (!tex) requestAnimationFrame(draw);
+    else window.__essFrame = (window.__essFrame || 0) + 1;
   }
 
-  const isActive = () => document.body.dataset.section === 'essencia';
-  function running() { return tex && frozenAt === null && !document.hidden && (isActive() || performance.now() < keepUntil); }
-  function kick() { if (!raf && tex) { last = performance.now(); raf = requestAnimationFrame(draw); } }
-  function sync() {
-    if (isActive()) {
-      // the discs drop in when the visitor arrives, after the page slide settles
-      if (introStart === null && frozenAt === null) introStart = time + (reduced ? 0 : 0.45);
-      kick();
-    } else {
-      keepUntil = performance.now() + 1100;
-      kick();
-    }
-  }
-  document.addEventListener('portfolio:sectionchange', sync);
-  document.addEventListener('visibilitychange', sync);
-  new ResizeObserver(() => { layout(); if (tex && !raf) raf = requestAnimationFrame(draw); }).observe(inner);
-  document.fonts?.ready.then(() => { layout(); if (tex && !raf) raf = requestAnimationFrame(draw); });
-
-  section.classList.add('has-gl');
-  if (reduced) section.classList.add('is-ready');
+  window.addEventListener('resize', () => { layout(); if (frozenAt !== null && tex) requestAnimationFrame(draw); });
   layout();
-  if (params.has('e-mx')) { mouse.x = parseFloat(params.get('e-mx')); mouse.y = parseFloat(params.get('e-my')); mouse.inside = mouse.has = true; lamp.x = mouse.x; lamp.y = mouse.y; }
-  // String literals so the build fingerprints them.
-  Promise.all([texture('assets/images/volvella-plate.webp'), texture('assets/images/volvella-maps.webp', true), texture('assets/images/volvella-pointer.webp')])
-    .then(([plate, maps, pointer]) => {
-      tex = { plate, maps, pointer };
-      raf = requestAnimationFrame(draw);   // one still frame so the night is painted before the visit
-      sync();
-    })
-    .catch(() => { section.classList.add('is-ready'); });
+  if (params.has('mx')) { mouse.x = parseFloat(params.get('mx')); mouse.y = parseFloat(params.get('my')); mouse.inside = mouse.has = true; lamp.x = mouse.x; lamp.y = mouse.y; }
+  Promise.all([texture('essencia-b/plate.webp'), texture('essencia-b/maps.webp', true), texture('essencia-b/pointer.webp')])
+    .then(([plate, maps, pointer]) => { tex = { plate, maps, pointer }; if (frozenAt !== null) requestAnimationFrame(draw); })
+    .catch((e) => console.error('[volvella]', e));
+  requestAnimationFrame(draw);
 })();

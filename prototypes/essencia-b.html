@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rota artis — protótipo</title>
+  <link rel="stylesheet" href="../css/fonts.css">
+  <link rel="stylesheet" href="essencia-b/volvella.css">
+  <script src="essencia-b/volvella.js" defer></script>
+</head>
+<body>
+  <section class="ess" id="essencia" aria-labelledby="ess-title" data-house="0">
+    <canvas class="ess-gl" aria-hidden="true"></canvas>
+
+    <div class="ess-wheel-ui">
+      <div class="ess-wheel-hit" role="slider" tabindex="0" aria-label="Roda das casas: use as setas para girar" aria-valuemin="1" aria-valuemax="3" aria-valuenow="1" aria-valuetext="Visão"></div>
+      <p class="ess-hint" aria-hidden="true"><span class="hint-hover">Arraste o ponteiro</span><span class="hint-touch">Gire o ponteiro</span> ✦</p>
+    </div>
+
+    <div class="ess-copy">
+      <p class="ess-folio"><i>fol. ii</i><b></b><span>Rota artis</span></p>
+      <h2 id="ess-title"><span class="ess-line">Enxergar longe.</span><em class="ess-line">Construir com direção.</em></h2>
+      <p class="ess-lede">Todo produto passa pelas mesmas três casas. Gire a roda: cada uma mostra como eu trabalho nela.</p>
+
+      <div class="ess-houses" role="tablist" aria-label="As três casas">
+        <button role="tab" type="button" data-house="0" aria-selected="true"><b>I</b> Visão</button>
+        <button role="tab" type="button" data-house="1" aria-selected="false"><b>II</b> Direção</button>
+        <button role="tab" type="button" data-house="2" aria-selected="false"><b>III</b> Execução</button>
+      </div>
+
+      <article class="ess-house" role="tabpanel" aria-live="polite">
+        <p class="ess-house-kicker"><span class="ess-house-num">I</span><span class="ess-house-latin">Domus prima</span></p>
+        <h3 class="ess-house-title">Visão</h3>
+        <p class="ess-house-text">Antes do código, a pergunta certa. Entendo o problema, as pessoas e o negócio, e enxergo o produto antes que ele exista.</p>
+        <ul class="ess-house-tags"><li>Descoberta</li><li>Pesquisa</li><li>Estratégia</li></ul>
+      </article>
+
+      <div class="ess-chronicle">
+        <div class="ess-row"><span class="ess-row-name">Pátio Mobile <em>· front-end</em></span><span class="ess-row-meta">Ago. 2022 — atual</span></div>
+        <p class="ess-row-text">Aplicativos móveis e sistemas web para a gestão de pátios de veículos.</p>
+        <div class="ess-row"><span class="ess-row-name">Goiaba Lunar <em>· meu estúdio</em></span><span class="ess-row-meta">3 obras</span></div>
+        <p class="ess-row-text">Cindra <i>no ar</i> · CommissionMatch <i>prévia</i> · Mangue <i class="is-new">em criação</i></p>
+        <p class="ess-tools"><b>Instrumenta</b> TypeScript · SvelteKit · React Native & Expo · PostgreSQL · Docker · agentes de IA & MCP</p>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

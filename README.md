@@ -9,7 +9,7 @@ Meu portfólio como desenvolvedor de software: uma experiência interativa que a
 Construído com HTML, CSS e JavaScript, sem framework de interface. O site combina tipografia editorial, ilustrações e elementos em pixel art em uma navegação por quatro seções: apresentação, essência, estúdio e contato.
 
 - Layout responsivo, com navegação por mouse, toque e teclado.
-- Animações e interações próprias, incluindo arco e flecha, ciclope e cursor do estúdio.
+- Animações e interações próprias, incluindo uma volvela astronômica em WebGL, ciclope e cursor do estúdio.
 - Suporte à preferência de movimento reduzido (`prefers-reduced-motion`).
 - Fontes hospedadas localmente e imagens otimizadas em WebP.
 - Build de produção com esbuild e publicação na Vercel.
@@ -24,17 +24,16 @@ python3 -m http.server 4173 --bind 127.0.0.1
 
 Abra [localhost:4173](http://127.0.0.1:4173).
 
-## Build e testes
+## Build
 
 Com Node.js e npm instalados:
 
 ```sh
 npm ci
-npm test
 npm run build
 ```
 
-Os testes verificam a física e o voo da flecha. O build valida referências a arquivos, combina e minifica CSS e JavaScript e gera os arquivos de produção em `dist/`, com nomes baseados no conteúdo para controle de cache.
+O build valida referências a arquivos, combina e minifica CSS e JavaScript e gera os arquivos de produção em `dist/`, com nomes baseados no conteúdo para controle de cache.
 
 Para conferir o resultado localmente:
 
@@ -56,7 +55,6 @@ Edite os arquivos de origem; `dist/` é gerado automaticamente e não é version
 │   ├── images/       # Ilustrações, logo e versões otimizadas
 │   └── favicon.svg
 ├── scripts/build.mjs # Build e validações de produção
-├── tests/            # Testes da física e do voo da flecha
 ├── docs/             # Documentação técnica e origem dos assets
 └── vercel.json       # Configuração de deploy e cache
 ```
