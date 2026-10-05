@@ -106,12 +106,15 @@ const [css, js] = await Promise.all([
 assert.equal(css.warnings.length, 0, JSON.stringify(css.warnings));
 assert.equal(js.warnings.length, 0, JSON.stringify(js.warnings));
 new Script(js.code, { filename: 'site.js' });
-const cssUrl = emit('site.css', css.code);
 const jsUrl = emit('site.js', js.code);
 
+// The CSS is small (~14 KiB compressed), so it ships inside the HTML: first paint does not
+// wait for a second render-blocking request competing with the hero plate for bandwidth.
+// The HTML is revalidated on each visit, so an unchanged page still costs only a 304.
+assert(!/<\/style/i.test(css.code), 'The CSS cannot be inlined: it contains </style.');
 let html = originalHtml;
 for (const [index, [tag]] of stylesheetTags.entries()) {
-  html = html.replace(tag, index === 0 ? `<link rel="stylesheet" href="${cssUrl}">` : '');
+  html = html.replace(tag, () => index === 0 ? `<style>${css.code.trim()}</style>` : '');
 }
 for (const [index, [tag]] of scriptTags.entries()) {
   html = html.replace(tag, index === 0 ? `<script src="${jsUrl}" defer></script>` : '');
@@ -136,7 +139,8 @@ rewriteHtmlAssets(html, validateAsset);
 for (const [, url] of css.code.matchAll(/url\(["']?([^)'"\s]+)["']?\)/g)) validateAsset(url);
 for (const [, url] of js.code.matchAll(/["'](\/assets\/[^"']+)["']/g)) validateAsset(url);
 assert(!/["'](?:\.\.\/)?assets\//.test(css.code + js.code), 'Unresolved source asset URL in a bundle.');
-assert.equal((html.match(/<link\b[^>]*rel="stylesheet"/g) || []).length, 1);
+assert.equal((html.match(/<link\b[^>]*rel="stylesheet"/g) || []).length, 0);
+assert.equal((html.match(/<style>/g) || []).length, 1);
 assert.equal((html.match(/<script\b/g) || []).length, 1);
 assert.equal(html.slice(html.indexOf('<body')), originalHtml.slice(originalHtml.indexOf('<body'))
   .replace(/<(?:link|img|source|image|script)\b[^>]*>/gi, tag => rewriteHtmlAssets(tag, asset)),

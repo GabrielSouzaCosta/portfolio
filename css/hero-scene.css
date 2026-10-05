@@ -69,3 +69,5 @@ body[data-section="inicio"] .sidebar .brand-role b { background: #3b3024; color:
   .sound-toggle { right: 16px; bottom: 14px; }
   body[data-section="contato"] .sound-toggle { display: none; } /* the fitted letter leaves no free corner; music keeps playing */
 }
+/* Phones load a 1152 px plate (js/hero-scene.js and the preload in index.html match). */
+@media (max-width: 440px) { .hero-art { background-image: url('../assets/images/hero-plate-1152.webp'); } }

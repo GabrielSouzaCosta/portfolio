@@ -80,8 +80,14 @@
   struct S { vec3 c; float L; float v; float gold; float lapis; float red; vec2 g; };
   S see(vec2 p) {
     float k = 1.25;
-    vec3 c = plate(p), l = plate(p - vec2(k, 0.)), r = plate(p + vec2(k, 0.));
-    vec3 u = plate(p - vec2(0., k)), d = plate(p + vec2(0., k));
+    vec3 c, l, r, u, d;
+    if (p.x >= k) { // every tap lands on the plate: skip the parchment branch
+      c = tex(p); l = tex(p - vec2(k, 0.)); r = tex(p + vec2(k, 0.));
+      u = tex(p - vec2(0., k)); d = tex(p + vec2(0., k));
+    } else {
+      c = plate(p); l = plate(p - vec2(k, 0.)); r = plate(p + vec2(k, 0.));
+      u = plate(p - vec2(0., k)); d = plate(p + vec2(0., k));
+    }
     S s;
     s.c = clamp(c + (c - (l + r + u + d) * .25) * .6, 0., 1.); // unsharp: the plate is upscaled
     s.L = luma(c);
@@ -150,8 +156,10 @@
   }
   // How much darker a pixel is than its surroundings: the burin lines, without the flat tones.
   float lines(vec2 p, float L, float r) {
-    float around = luma(plate(p + vec2(r, 0.)) + plate(p - vec2(r, 0.)) + plate(p + vec2(0., r)) + plate(p - vec2(0., r))) * .25;
-    return around - L;
+    vec3 sum;
+    if (p.x >= r) sum = tex(p + vec2(r, 0.)) + tex(p - vec2(r, 0.)) + tex(p + vec2(0., r)) + tex(p - vec2(0., r));
+    else sum = plate(p + vec2(r, 0.)) + plate(p - vec2(r, 0.)) + plate(p + vec2(0., r)) + plate(p - vec2(0., r));
+    return luma(sum) * .25 - L;
   }
   vec3 m1(vec2 p) {
     S s = see(p);
@@ -269,18 +277,28 @@
   void main() {
     vec2 f = vec2(gl_FragCoord.x, uRes.y - gl_FragCoord.y);
     vec2 p = (f - uFit.yz) / uFit.x;
-    vec3 col;
-    if (uA == uB) {
-      col = shade(uB, p);
-    } else {
+    // m: how much of world uB a pixel shows. Outside a wave that is all of it.
+    vec2 pr = p;
+    float k = 0., rim = 0., m = 1.;
+    if (uA != uB) {
       vec2 dv = p - uO;
-      float k = length(dv) + (noise(p * .012) - .5) * 90. - uR;
-      float rim = exp(-k * k / (2. * 32. * 32.));
-      vec2 pr = p - normalize(dv + .001) * rim * 28. * uMotion; // the front refracts what it passes
-      float m = 1. - smoothstep(-12., 12., k);
-      if (m > .999) col = shade(uB, pr);
-      else if (m < .001) col = shade(uA, pr);
-      else col = mix(shade(uA, pr), shade(uB, pr), m);
+      k = length(dv) + (noise(p * .012) - .5) * 90. - uR;
+      rim = exp(-k * k / (2. * 32. * 32.));
+      pr = p - normalize(dv + .001) * rim * 28. * uMotion; // the front refracts what it passes
+      m = 1. - smoothstep(-12., 12., k);
+    }
+    // One call site for at most two worlds: the six worlds are inlined once, not four
+    // times, which keeps the shader quick to compile. The loop count is not a constant,
+    // so the compiler cannot unroll it back.
+    bool both = m >= .001 && m <= .999;
+    int n = both ? 2 : 1;
+    vec3 cA = vec3(0.), cB = vec3(0.);
+    for (int i = 0; i < n; i++) {
+      vec3 c = shade(i == 1 || m < .001 ? uA : uB, pr);
+      if (i == 0) cB = c; else cA = c;
+    }
+    vec3 col = both ? mix(cA, cB, m) : cB;
+    if (uA != uB) {
       float flame = noise(p * .05 + vec2(0., uT * 3.));
       col = mix(col, col * vec3(.5, .35, .25), exp(-pow((k - 26.) / 18., 2.)) * .5); // scorch ahead of the front
       col += rim * vec3(1., .64, .26) * (.45 + .9 * flame);
@@ -300,35 +318,46 @@
   const gl = canvas.getContext('webgl2', { antialias: false, premultipliedAlpha: false });
   if (!gl) return;
 
+  // The driver builds the program while the plate downloads. Any query made before it
+  // is done (even for an extension) waits for it, so extensions come first and the
+  // result is read only once the plate is ready, polled where the browser allows.
+  const parallel = gl.getExtension('KHR_parallel_shader_compile');
   function compile(type, src) {
     const s = gl.createShader(type);
     gl.shaderSource(s, src);
     gl.compileShader(s);
-    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
     return s;
   }
   const prog = gl.createProgram();
+  const frag = compile(gl.FRAGMENT_SHADER, FRAG);
   gl.attachShader(prog, compile(gl.VERTEX_SHADER, VERT));
-  gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FRAG));
+  gl.attachShader(prog, frag);
   gl.linkProgram(prog);
-  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
-  gl.useProgram(prog);
   const U = {};
-  for (const n of ['uPlate', 'uRes', 'uFit', 'uT', 'uMotion', 'uLod', 'uMouse', 'uA', 'uB', 'uO', 'uR']) U[n] = gl.getUniformLocation(prog, n);
-
-  gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-  const loc = gl.getAttribLocation(prog, 'a');
-  gl.enableVertexAttribArray(loc);
-  gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  const built = () => new Promise(resolve => {
+    const poll = () => !parallel || gl.getProgramParameter(prog, parallel.COMPLETION_STATUS_KHR) ? resolve() : setTimeout(poll, 20);
+    poll();
+  }).then(() => {
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getShaderInfoLog(frag) || gl.getProgramInfoLog(prog));
+    gl.useProgram(prog);
+    for (const n of ['uPlate', 'uRes', 'uFit', 'uT', 'uMotion', 'uLod', 'uMouse', 'uA', 'uB', 'uO', 'uR']) U[n] = gl.getUniformLocation(prog, n);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(prog, 'a');
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  });
 
   // Layout. Wide screens: the canvas fills the hero and the tear lands just right of
   // the copy. Phones (the site's 850px breakpoint): the plate fills the space below the copy.
   const narrow = matchMedia('(max-width: 850px)');
   let fit = { scale: 1, x0: 0, y0: 0 }, dpr = 1, size = { w: 1, h: 1 };
+  // A GPU that falls behind renders fewer pixels, never fewer than one per CSS pixel.
+  const pace = glPace(() => { if (img.complete) layout(); });
   function layout() {
     const stacked = narrow.matches;
-    dpr = Math.min(devicePixelRatio || 1, 1.75);
+    const sharpest = Math.min(devicePixelRatio || 1, 1.75);
+    dpr = Math.max(Math.min(1, sharpest), sharpest * pace.scale);
     h1.style.fontSize = '';
     lede.style.maxWidth = '';
     canvas.style.top = canvas.style.height = '';
@@ -353,6 +382,7 @@
       y0 = Math.min(0, Math.max(h - IMG_H * scale, h * .5 - 600 * scale));
     }
     size = { w, h };
+    if (live && texW < IMG_W && !phone.matches) sharpen();
     canvas.width = Math.round(w * dpr);
     canvas.height = Math.round(h * dpr);
     fit = { scale, x0, y0 };
@@ -417,7 +447,7 @@
     tag.classList.add('is-on');
   }
 
-  let img = { complete: false };
+  let img = { complete: false }, live = false;
   // Runs only while the hero chapter is on screen and the tab is visible.
   const isActive = () => document.body.dataset.section === 'inicio' && !document.hidden;
   let raf = 0, introDone = false, touring = 0, idleTimer = 0;
@@ -442,7 +472,7 @@
   }
   function sync() {
     if (isActive()) {
-      if (!raf && img.complete) raf = requestAnimationFrame(frame);
+      if (!raf && live) { pace.reset(); raf = requestAnimationFrame(frame); }
       if (introDone && !touring) startTourSoon();
     } else {
       cancelAnimationFrame(raf);
@@ -479,48 +509,81 @@
     want(s ? s.mode : 0, [px, py], 0);
   }, { passive: true });
 
-  // A string literal so the build fingerprints it.
+  // Phones get a 1152 px plate: their canvas never shows it wider than that. String
+  // literals so the build fingerprints them; the preloads in index.html match.
+  const PLATE = 'assets/images/hero-plate.webp', PHONE_PLATE = 'assets/images/hero-plate-1152.webp';
+  const phone = matchMedia('(max-width: 440px)');
   img = new Image();
-  img.src = 'assets/images/hero-plate.webp';
+  img.src = phone.matches ? PHONE_PLATE : PLATE;
   const resized = new ResizeObserver(() => { if (img.complete) layout(); });
   resized.observe(hero);
   resized.observe(copy);
   document.fonts?.ready.then(() => { if (img.complete) layout(); });
-  img.decode().then(() => {
-    const t = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, t);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, img);
+  // An ImageBitmap decoded off the main thread from the downloaded file (the fetch is
+  // served from the HTTP cache). Uploading the <img> itself, or a bitmap made from it,
+  // would decode the plate again on the main thread.
+  function pixels(image) {
+    return image.decode().then(() => !window.createImageBitmap ? image : fetch(image.src)
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.blob(); })
+      .then(blob => createImageBitmap(blob))
+      .catch(() => image));
+  }
+  let texture = null, texW = IMG_W; // texW: plate width in texels
+  function upload(source) {
+    if (texture) gl.deleteTexture(texture);
+    texture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, source);
+    texW = source.naturalWidth || source.width;
+    source.close?.();
     gl.generateMipmap(gl.TEXTURE_2D);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.uniform1i(U.uPlate, 0);
-    layout();
-    hero.classList.add('scene-live');
+  }
+  // A phone turned to landscape shows the plate wider: bring in the full one.
+  let sharpening = false;
+  function sharpen() {
+    if (sharpening) return;
+    sharpening = true;
+    const full = new Image();
+    full.src = PLATE;
+    pixels(full).then(upload).catch(() => {});
+  }
+  pixels(img)
+    .then(source => built().then(() => source))
+    .then(source => {
+      upload(source);
+      gl.uniform1i(U.uPlate, 0);
+      live = true;
+      layout();
+      hero.classList.add('scene-live');
 
-    // ?mode=N shows a world directly; add &wave=u to freeze a front from the plate to it.
-    if (params.has('mode')) {
-      const m = +params.get('mode');
-      if (params.has('wave')) {
-        cur = 0; go(m, [1000, 640]);
-        wave.frozen = parseFloat(params.get('wave'));
-      } else { cur = m; document.body.classList.toggle('hero-night', NIGHT.has(m)); }
-      desired = m; introDone = true;
-      if (params.has('mx')) { mouse[0] = +params.get('mx'); mouse[1] = +params.get('my'); }
-    } else if (document.body.dataset.section === 'inicio' && !reduced) {
-      // Opening: the world starts as an ink sketch, then imagination floods out from the knight.
-      setTimeout(() => { desired = 0; go(0, [1000, 640]); }, 900);
-      setTimeout(() => { introDone = true; startTourSoon(); }, 1900);
-    } else {
-      cur = desired = 0; introDone = true;
-    }
-    sync();
-  }).catch(() => {});
+      // ?mode=N shows a world directly; add &wave=u to freeze a front from the plate to it.
+      if (params.has('mode')) {
+        const m = +params.get('mode');
+        if (params.has('wave')) {
+          cur = 0; go(m, [1000, 640]);
+          wave.frozen = parseFloat(params.get('wave'));
+        } else { cur = m; document.body.classList.toggle('hero-night', NIGHT.has(m)); }
+        desired = m; introDone = true;
+        if (params.has('mx')) { mouse[0] = +params.get('mx'); mouse[1] = +params.get('my'); }
+      } else if (document.body.dataset.section === 'inicio' && !reduced) {
+        // Opening: the world starts as an ink sketch, then imagination floods out from the knight.
+        setTimeout(() => { desired = 0; go(0, [1000, 640]); }, 900);
+        setTimeout(() => { introDone = true; startTourSoon(); }, 1900);
+      } else {
+        cur = desired = 0; introDone = true;
+      }
+      sync();
+    })
+    .catch(error => { if (!(error instanceof DOMException)) console.error(error); }); // a failed download keeps the CSS plate
 
   const t0 = performance.now();
   function frame(now) {
     raf = 0;
+    if (!pace.ready(now)) { if (isActive()) raf = requestAnimationFrame(frame); return; }
     let a = cur, r = 0;
     if (wave) {
       const u = wave.frozen ?? Math.min(1, (now - wave.t0) / wave.dur);
@@ -533,7 +596,7 @@
     gl.uniform3f(U.uFit, fit.scale * dpr, fit.x0 * dpr, fit.y0 * dpr);
     gl.uniform1f(U.uT, frozenAt ?? (now - t0) / 1000);
     gl.uniform1f(U.uMotion, reduced ? 0 : 1);
-    gl.uniform1f(U.uLod, Math.max(0, Math.log2(1 / (fit.scale * dpr))));
+    gl.uniform1f(U.uLod, Math.max(0, Math.log2(texW / IMG_W / (fit.scale * dpr))));
     gl.uniform2f(U.uMouse, mouse[0], mouse[1]);
     gl.uniform1i(U.uA, wave ? a : cur);
     gl.uniform1i(U.uB, cur);

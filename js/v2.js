@@ -254,7 +254,8 @@ function stopStars() { cancelAnimationFrame(starFrame); starFrame = 0; }
 function startStars() {
   if (!starFrame && page === 2 && !document.hidden) starFrame = requestAnimationFrame(drawStars);
 }
-resizeStars(); startStars();
+// The observer sizes the canvas on its first frame, after layout: sizing it here
+// would force an extra synchronous layout of the whole page during startup.
 new ResizeObserver(resizeStars).observe(canvas.parentElement);
 reducedMotion.addEventListener('change', () => { stopStars(); resetPull(); startStars(); });
 document.addEventListener('portfolio:sectionchange', () => { stopStars(); startStars(); });

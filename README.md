@@ -11,7 +11,8 @@ Construído com HTML, CSS e JavaScript, sem framework de interface. O site combi
 - Layout responsivo, com navegação por mouse, toque e teclado.
 - Animações e interações próprias, incluindo uma volvela astronômica em WebGL, ciclope e cursor do estúdio.
 - Suporte à preferência de movimento reduzido (`prefers-reduced-motion`).
-- Fontes hospedadas localmente e imagens otimizadas em WebP.
+- Fontes hospedadas localmente e imagens otimizadas em WebP, com versões menores para celulares.
+- Carregamento em etapas: a Essência (WebGL e texturas) só é preparada depois que o início está pronto, ou quando o visitante chega a ela.
 - Build de produção com esbuild e publicação na Vercel.
 
 ## Executar localmente
@@ -33,7 +34,7 @@ npm ci
 npm run build
 ```
 
-O build valida referências a arquivos, combina e minifica CSS e JavaScript e gera os arquivos de produção em `dist/`, com nomes baseados no conteúdo para controle de cache.
+O build valida referências a arquivos, combina e minifica CSS e JavaScript e gera os arquivos de produção em `dist/`. O CSS vai embutido no HTML, para a primeira pintura não esperar outra requisição; o JavaScript e os assets recebem nomes baseados no conteúdo para controle de cache.
 
 Para conferir o resultado localmente:
 
