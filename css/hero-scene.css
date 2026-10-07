@@ -69,5 +69,14 @@ body[data-section="inicio"] .sidebar .brand-role b { background: #3b3024; color:
   .sound-toggle { right: 16px; bottom: 14px; }
   body[data-section="contato"] .sound-toggle { display: none; } /* the fitted letter leaves no free corner; music keeps playing */
 }
-/* Phones load a 1152 px plate (js/hero-scene.js and the preload in index.html match). */
-@media (max-width: 440px) { .hero-art { background-image: url('../assets/images/hero-plate-1152.webp'); } }
+/* Phones open on a small image of the frame the canvas starts with, the ink sketch, placed
+   by js/hero-scene.js exactly where the canvas will draw it (the preload in index.html
+   matches). The 1152 px plate downloads behind it and is the picture itself only where
+   the canvas cannot run. */
+@media (max-width: 440px) {
+  .hero-art { background-image: none; }
+  .hero-sketched .hero-art { background-image: url('../assets/images/hero-sketch-phone.webp'); }
+  .hero-sketched .hero-scene { transition-duration: .5s; } /* sketch over the same sketch: FADE in the script */
+  .hero-plain .hero-art { background-image: url('../assets/images/hero-plate-1152.webp'); }
+}
+@media (max-width: 440px) and (scripting: none) { .hero-art { background-image: url('../assets/images/hero-plate-1152.webp'); } }

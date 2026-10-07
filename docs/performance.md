@@ -1,5 +1,44 @@
 # Performance
 
+## Primeira pintura no celular (outubro de 2026)
+
+No celular, o maior elemento da primeira tela (LCP) era a prancha do início: 368 KB que, na rede simulada do Lighthouse (1,6 Mbps), levam quase dois segundos sozinhos. Recodificar não resolve: a gravura é densa demais (AVIF economiza cerca de 20% com fidelidade parecida; recortar a área visível, cerca de 5%).
+
+A abertura já começa como um esboço a tinta que depois se inunda de cor. Telas de até 440 px agora pintam esse primeiro quadro como uma imagem pequena, `hero-sketch-phone.webp` (62 KB), e só então baixam a prancha, que deixa de disputar banda com ele. O script posiciona a imagem exatamente onde o canvas vai desenhar o mesmo quadro, e o canvas entra por cima em 0,5 s; a inundação de cor espera o que faltar do compasso de 0,9 s, contado desde que o esboço apareceu. Sem WebGL2, sem JavaScript ou se o shader falhar, o celular mostra a prancha colorida como antes. Telas maiores não mudaram.
+
+### Medição
+
+Lighthouse 13.5, só desempenho, contra o build servido localmente por HTTP/2 com Brotli e os cabeçalhos de cache da Vercel. O perfil de celular é o padrão do Lighthouse (rede e CPU simuladas). Não são dados de campo, e a nota varia dois ou três pontos entre execuções.
+
+| Celular | Antes (`5827da0`) | Depois |
+| --- | ---: | ---: |
+| Nota | 93, 93 | 100, 100, 99 |
+| Maior conteúdo — LCP | 3,2 s | 1,7–1,9 s |
+| Primeiro conteúdo — FCP | 1,0 s | 1,0–1,2 s |
+| Bloqueio da thread principal — TBT | 0 ms | 0–47 ms |
+| Mudanças de layout — CLS | 0,004 | 0–0,010 |
+
+No site publicado, antes da mudança, o celular marcou 87, 90 e 92 (LCP de 3,0 a 3,8 s). No desktop a nota ficou entre 96 e 100 antes e depois: ali o maior elemento é o texto, e a variação vem de quais arquivos terminam antes dele na medição local.
+
+Testado e descartado: adiar as imagens do Estúdio, a textura de papel e a VT323, que o Lighthouse baixa junto com o início, não mudou a nota (99–100 com e sem elas).
+
+### Verificação
+
+- Captura do celular só com o esboço (prancha retida) comparada à do canvas congelado no mesmo quadro (`?mode=4&at=0`): mesmo registro; a diferença é apenas a nitidez do traço.
+- Caminhos alternativos em 412 × 823: sem WebGL, sem JavaScript, movimento reduzido, prancha que falha ao baixar, celular girado durante e depois do esboço. Nenhum erro de JavaScript; desktop em 1440 × 900 sem mudança.
+
+### Reproduzir a imagem
+
+`scripts/hero-sketch-frame.html` desenha o quadro com o próprio shader do site (mundo 4, lente em repouso, sem o grão por quadro) nas colunas 520–1500 da prancha, as únicas que o canvas de um celular alcança. Sirva a raiz do repositório, abra a página, salve o PNG (735 × 768) e, com Pillow:
+
+```python
+from PIL import Image
+frame = Image.open('hero-sketch-phone.png').convert('RGB')
+frame.resize((490, 512), Image.LANCZOS).save('assets/images/hero-sketch-phone.webp', quality=50, method=6)
+```
+
+Se o shader, a prancha ou o enquadramento do celular em `js/hero-scene.js` mudarem, gere a imagem de novo: `SKETCH` no script e `FRAMES` na página precisam descrever as mesmas colunas.
+
 ## Rodada de outubro de 2026
 
 O site estava pesado para baixar e para animar. Esta rodada reduz o que a primeira visita baixa, tira trabalho da thread principal e deixa os shaders mais baratos, sem mudar o que se vê.
@@ -26,7 +65,7 @@ Custo de um quadro do shader do início, 640 × 400 no SwiftShader: 395–507 ms
 - **Essência adiada.** Os quatro programas WebGL e as texturas da volvela (até ~1 MB) eram preparados na abertura da página, disputando banda com a prancha do início e segurando o `load`. Agora começam depois que o início assenta (2,5 s após o `load`, em tempo ocioso) ou assim que o visitante vai para a Essência. Rodas de até ~975 px de dispositivo usam a volvela de 1024 px (380 KB em vez de 885 KB); uma janela que cresce troca pela de 2048 px.
 - **Sem travar a thread principal.** As texturas são decodificadas fora dela (`createImageBitmap` a partir do arquivo; enviar o `<img>` decodificava de novo, de forma síncrona). As extensões são consultadas antes de compilar, e o resultado da compilação só é lido quando as texturas chegam, por `KHR_parallel_shader_compile` quando disponível: qualquer consulta antes disso esperava a GPU terminar. O limite de anisotropia, lido a cada textura, travava ~0,6 s por textura no SwiftShader. A Essência deixou o MSAA, que não alterava a imagem (as bordas já são suavizadas no shader) e custava memória e banda a cada quadro.
 - **Shader do início.** Mesmo resultado pixel a pixel: diferença 0 nos seis mundos, em três frentes de transição e em dois níveis de mip. As amostras da prancha pulam o ramo do pergaminho quando caem dentro dela, e os seis mundos são inlinados uma vez em vez de quatro, o que encurta a compilação.
-- **Prancha para celulares.** Telas de até 440 px recebem `hero-plate-1152.webp` (368 KB em vez de 609 KB). O canvas delas nunca mostra a prancha com mais de ~1150 px; o preload, o CSS e o script escolhem o mesmo arquivo, e um celular girado para paisagem troca pela prancha completa.
+- **Prancha para celulares.** Telas de até 440 px recebem `hero-plate-1152.webp` (368 KB em vez de 609 KB). O canvas delas nunca mostra a prancha com mais de ~1150 px, e um celular girado para paisagem troca pela prancha completa. (O preload e o fundo CSS dessas telas passaram depois a ser o esboço da abertura; ver a seção acima.)
 - **CSS embutido no HTML.** São ~14 KB comprimidos; a primeira pintura não espera uma segunda requisição bloqueante que disputava banda com a prancha.
 - **Ritmo dos quadros** (`js/gl-pace.js`). Os dois canvases desenham no máximo ~90 vezes por segundo: em 120 Hz, um quadro sim, outro não; 60 e 90 Hz ficam iguais. Se a GPU não acompanha (quadros irregulares abaixo de ~43 fps, ou qualquer ritmo abaixo de ~25 fps), a resolução desce em passos de 0,85, nunca abaixo de um pixel por pixel CSS. Um limite estável de 30 fps (economia de energia) não reduz nada.
 - **Céu do Estúdio.** O `ResizeObserver` dimensiona o canvas no primeiro quadro; antes, um dimensionamento extra na abertura forçava mais um layout síncrono da página.

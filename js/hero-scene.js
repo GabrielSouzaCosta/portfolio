@@ -2,7 +2,8 @@
    Hovering a creature sends a burning ink front across the hero and repaints the
    plate and the copy into that creature's world. Nothing is cut out or moved: every
    mode is a shader reading of the same image, so the art stays whole and in register.
-   Decorative only: without WebGL2 the CSS background plate and the copy stand alone. */
+   Decorative only: without WebGL2 the CSS background plate and the copy stand alone.
+   Phones paint the opening frame as a small image first (scripts/hero-sketch-frame.html). */
 (() => {
   const IMG_W = 1536, IMG_H = 1024;
   const SAFE_X = 440; // plate x where the parchment ends and the torn sky begins
@@ -315,8 +316,9 @@
   const h1 = hero.querySelector('#hero-title');
   const lede = hero.querySelector('.hero-description');
   const tag = hero.querySelector('.hero-tag');
+  const art = hero.querySelector('.hero-art');
   const gl = canvas.getContext('webgl2', { antialias: false, premultipliedAlpha: false });
-  if (!gl) return;
+  if (!gl) { hero.classList.add('hero-plain'); return; }
 
   // The driver builds the program while the plate downloads. Any query made before it
   // is done (even for an extension) waits for it, so extensions come first and the
@@ -355,6 +357,7 @@
   // A GPU that falls behind renders fewer pixels, never fewer than one per CSS pixel.
   const pace = glPace(() => { if (img.complete) layout(); });
   function layout() {
+    if (sketching && !phone.matches) endSketch();
     const stacked = narrow.matches;
     const sharpest = Math.min(devicePixelRatio || 1, 1.75);
     dpr = Math.max(Math.min(1, sharpest), sharpest * pace.scale);
@@ -380,6 +383,12 @@
       scale = Math.max(h / IMG_H, w / (IMG_W - 560));
       x0 = Math.min(0, Math.max(w - IMG_W * scale, w * .5 - 1010 * scale));
       y0 = Math.min(0, Math.max(h - IMG_H * scale, h * .5 - 600 * scale));
+      if (sketching) {
+        art.style.top = top + 'px';
+        art.style.height = h + 'px';
+        art.style.backgroundSize = `${SKETCH.w * scale}px ${IMG_H * scale}px`;
+        art.style.backgroundPosition = `${x0 + SKETCH.x * scale}px ${y0}px`;
+      }
     }
     size = { w, h };
     if (live && texW < IMG_W && !phone.matches) sharpen();
@@ -512,13 +521,31 @@
   // Phones get a 1152 px plate: their canvas never shows it wider than that. String
   // literals so the build fingerprints them; the preloads in index.html match.
   const PLATE = 'assets/images/hero-plate.webp', PHONE_PLATE = 'assets/images/hero-plate-1152.webp';
+  // While it downloads, a phone shows the frame the opening starts on as a small image:
+  // the plate columns its canvas can reach (SKETCH, plate px), drawn in the canvas's register.
+  const PHONE_SKETCH = 'assets/images/hero-sketch-phone.webp', SKETCH = { x: 520, w: 980 };
+  const FADE = 500; // the canvas fading in over the sketch, as in css/hero-scene.css
   const phone = matchMedia('(max-width: 440px)');
-  img = new Image();
-  img.src = phone.matches ? PHONE_PLATE : PLATE;
-  const resized = new ResizeObserver(() => { if (img.complete) layout(); });
+  let sketching = phone.matches, sketchedAt = 0;
+  function endSketch() {
+    sketching = false;
+    hero.classList.remove('hero-sketched');
+    art.removeAttribute('style');
+  }
+  const fits = () => { if (sketching || img.complete) layout(); };
+  const resized = new ResizeObserver(fits);
   resized.observe(hero);
   resized.observe(copy);
-  document.fonts?.ready.then(() => { if (img.complete) layout(); });
+  document.fonts?.ready.then(fits);
+  let sketched = Promise.resolve();
+  if (sketching) {
+    layout();
+    hero.classList.add('hero-sketched');
+    const sketch = new Image();
+    sketch.src = PHONE_SKETCH;
+    // The plate waits for the sketch: on a slow connection they would share the bandwidth.
+    sketched = sketch.decode().then(() => { sketchedAt = performance.now(); }, () => {});
+  }
   // An ImageBitmap decoded off the main thread from the downloaded file (the fetch is
   // served from the HTTP cache). Uploading the <img> itself, or a bitmap made from it,
   // would decode the plate again on the main thread.
@@ -551,7 +578,12 @@
     full.src = PLATE;
     pixels(full).then(upload).catch(() => {});
   }
-  pixels(img)
+  sketched
+    .then(() => {
+      img = new Image();
+      img.src = phone.matches ? PHONE_PLATE : PLATE;
+      return pixels(img);
+    })
     .then(source => built().then(() => source))
     .then(source => {
       upload(source);
@@ -559,6 +591,7 @@
       live = true;
       layout();
       hero.classList.add('scene-live');
+      if (sketching) setTimeout(endSketch, FADE);
 
       // ?mode=N shows a world directly; add &wave=u to freeze a front from the plate to it.
       if (params.has('mode')) {
@@ -571,14 +604,22 @@
         if (params.has('mx')) { mouse[0] = +params.get('mx'); mouse[1] = +params.get('my'); }
       } else if (document.body.dataset.section === 'inicio' && !reduced) {
         // Opening: the world starts as an ink sketch, then imagination floods out from the knight.
-        setTimeout(() => { desired = 0; go(0, [1000, 640]); }, 900);
-        setTimeout(() => { introDone = true; startTourSoon(); }, 1900);
+        // A phone has shown the sketch since its image arrived: the flood waits only for the
+        // rest of that beat, and for the canvas to finish fading in.
+        const hold = sketchedAt ? Math.max(FADE, 900 - (performance.now() - sketchedAt)) : 900;
+        setTimeout(() => { desired = 0; go(0, [1000, 640]); }, hold);
+        setTimeout(() => { introDone = true; startTourSoon(); }, hold + 1000);
       } else {
         cur = desired = 0; introDone = true;
       }
       sync();
     })
-    .catch(error => { if (!(error instanceof DOMException)) console.error(error); }); // a failed download keeps the CSS plate
+    .catch(error => {
+      if (error instanceof DOMException) return; // a failed download keeps the CSS plate, or the sketch
+      console.error(error);
+      endSketch();
+      hero.classList.add('hero-plain');
+    });
 
   const t0 = performance.now();
   function frame(now) {

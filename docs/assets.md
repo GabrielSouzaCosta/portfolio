@@ -9,6 +9,7 @@
 
 - `../assets/images/hero-plate.webp`: prancha do início, 1536 × 1024, lida pelo shader de `js/hero-scene.js` e usada como fundo CSS enquanto o WebGL não está pronto.
 - `../assets/images/hero-plate-1152.webp`: a mesma prancha em 1152 × 768 (Lanczos, WebP qualidade 90, a mesma da original), servida a telas de até 440 px de largura. Nelas o canvas nunca mostra a prancha com mais de ~1150 px de dispositivo; um celular girado para paisagem troca para a prancha completa.
+- `../assets/images/hero-sketch-phone.webp`: o quadro em que a abertura começa (o esboço a tinta, com a lente em repouso), 490 × 512, WebP qualidade 50. Cobre as colunas 520–1500 da prancha, as que o canvas de um celular alcança, e é pintado como fundo CSS em telas de até 440 px enquanto a prancha baixa. Gerado por `../scripts/hero-sketch-frame.html` com o shader do site.
 - `../assets/images/paper-grain.webp`: textura de papel do Estúdio e do Contato. É o canto superior esquerdo (232 × 941) de `hero.png`, a única parte da gravura que essas texturas mostravam; WebP qualidade 92. O `background-size` foi recalculado (`calc(950% * 232 / 1672)` e equivalentes) para manter exatamente a mesma escala.
 - `../assets/images/tabby-v2-330.webp` e `tabby-v2-440.webp`: versões do gato dimensionadas para alta densidade, com transparência e redimensionamento por vizinho mais próximo para manter a estética pixel art. A codificação WebP é sem perdas após o redimensionamento.
 - `../assets/images/goiaba-lunar.webp`: logo em WebP sem perdas, com pixels RGBA idênticos ao PNG.

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="UTF-8">
+<title>Quadro de abertura do início</title>
+<!-- Renders the frame the hero opens on (js/hero-scene.js: world 4, the ink sketch, with
+     the lens at rest) with the site's own shader, so phones can paint it as a small
+     image while the plate downloads. Serve the repository root and open this file:
+
+       python3 -m http.server 4173 --bind 127.0.0.1
+       http://127.0.0.1:4173/scripts/hero-sketch-frame.html
+
+     Save the PNG from its link, then encode as docs/performance.md describes. -->
+<body style="margin:16px;background:#777;font:14px sans-serif;color:#fff">
+<script type="module">
+  const IMG_H = 1024;
+  // x, w: the plate columns a phone can show (SKETCH in js/hero-scene.js). scale: plate px
+  // to texels, close to what a phone's canvas draws, so the ink weighs the same.
+  const FRAMES = [
+    { name: 'hero-sketch-phone', scale: .75, x: 520, w: 980 },
+  ];
+  const source = await (await fetch('../js/hero-scene.js')).text();
+  const pick = (pattern, what) => {
+    const match = source.match(pattern);
+    if (!match) throw new Error(`js/hero-scene.js changed: ${what} not found`);
+    return match;
+  };
+  const vert = pick(/const VERT = `([\s\S]*?)`;/, 'VERT')[1];
+  // The per-frame grain is left out: it changes every frame and would only cost bytes.
+  const grain = pick(/\n\s*col \+= \(hash\(f \+ fract\(uT\) \* 91\.\) - \.5\) \* \.022;/, 'the grain line')[0];
+  const frag = pick(/const FRAG = `([\s\S]*?)`;/, 'FRAG')[1].replace(grain, '');
+  const mouse = pick(/const mouse = \[(\d+), (\d+)\];/, 'the resting lens').slice(1).map(Number);
+  const plate = await createImageBitmap(await (await fetch('../assets/images/hero-plate.webp')).blob());
+
+  for (const { name, scale, x, w } of FRAMES) {
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.round(w * scale);
+    canvas.height = Math.round(IMG_H * scale);
+    const gl = canvas.getContext('webgl2', { antialias: false, premultipliedAlpha: false, preserveDrawingBuffer: true });
+    const prog = gl.createProgram();
+    for (const [type, text] of [[gl.VERTEX_SHADER, vert], [gl.FRAGMENT_SHADER, frag]]) {
+      const shader = gl.createShader(type);
+      gl.shaderSource(shader, text);
+      gl.compileShader(shader);
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(shader));
+      gl.attachShader(prog, shader);
+    }
+    gl.linkProgram(prog);
+    gl.useProgram(prog);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(prog, 'a');
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    gl.bindTexture(gl.TEXTURE_2D, gl.createTexture());
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, plate);
+    gl.generateMipmap(gl.TEXTURE_2D);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    const u = n => gl.getUniformLocation(prog, n);
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.uniform1i(u('uPlate'), 0);
+    gl.uniform2f(u('uRes'), canvas.width, canvas.height);
+    gl.uniform3f(u('uFit'), scale, -x * scale, 0);
+    gl.uniform1f(u('uT'), 0);
+    gl.uniform1f(u('uMotion'), 0);
+    gl.uniform1f(u('uLod'), Math.max(0, Math.log2(1 / scale)));
+    gl.uniform2f(u('uMouse'), ...mouse);
+    gl.uniform1i(u('uA'), 4);
+    gl.uniform1i(u('uB'), 4);
+    gl.uniform2f(u('uO'), 0, 0);
+    gl.uniform1f(u('uR'), 0);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+    const link = document.createElement('a');
+    link.download = `${name}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.textContent = `${name}.png (${canvas.width} × ${canvas.height})`;
+    link.style.cssText = 'display:block;margin:12px 0 6px;color:#fff';
+    canvas.style.cssText = 'display:block;max-width:100%';
+    document.body.append(link, canvas);
+  }
+  document.title += ' · pronto';
+</script>
+</body>
+</html>
