@@ -43,7 +43,6 @@
 .sound-toggle .sound-waves, .sound-toggle[aria-pressed="true"] .sound-off { display: none; }
 .sound-toggle[aria-pressed="true"] .sound-waves { display: inline; }
 .sound-toggle[aria-pressed="true"] { border-color: #b08d4a; color: #f3dca0; }
-body[data-section="contato"] .sound-toggle { bottom: 106px; } /* clear of the footer's "De volta ao início" */
 
 /* Worlds that darken the page re-ink the copy and the index when the front reaches them. */
 @media (min-width: 851px) {

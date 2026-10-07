@@ -1,0 +1,343 @@
+/* Goiaba Lunar — the studio's own night: pixel type, pixel corners, the guava palette.
+   The scene itself is drawn by js/studio-scene.js; this page only frames it. */
+#estudio {
+  --gl-night: #0b0920;
+  --gl-cream: #fff4dc;
+  --gl-text: #efe6f3;
+  --gl-muted: #b3a8ca;
+  --gl-pink: #efabc3;
+  --gl-pink-hot: #ffc8db;
+  --gl-magenta: #8a2f6b;
+  --gl-lime: #d9d27a;
+  --gl-lav: #cca7f1;
+  --gl-pixel: "VT323", monospace;
+}
+#estudio .studio-inner {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100svh;
+  overflow: hidden;
+  padding: 44px clamp(44px, 5vw, 88px) 40px clamp(125px, 11.4vw, 185px);
+  background: radial-gradient(ellipse at 72% 55%, #2a1647, transparent 60%), var(--gl-night);
+  color: var(--gl-text);
+}
+#estudio .studio-gl {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+#estudio .studio-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 470px) minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 64px);
+  align-items: center;
+  width: 100%;
+  max-width: 1240px;
+  min-height: min(820px, calc(100svh - 84px));
+  margin: 0 auto;
+  text-align: left;
+}
+#estudio .studio-copy { position: relative; z-index: 3; width: auto; min-width: 0; }
+#estudio .studio-sky { align-self: stretch; min-height: 520px; }
+
+/* ---- type ---- */
+#estudio .studio-wordmark {
+  display: flex;
+  align-items: flex-start;
+  gap: .12em;
+  width: auto;
+  max-width: none;
+  margin: 0 0 22px;
+  font: 400 clamp(64px, 6.6vw, 104px)/.78 var(--gl-pixel);
+  letter-spacing: 0;
+  white-space: nowrap;
+  color: var(--gl-cream);
+  text-shadow: 0 .055em 0 var(--gl-magenta);
+}
+#estudio .studio-wordmark::before { content: none; }
+#estudio .studio-signature { position: static; display: inline-block; transform: none; font: inherit; word-spacing: -.12em; }
+#estudio .studio-signature em { font-style: normal; color: var(--gl-pink); }
+#estudio .studio-star { flex: none; width: .21em; height: .21em; margin-top: -.02em; fill: var(--gl-pink); stroke: none; shape-rendering: crispEdges; animation: gl-blink 2.4s steps(1) infinite; }
+#estudio h2 {
+  margin: 0;
+  font: 400 clamp(34px, 3vw, 46px)/1 var(--gl-pixel);
+  letter-spacing: .005em;
+  color: var(--gl-text);
+}
+#estudio h2 em { font-style: normal; color: var(--gl-lime); }
+#estudio h2:focus { outline: none; }
+#estudio .studio-lede { max-width: 410px; margin: 18px 0 0; font-size: 15px; line-height: 1.75; color: var(--gl-muted); }
+#estudio .studio-lede strong { font-weight: 600; color: var(--gl-cream); }
+
+/* ---- projects in orbit ---- */
+#estudio .studio-orbits { margin-top: 30px; }
+#estudio .orbits-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 6px;
+  font: 400 17px/1 var(--gl-pixel);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gl-lav);
+}
+#estudio .orbits-head::after { content: ""; flex: 1; height: 2px; background: repeating-linear-gradient(90deg, #5d4790 0 4px, transparent 4px 8px); }
+#estudio .orbit-list { display: grid; gap: 2px; margin: 0 -12px; padding: 0; list-style: none; }
+#estudio .orbit-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) auto;
+  grid-template-areas: "icon name status" "icon line status";
+  align-items: center;
+  column-gap: 14px;
+  row-gap: 3px;
+  padding: 9px 12px 10px;
+  color: inherit;
+}
+#estudio .orbit-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: #ffffff09;
+  box-shadow: inset 0 0 0 2px #efabc340;
+  clip-path: polygon(0 4px, 4px 4px, 4px 0, calc(100% - 4px) 0, calc(100% - 4px) 4px, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 4px calc(100% - 4px), 0 calc(100% - 4px));
+  opacity: 0;
+}
+#estudio .orbit-icon { grid-area: icon; width: 22px; height: 22px; stroke: none; shape-rendering: crispEdges; }
+#estudio .orbit-icon.is-cindra { fill: #dd7740; }
+#estudio .orbit-icon.is-cindra .orbit-icon-light { fill: #ffcd86; }
+#estudio .orbit-icon.is-commission { fill: #d6bdb9; }
+#estudio .orbit-icon.is-commission .orbit-icon-light { fill: #7f677c; }
+#estudio .orbit-icon.is-mangue { fill: #5d7737; }
+#estudio .orbit-icon.is-mangue .orbit-icon-light { fill: #afc074; }
+#estudio .orbit-name { grid-area: name; font: 400 25px/.9 var(--gl-pixel); color: var(--gl-cream); }
+#estudio .orbit-name::after { content: " ↗"; color: var(--gl-pink); opacity: 0; }
+#estudio .orbit-line { grid-area: line; font-size: 12.5px; line-height: 1.35; color: #9d92b6; }
+#estudio .orbit-status {
+  grid-area: status;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px 4px;
+  font: 400 16px/1 var(--gl-pixel);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--tone);
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--tone) 55%, transparent);
+}
+#estudio [data-tone="live"] { --tone: var(--gl-lime); }
+#estudio [data-tone="preview"] { --tone: var(--gl-pink); }
+#estudio [data-tone="soon"] { --tone: var(--gl-lav); }
+#estudio [data-tone="live"] .orbit-status::before { content: ""; width: 6px; height: 6px; background: currentColor; animation: gl-blink 1.6s steps(1) infinite; }
+#estudio .orbit-item:is(:hover, :focus-visible, .is-lit)::before { opacity: 1; }
+#estudio .orbit-item:is(:hover, :focus-visible, .is-lit) .orbit-name { color: var(--gl-pink-hot); }
+#estudio .orbit-item:is(:hover, :focus-visible, .is-lit) .orbit-name::after { opacity: 1; }
+#estudio .orbit-item:focus-visible { outline: 2px dashed var(--gl-pink); outline-offset: 2px; }
+
+/* ---- the invitation: a pixel button, the sleeping tabby on top ---- */
+#estudio .studio-cta { position: relative; display: inline-block; margin-top: 52px; }
+#estudio .button-tabby {
+  position: absolute;
+  left: 14px;
+  bottom: calc(100% - 13px);
+  z-index: 4;
+  width: 100px;
+  height: auto;
+  pointer-events: none;
+  image-rendering: pixelated;
+  transform-origin: bottom;
+  animation: cat-breathe 4s ease-in-out infinite;
+}
+#estudio .studio-button {
+  position: relative;
+  display: inline-block;
+  color: #1c0f2b;
+  filter: drop-shadow(0 4px 0 var(--gl-magenta));
+  transition: transform 90ms steps(2), filter 90ms steps(2);
+  -webkit-tap-highlight-color: transparent;
+}
+#estudio .studio-button-face {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  min-height: 58px;
+  padding: 0 22px 2px 24px;
+  background: var(--gl-pink);
+  font: 400 26px/1 var(--gl-pixel);
+  letter-spacing: .015em;
+  clip-path: polygon(0 4px, 4px 4px, 4px 0, calc(100% - 4px) 0, calc(100% - 4px) 4px, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 4px calc(100% - 4px), 0 calc(100% - 4px));
+}
+#estudio .studio-button-arrow { width: 14px; height: 14px; fill: currentColor; stroke: none; shape-rendering: crispEdges; }
+#estudio .studio-button:hover { transform: translateY(-2px); filter: drop-shadow(0 6px 0 var(--gl-magenta)); }
+#estudio .studio-button:hover .studio-button-face { background: var(--gl-pink-hot); }
+#estudio .studio-button:hover .studio-button-arrow { animation: gl-nudge .6s steps(2) infinite; }
+#estudio .studio-button:active { transform: translateY(3px); filter: drop-shadow(0 1px 0 var(--gl-magenta)); }
+#estudio .studio-button:focus-visible { outline: 2px dashed var(--gl-pink); outline-offset: 7px; }
+
+/* ---- things that ride on the canvas ---- */
+#estudio .studio-layer { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+#estudio .studio-layer > * { pointer-events: auto; }
+#estudio .moon-link {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  border-radius: 50%;
+  -webkit-tap-highlight-color: transparent;
+}
+#estudio .moon-link .moon-logo { display: block; width: 100%; height: 100%; border-radius: 50%; image-rendering: pixelated; animation: none; box-shadow: none; }
+#estudio.has-gl .moon-link .moon-logo { opacity: 0; }
+#estudio .moon-link:focus-visible { outline: 2px dashed var(--gl-pink); outline-offset: 10px; }
+#estudio .orbit-hit { position: absolute; left: 0; top: 0; z-index: 1; display: block; border-radius: 50%; }
+#estudio .orbit-tag {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 4;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 3px 8px 5px;
+  background: #0b0920e8;
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--tone, var(--gl-pink)) 70%, transparent);
+  font: 400 19px/1 var(--gl-pixel);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+}
+#estudio .orbit-tag.is-on { opacity: 1; }
+#estudio .orbit-tag b { font-weight: 400; color: var(--gl-cream); }
+#estudio .orbit-tag span { font-size: 15px; letter-spacing: .08em; text-transform: uppercase; color: var(--tone, var(--gl-pink)); }
+#estudio .moon-caption {
+  position: absolute;
+  z-index: 2;
+  transform: translateX(-50%);
+  font: 400 19px/1 var(--gl-pixel);
+  letter-spacing: .04em;
+  white-space: nowrap;
+  color: var(--gl-lav);
+  pointer-events: none;
+}
+#estudio .caption-hover { display: none; color: var(--gl-pink); }
+#estudio .moon-link:is(:hover, :focus-visible) ~ .moon-caption .caption-idle { display: none; }
+#estudio .moon-link:is(:hover, :focus-visible) ~ .moon-caption .caption-hover { display: inline; }
+#estudio:not(.has-gl) .orbit-hit,
+#estudio:not(.has-gl) .orbit-tag,
+#estudio:not(.has-gl) .moon-caption { display: none; }
+/* Without WebGL the logo itself is the moon. */
+#estudio:not(.has-gl) .moon-link { top: 50%; right: clamp(44px, 9vw, 160px); width: min(30vw, 380px); aspect-ratio: 1; transform: translateY(-50%); }
+
+/* ---- arrival: the sky resolves, then the words print in ---- */
+@media (prefers-reduced-motion: no-preference) {
+  #estudio.is-arrived .studio-signature { animation: gl-type .66s steps(12) .25s both; }
+  #estudio.is-arrived .studio-star { animation: gl-pop .3s steps(3) .9s both, gl-blink 2.4s steps(1) 1.2s infinite; }
+  #estudio.is-arrived h2 { animation: gl-rise .4s steps(4) .55s both; }
+  #estudio.is-arrived .studio-lede { animation: gl-rise .4s steps(4) .7s both; }
+  #estudio.is-arrived .studio-orbits { animation: gl-rise .4s steps(4) .85s both; }
+  #estudio.is-arrived .orbit-list li { animation: gl-rise .3s steps(3) both; }
+  #estudio.is-arrived .orbit-list li:nth-child(1) { animation-delay: 1s; }
+  #estudio.is-arrived .orbit-list li:nth-child(2) { animation-delay: 1.15s; }
+  #estudio.is-arrived .orbit-list li:nth-child(3) { animation-delay: 1.3s; }
+  #estudio.is-arrived .studio-cta { animation: gl-rise .4s steps(4) 1.35s both; }
+  #estudio.is-arrived .moon-caption { animation: gl-type .5s steps(10) 1.6s both; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #estudio .studio-star, #estudio [data-tone="live"] .orbit-status::before { animation: none; }
+  #estudio .studio-button, #estudio .studio-button:hover .studio-button-arrow { transition: none; animation: none; }
+}
+@keyframes gl-blink { 0%, 72% { opacity: 1; } 73%, 100% { opacity: .15; } }
+@keyframes gl-type { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes gl-rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes gl-pop { from { transform: scale(0); } to { transform: scale(1); } }
+@keyframes gl-nudge { 50% { transform: translate(2px, -2px); } }
+
+/* ---- the portal to the studio (js/studio-portal.js) ---- */
+.studio-portal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  overflow: hidden;
+  isolation: isolate;
+  touch-action: none;
+  cursor: progress;
+}
+.studio-portal-field {
+  position: absolute;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #334b88 0%, #334b88 var(--portal-blue-stop, 48%), #aa468b var(--portal-pink-stop, 60%), #aa468b 100%);
+  transform-origin: center;
+  will-change: transform;
+}
+.studio-portal-logo {
+  position: absolute;
+  display: block;
+  max-width: none;
+  border-radius: 50%;
+  image-rendering: pixelated;
+  mask-image: radial-gradient(circle closest-side, #000 84%, transparent 100%);
+  transform-origin: center;
+  will-change: transform;
+}
+.studio-departing .moon-logo { visibility: hidden; }
+.studio-departing .cat-cursor { display: none; }
+/* The dive: everything but the night steps away in three pixel beats. */
+.studio-departing #estudio .studio-grid,
+.studio-departing #estudio .studio-layer,
+.studio-departing .sidebar,
+.studio-departing .sound-toggle { opacity: 0; transition: opacity .27s steps(3); pointer-events: none; }
+.studio-departing #estudio .studio-inner { cursor: progress; }
+
+/* ---- the frame around the studio ---- */
+body[data-section="estudio"] .sidebar { background: transparent; color: #eadcf0; }
+body[data-section="estudio"] .section-link.active { color: var(--pink); }
+body[data-section="estudio"] .identity-symbol .g-cut { stroke: #0b0920; }
+
+@media (min-width: 851px) {
+  body[data-section="estudio"] .brand-role b { background: var(--pink); color: #1c0f2b; }
+}
+@media (max-width: 1150px) and (min-width: 851px) {
+  #estudio .studio-grid { grid-template-columns: minmax(0, 400px) minmax(0, 1fr); }
+  #estudio .orbit-line { display: none; }
+  #estudio .orbit-item { grid-template-areas: "icon name status"; }
+}
+@media (min-width: 851px) and (max-height: 760px) {
+  #estudio .studio-inner { padding-block: 28px; }
+  #estudio .studio-wordmark { font-size: clamp(56px, 5.6vw, 84px); margin-bottom: 14px; }
+  #estudio .studio-orbits { margin-top: 20px; }
+  #estudio .orbit-line { display: none; }
+  #estudio .orbit-item { grid-template-areas: "icon name status"; padding-block: 7px; }
+  #estudio .studio-cta { margin-top: 44px; }
+}
+@media (max-width: 850px) {
+  body[data-section="estudio"] .sidebar { background: #0b0920; color: #eadcf0; }
+  #estudio .studio-inner { min-height: 100svh; padding: 100px 24px 64px; justify-content: flex-start; }
+  #estudio .studio-grid { display: flex; flex-direction: column; align-items: stretch; gap: 0; min-height: 0; }
+  #estudio .studio-copy { display: contents; }
+  #estudio .studio-wordmark { order: 1; font-size: clamp(54px, 16vw, 84px); margin-bottom: 16px; }
+  #estudio h2 { order: 2; font-size: clamp(30px, 8.4vw, 40px); }
+  #estudio .studio-lede { order: 3; font-size: 14px; }
+  #estudio .studio-sky { order: 4; min-height: 0; height: min(96vw, 430px); margin: 6px -24px 0; }
+  #estudio .studio-orbits { order: 5; margin-top: 8px; }
+  #estudio .studio-cta { order: 6; align-self: flex-start; margin-top: 60px; }
+  #estudio .button-tabby { width: 76px; }
+  #estudio .orbit-list { margin-inline: -10px; }
+  #estudio .orbit-item { padding-inline: 10px; column-gap: 12px; }
+  #estudio .studio-button-face { font-size: 23px; min-height: 54px; gap: 16px; padding-inline: 18px 16px; }
+  #estudio .moon-caption { font-size: 17px; }
+  #estudio .orbit-tag { font-size: 17px; }
+}
+@media (max-width: 370px) {
+  #estudio .studio-inner { padding-inline: 20px; }
+  #estudio .studio-sky { margin-inline: -20px; }
+  #estudio .orbit-status { font-size: 14px; padding-inline: 6px; }
+}

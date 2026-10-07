@@ -15,21 +15,22 @@
   <link rel="preload" href="assets/fonts/manrope-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/v2.css">
-  <link rel="stylesheet" href="css/v2-studio.css?portal=5">
-  <link rel="stylesheet" href="css/essence.css">
+    <link rel="stylesheet" href="css/essence.css">
   <link rel="stylesheet" href="css/v2-viewport.css">
   <link rel="stylesheet" href="css/hero-scene.css">
   <link rel="stylesheet" href="css/v2-mobile-nav.css">
   <link rel="stylesheet" href="css/contact.css">
+  <link rel="stylesheet" href="css/studio.css">
   <link rel="stylesheet" href="css/morfeu-cursor.css">
   <script src="js/v2.js" defer></script>
   <script src="js/gl-pace.js" defer></script>
   <script src="js/hero-scene.js" defer></script>
   <script src="js/hero-sound.js" defer></script>
+  <script src="js/studio-scene.js" defer></script>
   <script src="js/studio-portal.js?portal=5" defer></script>
   <script src="js/morfeu-cursor.js" defer></script>
   <script src="js/essence.js" defer></script>
-  <script src="js/contact.js" defer></script>
+  <script src="js/contact-scene.js" defer></script>
 </head>
 <body data-section="inicio">
   <a class="skip-link" href="#hero-title">Pular para o conteúdo</a>
@@ -123,148 +124,59 @@
     </section>
     <section id="estudio" class="scene studio" style="--order:2" aria-labelledby="studio-title">
       <div class="scene-scroll"><div class="studio-inner">
-        <canvas class="starfield" aria-hidden="true"></canvas><div class="studio-nebula" aria-hidden="true"></div><div class="studio-texture" aria-hidden="true"></div>
-        <div class="studio-grid"><div class="studio-copy"><div class="studio-wordmark" aria-hidden="true"><span class="studio-signature">Goiaba <em>Lunar</em><svg><use href="#spark"/></svg></span></div><h2 id="studio-title" tabindex="-1">Um outro <span class="studio-pixel-word">universo.</span><br><em>Novas possibilidades.</em></h2><p><strong>Meu estúdio de desenvolvimento.</strong><br>É por lá que meus projetos ganham espaço<br class="desktop-break"> para contar suas histórias.</p><div class="studio-cta"><img class="button-tabby" src="assets/images/tabby-v2-440.webp" srcset="assets/images/tabby-v2-330.webp 330w, assets/images/tabby-v2-440.webp 440w" sizes="(max-width: 850px) 76px, 100px" loading="lazy" decoding="async" fetchpriority="low" alt="" width="1536" height="1024"><a class="button button-pink" href="https://goiabalunar.tech" id="studio-link" data-studio-portal><span>Conheça o Goiaba Lunar</span><span class="button-icon" aria-hidden="true"><svg><use href="#arrow"/></svg></span></a></div></div>
-          <div class="lunar-system"><div class="lunar-orbit orbit-outer" aria-hidden="true"></div><div class="lunar-orbit orbit-inner" aria-hidden="true"></div><div class="orbit-spark" aria-hidden="true"><svg><use href="#spark"/></svg></div><div class="moon-halo" aria-hidden="true"></div><a class="moon-link" href="https://goiabalunar.tech" data-studio-portal aria-label="Conheça o Goiaba Lunar"><img class="moon-logo" src="assets/images/goiaba-lunar.webp" loading="lazy" decoding="async" fetchpriority="low" alt="Goiaba Lunar: uma lua de goiaba com um gato em pixel art" width="512" height="512"></a><span class="moon-caption">Feito de ideias fora de órbita.</span></div>
+        <canvas class="studio-gl" aria-hidden="true"></canvas>
+        <div class="studio-grid">
+          <div class="studio-copy">
+            <div class="studio-wordmark" aria-hidden="true"><span class="studio-signature">Goiaba <em>Lunar</em></span><svg class="studio-star" viewBox="0 0 7 7"><path d="M3 0h1v2h1v1h2v1H5v1H4v2H3V5H2V4H0V3h2V2h1Z"/></svg></div>
+            <h2 id="studio-title" tabindex="-1">Um outro universo.<br><em>Novas possibilidades.</em></h2>
+            <p class="studio-lede"><strong>Meu estúdio de desenvolvimento.</strong> É por lá que meus projetos ganham espaço para contar suas histórias.</p>
+            <div class="studio-orbits">
+              <p class="orbits-head" id="orbits-title"><span>Em órbita</span></p>
+              <ul class="orbit-list" aria-labelledby="orbits-title">
+                <li><a class="orbit-item" href="https://cindra.app" data-name="Cindra" data-status="no ar" data-tone="live"><svg class="orbit-icon is-cindra" viewBox="0 0 11 11" aria-hidden="true"><path d="M3 0h5v1h2v2h1v5h-1v2H8v1H3v-1H1V8H0V3h1V1h2Z"/><path class="orbit-icon-light" d="M3 2h3v1H4v1H3Z"/></svg><span class="orbit-name">Cindra</span><span class="orbit-line">Toda a sua vida, em uma página.</span><span class="orbit-status">no ar</span></a></li>
+                <li><a class="orbit-item" href="https://commissionmatch.art" data-name="CommissionMatch" data-status="prévia" data-tone="preview"><svg class="orbit-icon is-commission" viewBox="0 0 11 11" aria-hidden="true"><path d="M3 0h5v1h2v2h1v5h-1v2H8v1H3v-1H1V8H0V3h1V1h2Z"/><path class="orbit-icon-light" d="M0 5h11v1H0Z"/></svg><span class="orbit-name">CommissionMatch</span><span class="orbit-line">Comissões de arte por estilo e orçamento.</span><span class="orbit-status">prévia</span></a></li>
+                <li><a class="orbit-item" href="https://mangue.cindra.app" data-name="Mangue" data-status="em criação" data-tone="soon"><svg class="orbit-icon is-mangue" viewBox="0 0 11 11" aria-hidden="true"><path d="M3 0h5v1h2v2h1v5h-1v2H8v1H3v-1H1V8H0V3h1V1h2Z"/><path class="orbit-icon-light" d="M2 3h2v1h1v2h2v1H4V5H2Z"/></svg><span class="orbit-name">Mangue</span><span class="orbit-line">Histórias que crescem a cada escolha.</span><span class="orbit-status">em criação</span></a></li>
+              </ul>
+            </div>
+            <div class="studio-cta"><img class="button-tabby" src="assets/images/tabby-v2-440.webp" srcset="assets/images/tabby-v2-330.webp 330w, assets/images/tabby-v2-440.webp 440w" sizes="(max-width: 850px) 76px, 100px" loading="lazy" decoding="async" fetchpriority="low" alt="" width="1536" height="1024"><a class="studio-button" href="https://goiabalunar.tech" id="studio-link" data-studio-portal><span class="studio-button-face"><span>Conheça o Goiaba Lunar</span><svg class="studio-button-arrow" viewBox="0 0 7 7" aria-hidden="true"><path d="M2 0h5v5H6V2H5v1H4v1H3v1H2v1H1v1H0V6h1V5h1V4h1V3h1V2h1V1H2Z"/></svg></span></a></div>
+          </div>
+          <div class="studio-sky" aria-hidden="true"></div>
+        </div>
+        <div class="studio-layer">
+          <a class="moon-link" href="https://goiabalunar.tech" data-studio-portal aria-label="Conheça o Goiaba Lunar"><img class="moon-logo" src="assets/images/goiaba-lunar.webp" loading="lazy" decoding="async" fetchpriority="low" alt="Goiaba Lunar: uma lua de goiaba com um gato em pixel art" width="512" height="512"></a>
+          <a class="orbit-hit" href="https://cindra.app" tabindex="-1" aria-hidden="true"></a>
+          <a class="orbit-hit" href="https://commissionmatch.art" tabindex="-1" aria-hidden="true"></a>
+          <a class="orbit-hit" href="https://mangue.cindra.app" tabindex="-1" aria-hidden="true"></a>
+          <span class="orbit-tag" aria-hidden="true"><b></b><span></span></span>
+          <span class="moon-caption" aria-hidden="true"><span class="caption-idle">Feito de ideias fora de órbita.</span><span class="caption-hover">Entrar no estúdio ↗</span></span>
         </div>
       </div></div>
     </section>
     <section id="contato" class="scene contact" style="--order:3" aria-labelledby="contact-title">
-      <div class="scene-scroll"><div class="contact-inner"><div class="paper-texture" aria-hidden="true"></div>
+      <div class="scene-scroll"><div class="contact-inner">
+        <canvas class="contact-paper" aria-hidden="true"></canvas>
         <div class="contact-grid">
           <div class="contact-copy">
-            <h2 id="contact-title" tabindex="-1">Tem uma<br><em>ideia gigante?</em></h2>
-            <figure class="cyclops-scene" data-state="idle">
-              <div class="cyclops-art" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 520" fill="none" aria-hidden="true">
-  <!-- Articulation: eye (253,174); striking shoulder (344,246).
-       Resting club crown (433,73). A clockwise 95deg strike lands near (509,350).
-       Keep transform-box:view-box and transform-origin:344px 246px on the arm. -->
-  <defs>
-    <pattern id="cyclops-hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(25)">
-      <path d="M0 0V7" stroke="#28543c" stroke-width=".75" opacity=".28"/>
-    </pattern>
-    <pattern id="cyclops-hide" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(-16)">
-      <path d="M2 1l2 4M9 9l1 3M15 0l-1 4" stroke="#28543c" stroke-width="1" opacity=".45"/>
-    </pattern>
-  </defs>
-
-  <g class="cyclops-shadow" stroke="#28543c" stroke-linecap="round">
-    <path d="M104 478c69-16 192-18 278-3M124 482c67-11 172-12 237-5M147 487c46-5 123-7 167-3" opacity=".25"/>
-    <path d="M123 472l-8-10 1 13m8-4 5-11m245 13 8-11-3 14m-11-3-2-7M82 478h18m293 2h19m-243 13h18m157-5h15" stroke-width="1.4"/>
-    <path d="m100 468 9-7 11 8-3 7-17-1Zm290 0 11-8 15 7-3 10-21-1Zm-51 19 6-5 10 3-3 7-13-1Z" fill="#eee7d8" stroke-width="1.4"/>
-    <path d="m103 469 7-3 7 5m278-1 7-5 9 4m-9-4 1 9" stroke-width=".8"/>
-  </g>
-
-  <g class="cyclops-body" stroke="#28543c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-    <!-- Weight-bearing legs and broad, bare feet. -->
-    <path class="cyclops-leg cyclops-leg-left" d="M207 362c-11 25-14 60-18 77-21 0-40 15-36 28 3 10 23 10 43 8l39-5c10-3 14-11 11-21l-9-78Z" fill="#eee7d8"/>
-    <path class="cyclops-leg cyclops-leg-right" d="M275 373c-2 31 8 54 14 69-11 7-14 20-6 28 9 8 36 7 57 5 20 0 26-9 20-17-6-7-20-13-31-14-1-16-1-40-11-73Z" fill="#eee7d8"/>
-    <path d="M207 373c-9 24-10 43-11 64l12 9-8 20 34-5-6-29-4-56Z" fill="url(#cyclops-hatch)" stroke="none"/>
-    <path d="m286 387 12 49-5 13 4 22 17-1c-12-30-10-60-8-80Z" fill="url(#cyclops-hatch)" stroke="none"/>
-    <g stroke-width="1.4">
-      <path d="M170 461c-4 5-4 9-1 15m14-16c-3 7-2 11 1 16m17-18c-4 8-2 13 1 17m105-13c5 2 7 7 6 13m8-15c7 2 10 7 9 14m6-15c8 2 12 7 11 14M206 417l12 4m-14 1 13 4m84-12 14-4m-12 9 12-4"/>
-      <path d="M199 451c12 4 27 2 34-3m64 1c8-4 20-3 28 1M212 401l8 1m87-6 6-1"/>
-    </g>
-
-    <!-- The relaxed hand gives the silhouette a little asymmetry. -->
-    <path d="M198 233c-20-13-41 3-51 29-8 23-16 43-18 65-3 16 1 36 12 41 6 5 12 5 15 2 5 5 14 4 16-3 9 1 14-6 11-14l-6-25c14-23 29-44 29-66Z" fill="#eee7d8"/>
-    <path d="M157 267c-13 26-19 55-17 75 1 12 3 18 11 24l5-4-4-25c4-16 11-32 17-42l15-32Z" fill="url(#cyclops-hatch)" stroke="none"/>
-    <path d="M156 369c-5-6-8-16-7-26m22 23c-7-5-11-15-10-25m16 7c-5-5-7-12-7-18m-20-5c5-2 13 0 17 5m-13-41c7-1 14 1 19 5m-25 1 14 6" stroke-width="1.5"/>
-    <path d="m139 310 7 3m-9 4 6 3m-6 4 5 2m42-64 5 5m-8 0 5 5m-8 0 4 5" stroke-width="1"/>
-
-    <!-- Articulated arm: rotate the complete group around 344,246. -->
-    <g class="cyclops-club-arm" stroke="#28543c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-    <!-- One broad skin silhouette joins shoulder, forearm and palm. -->
-    <g transform="translate(402 199) rotate(-16)">
-      <path class="cyclops-arm-silhouette" d="M-89 10C-79-7-59-12-44-3C-33 4-28 22-19 29C-14 34-10 38 -4.74 32.91 C -4.74 31.09 -5.65 28.5 -3.5 29 C -12.5 29 -21.8 24 -20.21 16.53 C -26.58 12.89 -25.67 6.52 -21.12 2.88 C -25.67 -1.67 -23.85 -8.95 -19.3 -10.77 C -23.85 -15.32 -21.12 -23.51 -14.75 -24.42 C -9.29 -27.15 -2.92 -25.33 3.45 -23.51 C 16.19 -24.42 27.11 -18.05 30.75 -8.04 C 35.3 2.88 30.75 12.89 27.11 21.08 C 24.38 27.45 24.38 32.91 27.11 40.19 C31.1 55.2 17 70-3 74C-29 81-62 65-85 38Z" fill="#eee7d8"/>
-      <path d="M-61 5c-12 11-12 26-2 39 18 20 43 28 61 20 17-8 22-19 21-28l7.1 2.2c5 17-8.1 31.8-29.1 35.8-26 7-56-9-69-31-6-15-2-29 11-38Z" fill="url(#cyclops-hatch)" stroke="none"/>
-      <path d="M-57 13c10 3 17 14 18 24m-19-17c6 3 9 7 11 13" stroke-width="1.4"/>
-    </g>
-    <!-- Original olivewood crown and grain retained; shaft passes behind the fingers. -->
-
-      <path d="m386 238 15 5c4-1 6-5 7-10l27-107c16-1 27-15 30-34l-5-4c13-18 10-32 2-41l-16 1c-10-12-28-11-40-1l-2 12c-16 4-22 17-17 35l-4 13c0 15 13 24 22 23l-24 97c-1 7 0 12 5 15Z" fill="#b3ba91"/>
-      <path d="m391 206 13 7m-10-17 13 7m-10-17 13 7m-10-17 13 7m-10-17 13 7m-10-17 13 7m-10-17 13 7" stroke-width="1.5"/>
-      <path d="M408 125c9-11 10-33 17-46 7-13 21-24 30-26M419 127c12-21 9-28 20-43 7-10 15-17 19-26M396 111c12-7 11-28 23-45m-14 0c-7 9-11 18-9 30m44 8c6-2 12-11 13-19m-24-25 9-10" stroke-width="1.4"/>
-      <path d="M434 75c-8 3-12 15-8 22 4 6 13-2 15-9 3-8-2-15-7-13Zm-1 7c-3 2-4 5-3 8" stroke-width="1.4"/>
-      <path d="m409 50 5 5m-21 44 7 3m42-50 2 6m12 39-8-2m-25 26 5 2m-22-7 6 2M390 110l5 1" stroke-width="1"/>
-
-    <!-- Blunt fingers wrap the shaft; a diagonal thumb presses across their front. -->
-    <g class="cyclops-grip" transform="translate(402 199) rotate(-16)" fill="#eee7d8">
-      <path class="cyclops-palm" d="M -4.74 32.91 C -4.74 31.09 -5.65 28.5 -3.5 29 C -12.5 29 -21.8 24 -20.21 16.53 C -26.58 12.89 -25.67 6.52 -21.12 2.88 C -25.67 -1.67 -23.85 -8.95 -19.3 -10.77 C -23.85 -15.32 -21.12 -23.51 -14.75 -24.42 C -9.29 -27.15 -2.92 -25.33 3.45 -23.51 C 16.19 -24.42 27.11 -18.05 30.75 -8.04 C 35.3 2.88 30.75 12.89 27.11 21.08 C 24.38 27.45 24.38 32.91 27.11 40.19 Z" stroke="none"/>
-
-      <path d="M -19.3 -10.77 c 5.46 3.64 11.83 6.37 17.29 6.37 M -21.12 2.88 c 6.37 4.55 15.47 7.28 20.93 4.55 3.64 -1.82 4.55 -3.64 3.64 -6.37 M -20.21 16.53 c 6 3 12 4 16 1 3 -2 4 -4 3 -6" fill="none" stroke-width="1.6"/>
-      <!-- The broad root stays open into the palm; the thumb tip is blunt. -->
-      <path class="cyclops-thumb" d="M 23.47 8.34 C 21.65 1.06 17.1 -5.31 10.73 -8.95 L 5.27 -12.59 C 1.63 -14.41 -2.92 -11.68 -2.92 -8.04 C -2.01 -4.4 1.63 -1.67 6.18 1.06 C 8.91 2.88 10.73 5.61 10.73 8.34 L 26.2 20.17 Z" stroke="none"/>
-      <path d="M 23.47 8.34 C 21.65 1.06 17.1 -5.31 10.73 -8.95 L 5.27 -12.59 C 1.63 -14.41 -2.92 -11.68 -2.92 -8.04 C -2.01 -4.4 1.63 -1.67 6.18 1.06 C 8.91 2.88 10.73 5.61 10.73 8.34" fill="none" stroke-width="2.1"/>
-      <path d="M 13.46 27.45 c 3.64 0.91 6.37 0 8.19 -1.82" fill="none" stroke-width="1.2"/>
-      <path d="M -3.5 29 C -12.5 29 -21.8 24 -20.21 16.53 C -26.58 12.89 -25.67 6.52 -21.12 2.88 C -25.67 -1.67 -23.85 -8.95 -19.3 -10.77 C -23.85 -15.32 -21.12 -23.51 -14.75 -24.42 C -9.29 -27.15 -2.92 -25.33 3.45 -23.51 C 16.19 -24.42 27.11 -18.05 30.75 -8.04 C 35.3 2.88 30.75 12.89 27.11 21.08 C 24.38 27.45 24.38 32.91 27.11 40.19" fill="none"/>
-    </g>
-  </g>
-
-    <!-- Round, heavy torso, wrapped in an old hide. -->
-    <path d="M211 209c-25 5-41 31-41 62 0 31 2 70 13 100 24 32 108 43 145 5 19-29 31-80 26-114-4-24-27-45-50-52Z" fill="#eee7d8"/>
-    <path d="M191 237c-11 30-7 70 2 102 5 17 14 30 27 40-24-8-35-15-37-28-8-31-8-69-3-90Z" fill="url(#cyclops-hatch)" stroke="none"/>
-    <path d="M319 255c17 24 13 70-4 92-20 25-55 30-81 23 42 22 88 6 98-18 10-24 19-69 9-91Z" fill="url(#cyclops-hatch)" stroke="none"/>
-    <path d="M297 210c-3 26-39 60-69 72-17 7-34 7-55 8-1 31 3 63 12 88l18 2 13 15 20-5 20 11 21-10 17 3 15-14 20 2c14-30 23-63 25-94-17-21-26-41-32-68Z" fill="#b3ba91"/>
-    <path d="M297 210c-3 26-39 60-69 72-17 7-34 7-55 8-1 31 3 63 12 88l18 2 13 15 20-5 20 11 21-10 17 3 15-14 20 2c14-30 23-63 25-94-17-21-26-41-32-68Z" fill="url(#cyclops-hide)" stroke="none"/>
-    <path d="M178 309c46 4 109-27 130-69m-122 80c42-1 93-22 118-53m-108 64c24 1 54-7 76-18" stroke-width="1.3"/>
-    <path d="M197 333c3 25 10 44 18 55m2-58c1 24 7 44 15 55m54-86c-8 33-14 63-10 85m28-95c-4 26-9 53-9 80m32-77c-2 22-8 44-16 62" stroke-width="1.2" opacity=".75"/>
-    <path d="M183 346c46 21 103 21 147-2l-4 16c-43 24-96 22-140 1Z" fill="#28543c"/>
-    <path d="m259 349 22-1 2 21-24 2Z" fill="#eee7d8" stroke-width="2"/>
-    <path d="m265 355 10-1 1 10-10 1Zm8 4 15-2" stroke-width="1.5"/>
-    <path d="M217 230c-6 13-8 25-7 36m15-30-7 15m18-14-8 18M248 258l8-9m-13 4 6-10" stroke-width="1.2"/>
-    <path d="M310 227c-6 5-11 10-13 18l13 10 13-15Z" fill="#eee7d8" stroke-width="2"/>
-    <path d="m307 233 8 9-7 5" stroke-width="1.1"/>
-
-    <g class="cyclops-head">
-      <!-- The ears share the face's paper tone; hatching provides the shade. -->
-      <path class="cyclops-ears" d="M207 161c-13-16-31-19-37-13-5 5 7 29 24 35m106-22c12-17 30-23 36-18 7 7-4 28-23 39" fill="#eee7d8"/>
-      <path d="M177 152c0 8 8 20 17 26l5-5c-7-9-14-15-22-21Zm153-5c-8 4-15 11-21 21l6 9c10-8 16-19 15-30Z" fill="url(#cyclops-hatch)" stroke="none"/>
-      <path d="m183 156 17 17m121-18-13 17" stroke-width="1.4"/>
-      <path d="M198 160c-2-28 15-48 43-54 20-5 47 2 59 17 14 17 17 42 14 65 8 7 9 19 3 24-4 17-21 34-47 39-30 5-56-6-68-26-7-13-10-30-7-44-7-7-6-16 3-21Z" fill="#eee7d8"/>
-      <path d="M204 142c-6 15-1 30-2 39-2 15 0 34 13 47 10 9 22 14 41 16-22-9-28-19-33-30l-8-27 2-45Z" fill="url(#cyclops-hatch)" stroke="none"/>
-      <path d="M293 136c14 24 16 42 7 61l8 11c1 16-9 27-19 32 24-13 27-24 29-37l-7-12c7-24 0-43-18-55Z" fill="url(#cyclops-hatch)" stroke="none"/>
-      <!-- A mop of carved, wild hair. -->
-      <path d="M201 157c-12-17-8-36 4-43l-3-12 22-1c6-13 19-22 34-22l-4 16c15-7 31-7 45-1l-13 11c15 4 25 16 27 34l-13 12c-3-17-16-21-25-23l3-7c-10 9-27 11-42 6l-14 17-2-14c-11 8-13 16-14 25Z" fill="#28543c"/>
-      <g stroke="#eee7d8" stroke-width="1.1" opacity=".72">
-        <path d="M202 139c0-13 7-23 18-27m-14 29c1-9 7-17 14-21m6-15c6-10 14-17 25-20m-19 22c4-7 9-11 15-14m-4 23c15 4 32-1 43-13m-36 19c8 1 17-1 23-4m15 1c10 4 17 13 20 21m-19-16c5 4 9 9 11 16"/>
-      </g>
-      <!-- The single eye. The pupil group may translate by ±8px / ±5px. -->
-      <path d="M214 171c6-17 21-26 40-25 20 0 35 10 42 27-9 17-24 25-42 24-20 0-33-8-40-26Z" fill="#eee7d8" stroke-width="2.5"/>
-      <path d="M220 167c10-13 24-18 39-16 11 1 23 7 30 16" stroke-width="1" opacity=".65"/>
-      <g class="cyclops-pupil">
-        <ellipse cx="253" cy="174" rx="16" ry="20" fill="#b3ba91" stroke-width="1.7"/>
-        <path d="m253 155-1 7m-8-4 4 7m-10 3 7 2m-7 7 7-1m-4 10 5-5m9 11-1-7m9 2-5-6m10-5-7-1m6-8-7 3m2-11-5 7" stroke-width="1"/>
-        <ellipse cx="253" cy="174" rx="7.5" ry="11" fill="#28543c" stroke="none"/>
-        <ellipse cx="257" cy="168" rx="3" ry="4" fill="#eee7d8" stroke="none"/>
-      </g>
-      <path class="cyclops-brow" d="M214 150c18-17 51-19 74-1-20-9-46-8-66 5Z" fill="#28543c" stroke-width="1"/>
-      <!-- Separate nose, smile and lower tusks keep the small-scale face readable. -->
-      <path class="cyclops-nose" d="M247 199c-4 3-7 7-6 10 2 5 14 6 21 2 3-2 2-6-1-8" fill="#eee7d8" stroke-width="1.6"/>
-      <path d="m247 209 2 1m7 0 2-1" stroke-width="1.2"/>
-      <path class="cyclops-smile" d="M219 223c19 10 47 11 70-4-6 18-43 26-65 12Z" fill="#28543c" stroke-width="1.3"/>
-      <path class="cyclops-tusk cyclops-tusk-left" d="M225 232c-4-5-5-13-3-20 7 3 12 10 13 23-4 0-7-1-10-3Z" fill="#eee7d8" stroke-width="1.8"/>
-      <path class="cyclops-tusk cyclops-tusk-right" d="M272 233c0-9 5-17 12-22 2 8 1 15-3 21l-9 1Z" fill="#eee7d8" stroke-width="1.8"/>
-      <path d="M276 205c4 1 9 0 13-2m-70-8-7-2m7 7-8-1m79-2 10-3m-9 8 8-2M244 241l6 1m7 0 5-1m5-1 5-2" stroke-width="1.1"/>
-      <path d="M206 169l-3 8m101-9 2 8m-88 39-6-4m79 14 4-5" stroke-width="1"/>
-    </g>
-  </g>
-</svg></div>
-              <div class="cyclops-impact" aria-hidden="true"><span>POW!</span><i></i><i></i><i></i><i></i></div>
-              <figcaption><span class="cyclops-hint">Cuidado. Ele leva o espaço pessoal a sério.</span><button class="cyclops-provoke" type="button" hidden aria-label="Provocar o ciclope" aria-describedby="cyclops-keyboard">Provocar o ciclope <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button></figcaption>
+            <p class="contact-folio" aria-hidden="true"><i>fol. iv</i><b></b><span>Custos epistolae</span></p>
+            <h2 id="contact-title" tabindex="-1">Tem uma <em>ideia gigante?</em></h2>
+            <figure class="giant-scene">
+              <div class="giant-slot" aria-hidden="true"></div>
+              <figcaption class="giant-caption"><span class="giant-hint">Cuidado. Ele leva o espaço pessoal a sério.</span><button class="giant-provoke" type="button" hidden aria-describedby="giant-keyboard">Provocar o ciclope <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button></figcaption>
+              <span class="sr-only" id="giant-keyboard">Clique, toque ou pressione Enter para provocar o ciclope. A brincadeira é opcional; o formulário está sempre disponível.</span>
+              <p class="sr-only giant-status" role="status" aria-live="polite"></p>
             </figure>
-            <span class="sr-only" id="cyclops-keyboard">Clique, toque ou pressione Enter para provocar o ciclope. A brincadeira é opcional; o formulário está sempre disponível.</span>
-            <p class="sr-only cyclops-status" role="status" aria-live="polite"></p>
           </div>
           <form id="contact-form" class="contact-form">
             <div class="contact-invitation"><h3>Pode contar.</h3><p>Eu sou mais tranquilo que o meu segurança.<br> Vamos conversar sobre seu projeto ou oportunidade.</p></div>
-            <label for="name">Seu nome<input id="name" name="name" autocomplete="name" placeholder="Como posso chamar você?" required maxlength="100"></label>
-            <label for="email">Seu e-mail<input id="email" name="email" type="email" autocomplete="email" placeholder="voce@exemplo.com" required maxlength="254"></label>
-            <label for="message">Sua ideia<textarea id="message" name="message" rows="3" placeholder="O que vamos construir juntos?" required maxlength="5000"></textarea></label>
-            <div class="form-bottom"><button class="button button-green" type="submit"><span>Enviar mensagem</span><span class="button-icon"><svg aria-hidden="true"><use href="#arrow"/></svg></span></button></div><p class="form-status" role="status" aria-live="polite"></p>
+            <label for="name"><span>Seu nome</span><input id="name" name="name" autocomplete="name" placeholder="Como posso chamar você?" required maxlength="100"></label>
+            <label for="email"><span>Seu e-mail</span><input id="email" name="email" type="email" autocomplete="email" placeholder="voce@exemplo.com" required maxlength="254"></label>
+            <label for="message"><span>Sua ideia</span><textarea id="message" name="message" rows="3" placeholder="O que vamos construir juntos?" required maxlength="5000"></textarea></label>
+            <div class="form-bottom"><button class="button button-rubric" type="submit"><span>Enviar mensagem</span><span class="button-icon" aria-hidden="true"><svg><use href="#arrow"/></svg></span></button></div>
+            <p class="form-status" role="status" aria-live="polite"></p>
           </form>
         </div>
         <footer class="contact-footer"><span>Gabriel Souza Costa · Desenvolvedor de Software</span><a href="#inicio">De volta ao início <svg><use href="#arrow"/></svg></a></footer>
+        <canvas class="contact-ink" aria-hidden="true"></canvas>
       </div></div>
     </section>
   </main>

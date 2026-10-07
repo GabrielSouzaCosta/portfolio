@@ -211,55 +211,7 @@ document.addEventListener('keydown', event => {
   if (performance.now() >= lockedUntil) setPage(page + direction, { focus: true });
 });
 window.addEventListener('resize', resetPull);
-
-// Lightweight celestial background: seeded stars, quiet twinkle, occasional trails.
-const canvas = document.querySelector('.starfield');
-const context = canvas.getContext('2d');
-let starWidth = 0, starHeight = 0, starFrame = 0;
-let seed = 23;
-function random() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
-const stars = Array.from({ length: 150 }, () => ({ x: random(), y: random(), size: .5 + random() * 1.3, phase: random() * Math.PI * 2, speed: .4 + random() * .5, pink: random() > .52 }));
-function resizeStars() {
-  const parent = canvas.parentElement;
-  starWidth = parent.clientWidth; starHeight = parent.clientHeight;
-  const ratio = Math.min(devicePixelRatio, 2);
-  canvas.width = Math.round(starWidth * ratio); canvas.height = Math.round(starHeight * ratio);
-  context.setTransform(ratio, 0, 0, ratio, 0, 0);
-  startStars();
-}
-function drawStars(time) {
-  starFrame = 0;
-  if (document.hidden || page !== 2) return;
-  context.clearRect(0, 0, starWidth, starHeight);
-  const seconds = reducedMotion.matches ? 0 : time * .001;
-  for (const star of stars) {
-    const alpha = .2 + (Math.sin(seconds * star.speed + star.phase) + 1) * .25;
-    context.fillStyle = star.pink ? `rgba(242,175,206,${alpha})` : `rgba(202,224,164,${alpha})`;
-    const x = (star.x * starWidth + seconds * star.speed * 1.4) % starWidth;
-    const y = star.y * starHeight;
-    context.fillRect(x, y, star.size, star.size);
-    if (star.size > 1.66) { context.fillRect(x - 2, y + .5, 5, .5); context.fillRect(x + .5, y - 2, .5, 5); }
-  }
-  const trail = seconds % 13;
-  if (!reducedMotion.matches && trail < 1.4) {
-    const x = starWidth * (.5 + trail * .23), y = starHeight * (.03 + trail * .14);
-    const gradient = context.createLinearGradient(x - 95, y - 48, x, y);
-    gradient.addColorStop(0, 'rgba(239,171,195,0)'); gradient.addColorStop(1, 'rgba(239,171,195,.6)');
-    context.strokeStyle = gradient; context.lineWidth = 1;
-    context.beginPath(); context.moveTo(x - 95, y - 48); context.lineTo(x, y); context.stroke();
-  }
-  if (!reducedMotion.matches) starFrame = requestAnimationFrame(drawStars);
-}
-function stopStars() { cancelAnimationFrame(starFrame); starFrame = 0; }
-function startStars() {
-  if (!starFrame && page === 2 && !document.hidden) starFrame = requestAnimationFrame(drawStars);
-}
-// The observer sizes the canvas on its first frame, after layout: sizing it here
-// would force an extra synchronous layout of the whole page during startup.
-new ResizeObserver(resizeStars).observe(canvas.parentElement);
-reducedMotion.addEventListener('change', () => { stopStars(); resetPull(); startStars(); });
-document.addEventListener('portfolio:sectionchange', () => { stopStars(); startStars(); });
-document.addEventListener('visibilitychange', () => { stopStars(); startStars(); });
+reducedMotion.addEventListener('change', resetPull);
 
 document.querySelectorAll('[data-studio-portal]').forEach(link => {
   if (config.studioUrl) link.href = config.studioUrl;
@@ -280,7 +232,7 @@ form.addEventListener('submit', async event => {
   try {
     const response = await fetch(config.contactEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.fromEntries(new FormData(form))), signal: AbortSignal.timeout(15000) });
     if (!response.ok) throw new Error('Message endpoint rejected request');
-    formStatus.textContent = 'Mensagem enviada. Obrigado pelo contato!'; form.reset();
+    formStatus.textContent = 'Mensagem enviada. Obrigado pelo contato!'; form.reset(); form.dispatchEvent(new CustomEvent('contact:sent'));
   } catch { formStatus.textContent = 'Não foi possível enviar. Seus campos foram preservados; tente novamente.'; }
   finally { button.disabled = false; label.textContent = 'Enviar mensagem'; }
 });

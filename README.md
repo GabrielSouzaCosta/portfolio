@@ -9,7 +9,7 @@ Meu portfólio como desenvolvedor de software: uma experiência interativa que a
 Construído com HTML, CSS e JavaScript, sem framework de interface. O site combina tipografia editorial, ilustrações e elementos em pixel art em uma navegação por quatro seções: apresentação, essência, estúdio e contato.
 
 - Layout responsivo, com navegação por mouse, toque e teclado.
-- Animações e interações próprias, incluindo uma volvela astronômica em WebGL, ciclope e cursor do estúdio.
+- Animações e interações próprias, incluindo uma volvela astronômica em WebGL, a lua de goiaba do estúdio desenhada em pixel art (WebGL), o ciclope do contato desenhado a nanquim e aquarela em canvas e o cursor Morfeu.
 - Suporte à preferência de movimento reduzido (`prefers-reduced-motion`).
 - Fontes hospedadas localmente e imagens otimizadas em WebP, com versões menores para celulares.
 - Carregamento em etapas: a Essência (WebGL e texturas) só é preparada depois que o início está pronto, ou quando o visitante chega a ela.

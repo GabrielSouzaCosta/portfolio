@@ -1,4 +1,5 @@
-/* The moon opens a blue-to-pink portal before leaving for the studio. */
+/* Leaving for the studio. With the WebGL scene (js/studio-scene.js) the visitor dives into the guava
+   moon and comes out in the night where the studio begins; without it, the logo opens a blue-to-pink portal. */
 (() => {
   'use strict';
 
@@ -27,7 +28,8 @@
     clearTimeout(state.safetyTimer);
     clearTimeout(state.arrivalTimer);
     state.animations.forEach(animation => animation.cancel());
-    state.overlay.remove();
+    state.overlay?.remove();
+    state.scene?.cancel();
     state.surfaces.forEach(([element, inert]) => { element.inert = inert; });
     root.classList.remove('studio-departing');
     if (status) status.textContent = state.previousStatus;
@@ -48,6 +50,24 @@
         event.shiftKey || event.altKey || trigger.hasAttribute('download') ||
         (trigger.target && trigger.target !== '_self')) return;
     if (departure) { event.preventDefault(); return; }
+    const scene = window.goiabaPortal;
+    if (scene?.ready()) {
+      event.preventDefault();
+      const state = departure = {
+        overlay: null, scene, trigger, url: trigger.href, animations: [], navigating: false,
+        previousStatus: status?.textContent || '',
+        surfaces: [...document.querySelectorAll('.stage, .sidebar')].map(element => [element, element.inert])
+      };
+      state.surfaces.forEach(([element]) => { element.inert = true; });
+      guardedEvents.forEach(type => window.addEventListener(type, guardDeparture, guardOptions));
+      root.classList.add('studio-departing');
+      document.body.classList.remove('cat-pointer');
+      if (status) status.textContent = 'Abrindo o Goiaba Lunar…';
+      // Hold the last frame, the open night, while the studio loads.
+      scene.depart(() => { if (departure === state) state.arrivalTimer = setTimeout(() => navigate(state), 120); });
+      state.safetyTimer = setTimeout(() => navigate(state), 3400);
+      return;
+    }
     if (!moon.animate || !moon.complete || !moon.naturalWidth) return;
     const rect = moon.getBoundingClientRect();
     const style = getComputedStyle(moon);

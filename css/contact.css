@@ -1,127 +1,153 @@
-/* The contact guardian: ink, paper, and a little personal space. */
-.contact { --guardian-ink: #28543c; --guardian-paper: #eee7d8; }
-.contact .contact-inner { padding-top: clamp(76px, 10dvh, 110px); padding-bottom: 25px; background: #eee7d8; }
-.contact .paper-texture { opacity: .2; }
-.contact .contact-grid { grid-template-columns: minmax(0, 1.14fr) minmax(0, .86fr); gap: clamp(35px, 5vw, 86px); align-items: center; padding: 0 0 22px; min-height: 0; }
-.contact .contact-copy { padding: 0; align-self: center; min-width: 0; }
-.contact h2 { font-size: clamp(54px, 5.6vw, 86px); line-height: .98; letter-spacing: -.025em; position: relative; z-index: 1; }
-.contact h2 em { font-weight: 400; }
-.cyclops-scene { position: relative; margin: -8px -24px 0 -36px; color: var(--guardian-ink); }
-.cyclops-art { width: 100%; height: clamp(250px, 43dvh, 420px); position: relative; }
-.cyclops-art > svg { display: block; width: 100%; height: 100%; overflow: visible; }
-.cyclops-scene figcaption { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; margin: -4px 0 0 36px; }
-.cyclops-hint { font: italic 17px/1.3 var(--serif); min-height: 23px; }
-.cyclops-provoke { display: inline-flex; gap: 8px; align-items: center; min-height: 44px; padding: 4px 0; font-size: 10px; font-weight: 600; color: var(--guardian-ink); background: transparent; border: 0; text-underline-offset: 4px; }
-.cyclops-provoke[hidden] { display: none; }
-.cyclops-provoke svg { width: 17px; height: 17px; stroke-width: 1.2; transition: transform 160ms ease-out; }
-.cyclops-provoke:hover { text-decoration: underline; }
-.cyclops-provoke:hover svg { transform: translateX(3px); }
-.cyclops-provoke:focus-visible { outline: 2px solid var(--guardian-ink); outline-offset: 4px; }
-.cyclops-body { transform-origin: 270px 455px; }
-.cyclops-head { transform-origin: 270px 225px; }
-.cyclops-pupil { transition: transform 90ms ease-out; }
-.cyclops-brow { transform-origin: 270px 173px; transition: transform 180ms ease-out; }
-.cyclops-shadow { transform-origin: 280px 470px; }
-.cyclops-scene[data-state="watching"] .cyclops-brow { transform: translateY(3px) rotate(-3deg); }
-.cyclops-scene[data-state="windup"] .cyclops-brow { transform: translateY(7px) rotate(-8deg); }
-.cyclops-scene[data-state="resting"] .cyclops-brow { transform: translateY(-4px); }
-.contact .contact-form { position: relative; padding: 0; gap: clamp(18px, 3.2dvh, 30px); background: transparent; border: 0; box-shadow: none; align-self: center; }
-.contact .contact-form:after { content: none; }
-.contact-invitation { margin-bottom: 7px; }
-.contact-invitation h3 { font: 400 clamp(35px, 3.4vw, 48px)/1.1 var(--serif); color: var(--green); }
-.contact-invitation p { margin-top: 12px; font-size: 12px; line-height: 1.8; color: #435443; }
-.contact .contact-form label { font-size: 11px; font-weight: 600; gap: 7px; }
-.contact .contact-form input,.contact .contact-form textarea { font-size: 14px; font-weight: 400; line-height: 1.6; padding: 5px 0 12px; border-bottom: 1px solid #28543c60; }
-.contact .contact-form input:focus,.contact .contact-form textarea:focus { padding-bottom: 11px; border-bottom: 2px solid var(--green); }
-.contact .contact-form textarea { min-height: 80px; height: clamp(80px, 12dvh, 112px); max-height: 160px; resize: vertical; }
-.contact .contact-form ::placeholder { color: #5b6654; }
-.contact .form-bottom { margin: 0; }
-.contact .form-bottom .button { width: 100%; justify-content: space-between; padding: 7px 9px 7px 22px; min-height: 56px; font-size: 12px; }
-.contact .form-bottom .button-icon { width: 42px; height: 38px; }
-.contact .form-status { margin: -8px 0 0; min-height: 0; font-size: 11px; }
-.contact .form-status:empty { display: none; }
-.contact .contact-footer { flex: 0 0 auto; padding-top: 14px; font-size: 9px; }
-.cyclops-impact { pointer-events: none; position: fixed; left: 0; top: 0; z-index: 101; width: 1px; height: 1px; opacity: 0; color: var(--green); }
-.cyclops-impact span { position: absolute; left: -30px; bottom: 12px; font: italic 33px/1 var(--serif); transform: rotate(-13deg); }
-.cyclops-impact i { position: absolute; left: -2px; top: -2px; width: 3px; height: 13px; background: currentColor; transform-origin: 2px 30px; transform: rotate(45deg) translateY(-20px); }
-.cyclops-impact i:nth-of-type(2) { transform: rotate(135deg) translateY(-20px); }
-.cyclops-impact i:nth-of-type(3) { transform: rotate(225deg) translateY(-20px); }
-.cyclops-impact i:nth-of-type(4) { transform: rotate(315deg) translateY(-20px); }
-.contact-head-cursor { position: fixed; pointer-events: none; left: 0; top: 0; width: 36px; height: 36px; z-index: 102; opacity: 0; color: #28543c; will-change: transform; }
-.contact-head-cursor > svg { overflow: visible; width: 100%; height: 100%; }
-.contact-head-cursor .cursor-face { transform-origin: 20px 20px; }
+/* Contato, fol. iv: the portfolio's bodyguard on the hero's parchment, in sepia ink with
+   hand-coloured washes, rubric and gilt. js/contact-scene.js paints the page (.contact-paper,
+   under the copy) and the cyclops, his club and the cursor head (.contact-ink, over it). */
+#contato { --c-paper: #e6d4b5; --c-ink: #22261f; --c-sepia: #5a4a33; --c-rubric: #9a3322; --c-gilt: #b08d4a; --rubric: #9a3322; }
+#contato .contact-inner {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  padding-top: clamp(64px, 9dvh, 100px);
+  padding-bottom: 22px;
+  background: var(--c-paper);
+  color: var(--c-ink);
+}
+#contato .contact-paper,
+#contato .contact-ink { position: absolute; left: 0; top: 0; display: block; width: 100%; height: 100%; pointer-events: none; }
+#contato .contact-paper { z-index: -1; }
+#contato .contact-ink { z-index: 4; }
+#contato .contact-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(300px, .92fr);
+  gap: clamp(32px, 4.4vw, 72px);
+  align-items: center;
+  flex: 1 0 auto;
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 0 18px;
+}
+
+/* ---- title and guardian ---- */
+#contato .contact-copy { display: flex; flex-direction: column; min-width: 0; }
+#contato .contact-folio { display: flex; align-items: center; gap: 14px; margin: 0 0 22px; white-space: nowrap; }
+#contato .contact-folio i { font: italic 18px var(--serif); color: #8a6d3b; }
+#contato .contact-folio b { width: 56px; height: 1px; background: var(--c-gilt); }
+#contato .contact-folio span { font-size: 11px; font-weight: 600; letter-spacing: .36em; text-transform: uppercase; color: var(--c-sepia); }
+#contato h2 { position: relative; z-index: 1; font-size: clamp(52px, 5.2vw, 82px); line-height: .98; letter-spacing: -.02em; color: var(--c-ink); }
+#contato h2 em { display: block; color: var(--c-rubric); }
+.giant-thump #contato h2 { animation: giant-thump 280ms steps(6) 1; }
+@keyframes giant-thump {
+  0%, 100% { transform: none; }
+  20% { transform: translate(-3px, 2px); }
+  40% { transform: translate(3px, -1px); }
+  60% { transform: translate(-2px, 1px); }
+  80% { transform: translate(1px, 0); }
+}
+#contato .giant-scene { margin: clamp(6px, 2dvh, 22px) 0 0; }
+#contato .giant-slot { height: clamp(270px, 45dvh, 450px); }
+#contato .giant-caption { position: relative; z-index: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 2px 22px; margin-top: 2px; }
+#contato .giant-hint { font: italic 18px/1.3 var(--serif); color: var(--c-sepia); min-height: 24px; }
+#contato .giant-provoke {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 40px;
+  padding: 4px 0;
+  border: 0;
+  background: transparent;
+  color: var(--c-rubric);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  text-underline-offset: 5px;
+}
+#contato .giant-provoke[hidden] { display: none; }
+#contato .giant-provoke svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.4; transition: transform 160ms ease-out; }
+#contato .giant-provoke:hover { text-decoration: underline; text-decoration-color: var(--c-gilt); }
+#contato .giant-provoke:hover svg { transform: translateX(3px); }
+#contato .giant-provoke:focus-visible { outline: 2px solid var(--c-rubric); outline-offset: 4px; }
+#contato:not(.has-giant) .giant-provoke { display: none; }
+
+/* ---- the letter ---- */
+#contato .contact-form { position: relative; z-index: 1; display: flex; flex-direction: column; gap: clamp(16px, 2.8dvh, 28px); padding: 0; background: none; border: 0; box-shadow: none; }
+#contato .contact-invitation h3 { font: 400 clamp(36px, 3.3vw, 48px)/1.05 var(--serif); color: var(--c-ink); }
+#contato .contact-invitation p { margin-top: 10px; font-size: 12.5px; line-height: 1.75; color: #4a3f2e; }
+#contato .contact-form label { display: flex; flex-direction: column; gap: 8px; font-size: 10px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--c-sepia); }
+#contato .contact-form label:focus-within span { color: var(--c-rubric); }
+#contato .contact-form input,
+#contato .contact-form textarea {
+  width: 100%;
+  padding: 4px 0 11px;
+  border: 0;
+  border-bottom: 1px solid #5a4a3366;
+  border-radius: 0;
+  background: transparent;
+  color: var(--c-ink);
+  font: 400 15px/1.55 var(--sans);
+  letter-spacing: 0;
+  text-transform: none;
+  caret-color: var(--c-rubric);
+  transition: border-color .2s ease;
+}
+#contato .contact-form textarea { min-height: 76px; height: clamp(76px, 11dvh, 110px); max-height: 170px; resize: vertical; }
+#contato .contact-form ::placeholder { color: #85745a; opacity: 1; }
+#contato .contact-form input:focus,
+#contato .contact-form textarea:focus { outline: none; padding-bottom: 10px; border-bottom: 2px solid var(--c-rubric); }
+#contato .form-bottom { margin: 4px 0 0; }
+#contato .form-bottom .button { width: 100%; min-height: 56px; padding: 7px 9px 7px 22px; font-size: 12px; }
+#contato .form-bottom .button-icon { width: 42px; height: 38px; }
+#contato .form-status { margin: -6px 0 0; min-height: 0; font-size: 11.5px; line-height: 1.6; color: var(--c-rubric); }
+#contato .form-status:empty { display: none; }
+
+#contato .contact-footer { position: relative; z-index: 1; flex: 0 0 auto; padding-top: 14px; border-top: 1px solid #b08d4a66; font-size: 9px; color: var(--c-sepia); }
+@media (min-width: 851px) { #contato .contact-footer { padding-right: 120px; } }
+
+body[data-section="contato"] .sidebar { color: #3b3024; }
+body[data-section="contato"] .sidebar .brand-role b { background: #3b3024; color: #efe6d2; }
+@media (max-width: 850px) { body.scene-scrolled[data-section="contato"] .sidebar { background: var(--c-paper, #e6d4b5); } }
+
+/* The head is the cursor wherever he can see it. */
 @media (hover: hover) and (pointer: fine) {
-  body.contact-head-active .contact,body.contact-head-active .contact * { cursor: none; }
-  body.contact-head-active .contact-head-cursor { opacity: 1; }
+  body.giant-head #contato .contact-inner { cursor: none; }
 }
-@media (min-width: 851px) {
-  .contact .contact-grid { width: 100%; max-width: 1100px; margin-inline: auto; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(32px, 3.3vw, 48px); }
-  /* Anchor the drawing to the left instead of centering the SVG viewport. */
-  .cyclops-scene { margin-left: -66px; }
-  .cyclops-art > svg { width: auto; max-width: 100%; }
-  .cyclops-scene figcaption { margin-left: 66px; }
+
+@media (min-width: 851px) and (max-height: 760px) {
+  #contato .contact-inner { padding-top: 40px; padding-bottom: 14px; }
+  #contato .contact-folio { margin-bottom: 12px; }
+  #contato h2 { font-size: clamp(44px, 8dvh, 64px); }
+  #contato .giant-slot { height: clamp(220px, 44dvh, 330px); }
+  #contato .contact-form { gap: 14px; }
+  #contato .contact-invitation h3 { font-size: 34px; }
+  #contato .contact-invitation p { margin-top: 6px; }
+  #contato .contact-form textarea { height: 62px; min-height: 62px; }
+  #contato .form-bottom .button { min-height: 50px; }
 }
-@media (min-width: 851px) and (max-height: 700px) {
-  .contact .contact-inner { padding-top: 72px; padding-bottom: 16px; }
-  .contact h2 { font-size: clamp(48px, 8.5dvh, 65px); }
-  .cyclops-art { height: 38dvh; min-height: 190px; }
-  .contact .contact-form { gap: 16px; }
-  .contact-invitation { margin-bottom: 0; }
-  .contact-invitation h3 { font-size: 36px; }
-  .contact-invitation p { margin-top: 7px; }
-  .contact .contact-form textarea { min-height: 62px; height: 62px; }
-  .contact .contact-grid { padding-bottom: 12px; }
-  .contact .contact-footer { padding-top: 9px; }
-}
+
 @media (max-width: 850px) {
-  .enhanced .contact .scene-scroll > .contact-inner { padding: calc(82px + env(safe-area-inset-top, 0px)) 24px max(16px, env(safe-area-inset-bottom, 0px)); }
-  .contact .contact-grid { grid-template-columns: 1fr; gap: clamp(12px, 2.2dvh, 24px); padding: 0; align-content: center; flex: 1 1 auto; }
-  .contact .contact-copy { position: relative; display: grid; grid-template-columns: 1.12fr .88fr; align-items: center; }
-  .contact h2 { font-size: clamp(34px, 5.8dvh, 54px); line-height: 1.02; z-index: 1; }
-  .cyclops-scene { margin: 0 -12px 0 -18px; align-self: end; }
-  .cyclops-art { height: clamp(130px, 23dvh, 206px); }
-  .cyclops-scene figcaption { margin: -10px 0 0; align-items: center; }
-  .cyclops-hint { display: none; }
-  .cyclops-provoke { min-height: 44px; padding: 4px 0; font-size: 9px; gap: 3px; white-space: nowrap; }
-  .cyclops-provoke svg { width: 14px; }
-  .contact .contact-form { gap: clamp(12px, 2.1dvh, 20px); }
-  .contact-invitation { margin: 0 0 2px; }
-  .contact-invitation h3 { font-size: 29px; }
-  .contact-invitation p { margin-top: 5px; font-size: 11px; line-height: 1.55; }
-  .contact-invitation p br { display: none; }
-  .contact .contact-form label { font-size: 10px; gap: 2px; }
-  .contact .contact-form input,.contact .contact-form textarea { font-size: 16px; line-height: 1.4; padding: 3px 0 7px; }
-  .contact .contact-form input:focus,.contact .contact-form textarea:focus { padding-bottom: 6px; }
-  .contact .contact-form textarea { height: clamp(52px, 8dvh, 74px); min-height: 0; max-height: none; resize: none; }
-  .contact .form-bottom .button { min-height: 46px; padding: 5px 7px 5px 17px; font-size: 11px; }
-  .contact .form-bottom .button-icon { height: 32px; }
-  .contact .contact-footer { margin-top: 18px; padding-top: 10px; font-size: 8px; }
-  .contact .form-status { margin-top: -4px; font-size: 10px; }
+  #contato .contact-inner { padding-top: calc(78px + env(safe-area-inset-top, 0px)); padding-bottom: max(14px, env(safe-area-inset-bottom, 0px)); }
+  #contato .contact-grid { display: flex; flex-direction: column; align-items: stretch; gap: 18px; padding: 0 0 12px; }
+  #contato .contact-folio { margin-bottom: 10px; gap: 10px; }
+  #contato .contact-folio b { width: 32px; }
+  #contato .contact-folio span { letter-spacing: .24em; }
+  #contato h2 { font-size: clamp(40px, 11.5vw, 58px); }
+  #contato .giant-slot { height: clamp(200px, 30svh, 270px); }
+  #contato .giant-caption { gap: 0 14px; }
+  #contato .giant-hint { flex: 1 1 100%; font-size: 15px; }
+  #contato .contact-form { gap: 14px; }
+  #contato .contact-invitation h3 { font-size: 30px; }
+  #contato .contact-invitation p { font-size: 11.5px; line-height: 1.55; }
+  #contato .contact-invitation p br { display: none; }
+  #contato .contact-form input,
+  #contato .contact-form textarea { font-size: 16px; padding-bottom: 8px; }
+  #contato .contact-form textarea { height: 64px; min-height: 64px; resize: none; }
+  #contato .form-bottom .button { min-height: 50px; }
+  #contato .contact-footer { margin-top: 10px; font-size: 8px; }
 }
-@media (max-width: 850px) and (max-height: 700px) {
-  .enhanced .contact .scene-scroll > .contact-inner { padding-top: 76px; padding-bottom: 12px; }
-  .contact .contact-grid { gap: 9px; }
-  .contact h2 { font-size: clamp(31px, 6dvh, 40px); }
-  .cyclops-art { height: 125px; }
-  .cyclops-provoke { margin-top: -6px; }
-  .contact .contact-form { gap: 9px; }
-  .contact-invitation h3 { font-size: 24px; }
-  .contact-invitation p { font-size: 10px; margin-top: 3px; }
-  .contact .contact-form textarea { height: 46px; }
-  .contact .contact-footer { margin-top: 10px; padding-top: 8px; }
-}
-/* Short windows and a software keyboard may need scrolling to keep contact usable. */
-@media (max-height: 550px) {
-  .enhanced .contact .scene-scroll { overflow-y: auto; overscroll-behavior: contain; }
-  .enhanced .contact .scene-scroll > .contact-inner { height: auto; min-height: 100%; }
-  .contact .contact-grid { flex: 1 0 auto; }
-}
+
 @media (prefers-reduced-motion: reduce) {
-  .cyclops-pupil,.cyclops-brow,.cyclops-provoke svg { transition: none; }
-  .contact-head-cursor { display: none; }
-  body.contact-head-active .contact,body.contact-head-active .contact * { cursor: auto; }
-}
-.contact-head-cursor.is-bait { opacity: 1; }
-@media (max-width: 850px) and (max-height: 700px) {
-  .contact-invitation p { display: none; }
+  #contato .giant-provoke svg { transition: none; }
+  .giant-thump #contato h2 { animation: none; }
+  body.giant-head #contato .contact-inner { cursor: auto; }
 }

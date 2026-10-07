@@ -23,7 +23,7 @@
   /* Keep scrolled content from showing through the fixed navigation. */
   body.scene-scrolled[data-section] .sidebar { background: var(--paper); transition-property: color; }
   body.scene-scrolled[data-section="essencia"] .sidebar { background: #0b1022; }
-  body.scene-scrolled[data-section="estudio"] .sidebar { background: #080808; }
+  body.scene-scrolled[data-section="estudio"] .sidebar { background: #0b0920; }
   .sidebar:before { display: none; }
   .sidebar .brand {
     display: flex;
@@ -43,7 +43,7 @@
   .sidebar .brand-role b { padding: 2px 3px; background: var(--green); color: var(--paper); }
   .sidebar .brand-role>span { width: auto; height: auto; background: none; opacity: 1; }
   body[data-section="essencia"] .sidebar .brand-role b { background: var(--paper); color: #090d1c; }
-  body[data-section="estudio"] .sidebar .brand-role b { background: var(--paper); color: var(--green); }
+  body[data-section="estudio"] .sidebar .brand-role b { background: var(--pink); color: #1c0f2b; }
   .mobile-brand,.sidebar .aside-footer { display: none; }
   .sidebar .section-nav { position: static; transform: none; flex: 0 0 auto; flex-direction: row; align-items: center; width: auto; padding: 0; margin: 0; gap: 4px; border: 0; }
   .sidebar .section-link { display: none; width: auto; min-width: 0; height: 44px; min-height: 44px; padding: 0; flex: 0 0 auto; flex-direction: row; justify-content: center; gap: 4px; border-radius: 0; background: transparent; pointer-events: auto; }
