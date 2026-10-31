@@ -93,31 +93,41 @@
       <div class="scene-scroll"><div class="essence-inner">
         <canvas class="ess-gl" aria-hidden="true"></canvas>
         <div class="ess-slot">
-          <div class="ess-wheel-hit" role="slider" tabindex="0" aria-label="Roda das casas. Use as setas para girar." aria-valuemin="1" aria-valuemax="3" aria-valuenow="1" aria-valuetext="Visão"></div>
+          <div class="ess-wheel-hit" role="slider" tabindex="0" aria-label="Roda das etapas. Use as setas para girar." aria-valuemin="1" aria-valuemax="3" aria-valuenow="1" aria-valuetext="Visão"></div>
           <p class="ess-hint" aria-hidden="true"><span class="hint-hover">Arraste o ponteiro</span><span class="hint-touch">Gire o ponteiro</span> ✦</p>
         </div>
         <div class="ess-copy">
           <p class="ess-folio" aria-hidden="true"><i>fol. ii</i><b></b><span>Rota artis</span></p>
           <h2 id="essence-title" tabindex="-1"><span class="ess-line">Enxergar longe.</span> <em class="ess-line">Construir com direção.</em></h2>
-          <p class="ess-lede">Todo produto passa pelas mesmas três casas. Gire a roda: cada uma mostra como eu trabalho nela.</p>
-          <div class="ess-houses" role="tablist" aria-label="As três casas">
-            <button role="tab" type="button" id="ess-tab-0" aria-controls="ess-house" aria-selected="true"><b>I</b> Visão</button>
-            <button role="tab" type="button" id="ess-tab-1" aria-controls="ess-house" aria-selected="false" tabindex="-1"><b>II</b> Direção</button>
-            <button role="tab" type="button" id="ess-tab-2" aria-controls="ess-house" aria-selected="false" tabindex="-1"><b>III</b> Execução</button>
-          </div>
-          <article class="ess-house" id="ess-house" role="tabpanel" aria-labelledby="ess-tab-0" aria-live="polite">
-            <p class="ess-house-kicker"><span class="ess-house-num">I</span><span class="ess-house-latin">Domus prima</span></p>
-            <h3 class="ess-house-title">Visão</h3>
-            <p class="ess-house-text">Antes do código, a pergunta certa. Entendo o problema, as pessoas e o negócio, e enxergo o produto antes que ele exista.</p>
-            <ul class="ess-house-tags"><li>Descoberta</li><li>Pesquisa</li><li>Estratégia</li></ul>
-          </article>
-          <div class="ess-chronicle">
-            <div class="ess-row"><h3 class="ess-row-name">Pátio Mobile <em>· front-end</em></h3><span class="ess-row-meta">Ago. 2022 — atual</span></div>
-            <p class="ess-row-text">Aplicativos móveis e sistemas web para a gestão de pátios de veículos.</p>
-            <div class="ess-row"><h3 class="ess-row-name">Goiaba Lunar <em>· meu estúdio</em></h3><span class="ess-row-meta">3 obras</span></div>
-            <p class="ess-row-text">Cindra <i>no ar</i> · CommissionMatch <i>prévia</i> · Mangue <i class="is-new">em criação</i></p>
-            <p class="ess-tools"><b>Instrumenta</b> TypeScript · SvelteKit · React Native & Expo · PostgreSQL · Docker · agentes de IA & MCP</p>
-            <a class="text-link ess-studio-link" href="#estudio">Conheça meu estúdio <svg aria-hidden="true"><use href="#arrow"/></svg></a>
+          <p class="ess-lede">Todo projeto que eu faço passa por estas três etapas, sempre nesta ordem.</p>
+          <!-- One step per emblem on the wheel; js/essence.js keeps the open step and the pointer in sync. -->
+          <ol class="ess-steps">
+            <li class="ess-step">
+              <h3><button type="button" id="ess-step-0" aria-expanded="true" aria-controls="ess-step-body-0"><svg class="ess-step-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M3 16Q16 4 29 16Q16 28 3 16Z"/><circle cx="16" cy="16" r="4"/></svg>Visão</button></h3>
+              <div class="ess-step-body" id="ess-step-body-0"><div>
+                <p>Antes do código, a pergunta certa. Entendo o problema, as pessoas e o negócio, e enxergo o produto antes que ele exista.</p>
+                <p class="ess-step-tags">Descoberta · Pesquisa · Estratégia</p>
+              </div></div>
+            </li>
+            <li class="ess-step">
+              <h3><button type="button" id="ess-step-1" aria-expanded="false" aria-controls="ess-step-body-1"><svg class="ess-step-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3L19 13L29 16L19 19L16 29L13 19L3 16L13 13Z"/><circle cx="16" cy="16" r="2"/></svg>Direção</button></h3>
+              <div class="ess-step-body" id="ess-step-body-1"><div>
+                <p>Produto, design e arquitetura decididos juntos. Escolho o que construir primeiro, o que deixar para depois e a tecnologia que aguenta o caminho.</p>
+                <p class="ess-step-tags">Produto · UX & UI · Arquitetura</p>
+              </div></div>
+            </li>
+            <li class="ess-step">
+              <h3><button type="button" id="ess-step-2" aria-expanded="false" aria-controls="ess-step-body-2"><svg class="ess-step-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M4 10H27V14H23Q19.5 14 19.5 18V21H23V25H9V21H12.5V18Q12.5 14 8.5 14Q5 13.5 4 10Z"/></svg>Execução</button></h3>
+              <div class="ess-step-body" id="ess-step-body-2"><div>
+                <p>Web e mobile de ponta a ponta, do banco de dados à interface, com agentes de IA acelerando cada etapa. Entrego, meço e ajusto.</p>
+                <p class="ess-step-tags">TypeScript · SvelteKit · React Native & Expo · PostgreSQL · Docker · Agentes de IA & MCP</p>
+              </div></div>
+            </li>
+          </ol>
+          <div class="ess-now">
+            <p class="ess-now-label">Agora</p>
+            <p class="ess-now-row"><b>Pátio Mobile</b><span>front-end, desde 2022</span></p>
+            <a class="ess-now-row" href="#estudio"><b>Goiaba Lunar</b><span>meu estúdio</span><svg aria-hidden="true"><use href="#arrow"/></svg></a>
           </div>
         </div>
       </div></div>

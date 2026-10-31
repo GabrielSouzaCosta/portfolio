@@ -16,9 +16,7 @@
   const canvas = section.querySelector('.ess-gl');
   const hit = section.querySelector('.ess-wheel-hit');
   const hint = section.querySelector('.ess-hint');
-  const copy = section.querySelector('.ess-copy');
-  const tabs = [...section.querySelectorAll('.ess-houses [role="tab"]')];
-  const panel = section.querySelector('.ess-house');
+  const steps = [...section.querySelectorAll('.ess-step button')];
 
   const params = new URLSearchParams(location.search);
   const frozenAt = params.has('e-at') ? parseFloat(params.get('e-at')) : null;
@@ -26,15 +24,9 @@
 
   const TAU = Math.PI * 2;
   const HOUSES = [
-    { num: 'I', latin: 'Domus prima', title: 'Visão', angle: -0.077, at: [-0.02, -0.26],
-      text: 'Antes do código, a pergunta certa. Entendo o problema, as pessoas e o negócio, e enxergo o produto antes que ele exista.',
-      tags: ['Descoberta', 'Pesquisa', 'Estratégia'] },
-    { num: 'II', latin: 'Domus secunda', title: 'Direção', angle: -1.951, at: [-0.25, 0.10],
-      text: 'Produto, design e arquitetura decididos juntos. Escolho o que construir primeiro, o que deixar para depois e a tecnologia que aguenta o caminho.',
-      tags: ['Produto', 'UX & UI', 'Arquitetura'] },
-    { num: 'III', latin: 'Domus tertia', title: 'Execução', angle: 2.428, at: [0.195, 0.225],
-      text: 'Web e mobile de ponta a ponta, do banco de dados à interface, com agentes de IA acelerando cada etapa. Entrego, meço e ajusto.',
-      tags: ['Web', 'Mobile', 'Agentes de IA'] },
+    { title: 'Visão', angle: -0.077, at: [-0.02, -0.26] },
+    { title: 'Direção', angle: -1.951, at: [-0.25, 0.10] },
+    { title: 'Execução', angle: 2.428, at: [0.195, 0.225] },
   ];
   // Discs from the bottom up. Radii in wheel units (1 = plate half-size); each disc overlaps the one below.
   const RINGS = [
@@ -50,15 +42,8 @@
   const LAMP_Z = 560;
 
   function fillHouse(h) {
-    const d = HOUSES[h];
     section.dataset.house = String(h);
-    tabs.forEach((t, i) => { t.setAttribute('aria-selected', String(i === h)); t.tabIndex = i === h ? 0 : -1; });
-    panel.setAttribute('aria-labelledby', tabs[h].id);
-    panel.querySelector('.ess-house-num').textContent = d.num;
-    panel.querySelector('.ess-house-latin').textContent = d.latin;
-    panel.querySelector('.ess-house-title').textContent = d.title;
-    panel.querySelector('.ess-house-text').textContent = d.text;
-    panel.querySelector('.ess-house-tags').replaceChildren(...d.tags.map((t) => Object.assign(document.createElement('li'), { textContent: t })));
+    steps.forEach((s, i) => s.setAttribute('aria-expanded', String(i === h)));
   }
 
   /* ---------------- GL ---------------- */
@@ -71,10 +56,7 @@
       img.src = 'assets/images/volvella-plate.webp'; img.alt = ''; img.className = 'ess-fallback';
       slot.prepend(img);
       hit.remove(); hint.remove();
-      tabs.forEach((t, i) => t.addEventListener('click', () => select(i)));
-      let current = 0;
-      function select(i) { current = i; fillHouse(i); }
-      fillHouse(current);
+      steps.forEach((s, i) => s.addEventListener('click', () => fillHouse(i)));
       return;
     }
 
@@ -214,6 +196,8 @@
         vec2 bd = normalize(uBeamTo - uEye);
         float bdot = dot(normalize(e), bd);
         float beam = pow(max(bdot, 0.0), 220.0) * smoothstep(uR * 0.4, uR * 1.2, er) * exp(-er / (uR * 4.5));
+        float bl = length(uBeamTo - uEye);
+        beam *= 1.0 - smoothstep(bl - 30.0, bl + 6.0, er); // it ends on the step's eye
         col += vec3(1.0, 0.86, 0.58) * (rays * 0.55 + beam * 0.55) * uRays;
       }
       // II · Direção — rhumb lines drawn out of the compass
@@ -420,7 +404,7 @@
     let gap = 0.1;
     let phi = -2.7, phiV = 0, phiTarget = HOUSES[0].angle, stiff = 70, damp = 0.55;
     let dragging = false, dragMoved = 0, dragStart = null;
-    let house = 0, pendingLock = 0;
+    let house = 0, pendingLock = 0, lean = null;
     const lockAt = [-99, -99, -99];
     const level = [0, 0, 0];
     let time = 0, last = performance.now(), introStart = null;
@@ -473,18 +457,13 @@
       section.dataset.house = String(h);
       hit.setAttribute('aria-valuenow', String(h + 1));
       hit.setAttribute('aria-valuetext', HOUSES[h].title);
-      tabs.forEach((t, i) => { t.setAttribute('aria-selected', String(i === h)); t.tabIndex = i === h ? 0 : -1; });
-      panel.classList.add('is-swapping');
-      setTimeout(() => {
-        fillHouse(h);
-        requestAnimationFrame(() => panel.classList.remove('is-swapping'));
-      }, frozenAt === null && !reduced ? 260 : 0);
+      fillHouse(h);
     }
 
     function aimAt(h) {
       phiTarget = phi + wrap(HOUSES[h].angle - phi);
       stiff = 90; damp = 0.5;
-      pendingLock = h + 1;
+      pendingLock = h + 1; lean = null;
     }
 
     /* ---------------- input ---------------- */
@@ -537,15 +516,15 @@
       e.preventDefault(); touch(); section.classList.add('has-turned');
       aimAt((house + dir + 3) % 3);
     });
-    tabs.forEach((t, i) => {
-      t.addEventListener('click', () => { touch(); section.classList.add('has-turned'); aimAt(i); });
-      t.addEventListener('keydown', (e) => {
-        const dir = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
-        if (!dir) return;
-        e.preventDefault();
-        const n = (i + dir + 3) % 3;
-        tabs[n].focus(); tabs[n].click();
+    steps.forEach((s, i) => {
+      // the step opens at once; the pointer swings over and its effect fires when it lands
+      s.addEventListener('click', () => { touch(); section.classList.add('has-turned'); aimAt(i); setHouse(i); });
+      // hovering a step leans the pointer toward its emblem
+      s.addEventListener('pointerenter', (e) => {
+        if (e.pointerType !== 'mouse' || dragging || pendingLock || i === house) return;
+        lean = phiTarget; phiTarget = lean + wrap(HOUSES[i].angle - lean) * 0.14; stiff = 60; damp = 0.6;
       });
+      s.addEventListener('pointerleave', () => { if (lean !== null) phiTarget = lean; lean = null; });
     });
 
     /* ---------------- frame ---------------- */
@@ -623,8 +602,9 @@
       const eye = project(M, HOUSES[0].at[0], HOUSES[0].at[1], 3 * 1.5 + gap * 3 * 30);
       const compass = project(M, HOUSES[1].at[0], HOUSES[1].at[1], 3 * 1.5 + gap * 3 * 30);
       const anvil = project(M, HOUSES[2].at[0], HOUSES[2].at[1] - 0.03, 3 * 1.5 + gap * 3 * 30);
-      const cb = copy.getBoundingClientRect(), sb = inner.getBoundingClientRect();
-      const beamTo = [cb.left - sb.left + 80, cb.top - sb.top + 120];
+      // Visão's beam lands on its eye in the step list
+      const cb = steps[0].firstElementChild.getBoundingClientRect(), sb = inner.getBoundingClientRect();
+      const beamTo = [cb.left - sb.left + cb.width / 2, cb.top - sb.top + cb.height / 2];
       gl.uniform2f(u.uView, W, H); gl.uniform2f(u.uCenter, cx, cy); gl.uniform1f(u.uR, R);
       gl.uniform1f(u.uTime, time); gl.uniform1f(u.uDpr, dpr); gl.uniform1f(u.uChart, chartRot);
       gl.uniform2f(u.uLampXY, lamp.x, lamp.y);
