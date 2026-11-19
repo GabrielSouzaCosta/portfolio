@@ -1,7 +1,6 @@
 # Assets da versão final
 
 - `../assets/favicon.svg`: identidade do site.
-- `../assets/images/tabby-v2.png`: gato sobre o botão do estúdio, gerado com ImageGen e fundo transparente.
 - `../assets/images/hero.png`: gravura original, usada no início e nas texturas.
 - `../assets/images/goiaba-lunar.png`: logo original do estúdio.
 
@@ -11,7 +10,6 @@
 - `../assets/images/hero-plate-1152.webp`: a mesma prancha em 1152 × 768 (Lanczos, WebP qualidade 90, a mesma da original), servida a telas de até 440 px de largura. Nelas o canvas nunca mostra a prancha com mais de ~1150 px de dispositivo; um celular girado para paisagem troca para a prancha completa.
 - `../assets/images/hero-sketch-phone.webp`: o quadro em que a abertura começa (o esboço a tinta, com a lente em repouso), 490 × 512, WebP qualidade 50. Cobre as colunas 520–1500 da prancha, as que o canvas de um celular alcança, e é pintado como fundo CSS em telas de até 440 px enquanto a prancha baixa. Gerado por `../scripts/hero-sketch-frame.html` com o shader do site.
 - `../assets/images/paper-grain.webp`: textura de papel da barra lateral. É o canto superior esquerdo (232 × 941) de `hero.png`, a única parte da gravura que essas texturas mostravam; WebP qualidade 92. O `background-size` foi recalculado (`calc(1200% * 232 / 1672)`) para manter a mesma escala.
-- `../assets/images/tabby-v2-330.webp` e `tabby-v2-440.webp`: versões do gato dimensionadas para alta densidade, com transparência e redimensionamento por vizinho mais próximo para manter a estética pixel art. A codificação WebP é sem perdas após o redimensionamento.
 - `../assets/images/goiaba-lunar.webp`: logo em WebP sem perdas, com pixels RGBA idênticos ao PNG.
 - `../assets/images/volvella-plate.webp`: a volvela da Essência, 2048 × 2048 com alfa fora da roda. Origem: imagem GPT gerada a partir da prancha do início, depois uma edição sem o ponteiro pintado. A elipse foi corrigida para um círculo e houve um leve unsharp. As quatro rodas são recortadas em tempo real por raio (0,394 · 0,514 · 0,892 · 0,985 da meia largura).
 - `../assets/images/volvella-plate-1024.webp`: a volvela em 1024 × 1024 (Lanczos, WebP qualidade 90 com alfa sem perdas), usada quando a roda tem até ~975 px de dispositivo de diâmetro: celulares e telas 1x. Rodas maiores recebem a de 2048.
@@ -21,12 +19,8 @@
 
 Os PNGs originais são preservados como fontes de edição; não são baixados pela página. `hero.webp` também não é mais servido: a barra lateral usa o recorte `paper-grain.webp`, e o papel do Contato é pintado pelo shader. Os comandos de reprodução estão em [performance.md](performance.md).
 
-O cursor Morfeu está desenhado em SVG inline no `../index.html`.
+O cursor Morfeu está desenhado em SVG inline no `../index.html`, e o gato tabby que dorme sobre o botão do estúdio também, no mesmo estilo.
 
 O Contato não usa imagens: o pergaminho, as nuvens gravadas, o rochedo, o ciclope e a cabeça que serve de cursor são desenhados em canvas 2D por `../js/contact-scene.js`, em nanquim sépia com aguadas de cor, na paleta do herói (rubrica, lápis-lazúli e ouro). O desenho do ciclope é o original do portfólio; o braço da clava é uma cadeia de articulações (ombro, cotovelo, punho).
 
 A cena do Goiaba Lunar (lua de goiaba, projetos em órbita, gato, nebulosa e estrelas) não usa imagens: é desenhada em pixel art por `../js/studio-scene.js`, num shader WebGL2 em baixa resolução com paletas fixas e pontilhado ordenado. Sem WebGL, o logo `goiaba-lunar.webp` faz o papel da lua; ele também é a imagem que voa no portal para o estúdio.
-
-## Prompt de tabby-v2.png
-
-Use case: stylized-concept. Single charming small brown-gray tabby cat sleeping curled up with head on front paws, side view, cozy expression and closed eyes, clearly visible dark striped fur and curled tail. High craft retro 16-bit pixel art sprite, warm brown taupe gray and cream colors, sharp crisp pixel edges, restrained palette and recognizable silhouette at small size. Genuine transparent background. Cat isolated, whole cat fully visible centered with generous transparent margins, no objects, no lettering, no floor, no border. Website mascot that will sleep next to a button, horizontal composition.

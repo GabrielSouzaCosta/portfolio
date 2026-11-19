@@ -1,5 +1,6 @@
-/* Leaving for the studio. With the WebGL scene (js/studio-scene.js) the visitor dives into the guava
-   moon and comes out in the night where the studio begins; without it, the logo opens a blue-to-pink portal. */
+/* Into the studio. With the WebGL scene (js/studio-scene.js) the visitor dives into the guava moon and
+   comes out in the night of its galaxy (js/galaxy.js); without it, the logo opens a blue-to-pink portal.
+   Only without the galaxy does the dive leave for the studio's own site. */
 (() => {
   'use strict';
 
@@ -40,9 +41,16 @@
     if (departure !== state || state.navigating) return;
     state.navigating = true;
     clearTimeout(state.safetyTimer);
+    const galaxy = window.goiabaGalaxy;
+    if (galaxy) {
+      reset();
+      galaxy.open(state.project, state.trigger, { landing: true });
+      return;
+    }
     // Hold the colorful arrival frame while the other origin loads.
     window.location.assign(state.url);
   }
+  const projectOf = (trigger) => trigger.dataset.project !== undefined ? +trigger.dataset.project : (window.goiabaProjects?.selected ?? 0);
 
   function openPortal(event) {
     const trigger = event.currentTarget;
@@ -50,11 +58,16 @@
         event.shiftKey || event.altKey || trigger.hasAttribute('download') ||
         (trigger.target && trigger.target !== '_self')) return;
     if (departure) { event.preventDefault(); return; }
+    if (reduced.matches && window.goiabaGalaxy) {
+      event.preventDefault();
+      window.goiabaGalaxy.open(projectOf(trigger), trigger);
+      return;
+    }
     const scene = window.goiabaPortal;
     if (scene?.ready()) {
       event.preventDefault();
       const state = departure = {
-        overlay: null, scene, trigger, url: trigger.href, animations: [], navigating: false,
+        overlay: null, scene, trigger, url: trigger.href, project: projectOf(trigger), animations: [], navigating: false,
         previousStatus: status?.textContent || '',
         surfaces: [...document.querySelectorAll('.stage, .sidebar')].map(element => [element, element.inert])
       };
@@ -79,7 +92,7 @@
     overlay.className = 'studio-portal';
     overlay.setAttribute('aria-hidden', 'true');
     const state = departure = {
-      overlay, trigger, url: trigger.href, animations: [], navigating: false,
+      overlay, trigger, url: trigger.href, project: projectOf(trigger), animations: [], navigating: false,
       previousStatus: status?.textContent || '',
       surfaces: [...document.querySelectorAll('.stage, .sidebar')].map(element => [element, element.inert])
     };

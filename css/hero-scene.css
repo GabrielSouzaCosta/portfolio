@@ -79,3 +79,46 @@ body[data-section="inicio"] .sidebar .brand-role b { background: #3b3024; color:
   .hero-plain .hero-art { background-image: url('../assets/images/hero-plate-1152.webp'); }
 }
 @media (max-width: 440px) and (scripting: none) { .hero-art { background-image: url('../assets/images/hero-plate-1152.webp'); } }
+
+/* Sumário: the name, the trade, and the book's contents as the menu. */
+.hero-copy h1 { line-height: .92; }
+.hero-folio { margin-bottom: 24px; }
+.hero-role { margin-top: 16px; font: italic 400 clamp(28px, 2.7vw, 40px)/1 var(--serif); color: var(--rubric); }
+.hero-copy .hero-description { margin: 22px 0 0; }
+.hero-contents { margin: 30px 0 34px; }
+.hero-contents ol { margin: 0; padding: 0; list-style: none; }
+.hero-contents a {
+  display: grid; grid-template-columns: 44px auto minmax(20px, 1fr) auto; align-items: baseline; column-gap: 12px;
+  padding: 5px 0; color: #22261f; font-family: var(--serif);
+}
+.hero-contents i { font-size: 21px; color: #8a6d3b; }
+.hero-contents span { font-size: clamp(25px, 2vw, 30px); line-height: 1.15; white-space: nowrap; transition: color .25s ease; }
+.hero-contents b { align-self: end; margin-bottom: .55em; border-bottom: 2px dotted #85745a99; }
+.hero-contents small { font-size: 20px; font-style: italic; color: #8a6d3b; }
+.hero-contents a:is(:hover, :focus-visible) span { color: var(--rubric); font-style: italic; }
+.hero-contents a:focus-visible { outline-offset: 4px; }
+@media (min-width: 851px) {
+  .hero-copy :is(.hero-role, .hero-contents a, .hero-contents i, .hero-contents small) { transition: color .5s ease var(--ink-delay); }
+  .hero-contents b { transition: border-color .5s ease var(--ink-delay); }
+  .hero-night .hero-role { color: #e8957a; }
+  .hero-night .hero-contents a { color: #f1e7d0; }
+  .hero-night .hero-contents :is(i, small) { color: #d9b768; }
+  .hero-night .hero-contents b { border-color: #d9b76899; }
+  .hero-night .hero-contents a:is(:hover, :focus-visible) span { color: #f0a88f; }
+}
+@media (min-width: 851px) and (max-height: 760px) {
+  .hero-folio { margin-bottom: 14px; }
+  .hero-role { margin-top: 10px; font-size: 28px; }
+  .hero-copy .hero-description { margin-top: 14px; }
+  .hero-contents { margin: 18px 0 22px; }
+  .hero-contents a { padding: 2px 0; }
+  .hero-contents span { font-size: 24px; }
+}
+@media (max-width: 850px) {
+  .hero-role { margin-top: 12px; font-size: clamp(24px, 7vw, 30px); }
+  .hero-copy .hero-description { margin-top: 16px; }
+  .hero-contents { margin: 22px 0 26px; }
+  .hero-contents a { grid-template-columns: 34px auto minmax(16px, 1fr) auto; column-gap: 8px; }
+  .hero-contents i, .hero-contents small { font-size: 18px; }
+  .hero-contents span { font-size: clamp(22px, 6.4vw, 27px); }
+}

@@ -7,7 +7,7 @@
    and a tuxedo cat lies on top and notices Morfeu. Draws only while the section is active, and is
    set up once the hero has settled, or when the visitor arrives here first.
    Debug: ?s-at=<s> freezes time; &s-mx=&s-my= place the cursor (CSS px in the section);
-   &s-focus=0..2 spotlights a project; &s-intro=<s> freezes the arrival at that moment;
+   &s-focus=0..3 spotlights a project; &s-intro=<s> freezes the arrival at that moment;
    &s-dive=<s> freezes the dive into the fruit (the way out to the studio). */
 (() => {
   'use strict';
@@ -19,24 +19,24 @@
   const slot = section.querySelector('.studio-sky');
   const copy = section.querySelector('.studio-copy');
   const moonLink = section.querySelector('.moon-link');
-  const caption = section.querySelector('.moon-caption');
-  const tag = section.querySelector('.orbit-tag');
-  const items = [...section.querySelectorAll('.orbit-item')];
   const hits = [...section.querySelectorAll('.orbit-hit')];
+  const labels = [...section.querySelectorAll('.orbit-label')];
+  const reticle = section.querySelector('.orbit-reticle');
   if (!inner || !canvas || !slot) return;
 
   const params = new URLSearchParams(location.search);
   const frozenAt = params.has('s-at') ? parseFloat(params.get('s-at')) : null;
   const frozenIntro = params.has('s-intro') ? parseFloat(params.get('s-intro')) : null;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const fine = matchMedia('(hover: hover) and (pointer: fine)');
   const TAU = Math.PI * 2;
 
   // Orbits in moon radii: a (half width), b (half height), tilt (rad), speed (rad/s), start angle.
+  // Cindra, CommissionMatch, Mangue, Sparagmos: the order of the window and the galaxy.
   const SATS = [
     { size: .15, a: 1.46, b: .34, tilt: -.2, speed: .15, start: -1.25 },
     { size: .125, a: 1.84, b: .28, tilt: .12, speed: .1, start: 2.2 },
     { size: .115, a: 2.2, b: .23, tilt: -.33, speed: .072, start: 4.05 },
+    { size: .11, a: 1.66, b: .48, tilt: .42, speed: .12, start: .7 },
   ];
 
   const PALETTE = [
@@ -53,65 +53,57 @@
     ['#0f160f', '#1a2716', '#2a3e20', '#40592b', '#5d7737', '#83994c', '#afc074', '#dfe8b4'], // 10 Mangue
     ['#3a2a60', '#5d4790', '#8a6cc0', '#b9a0e6', '#e1cff8', '#f6e9ff', '#fff7ea', '#ffffff'], // 11 stars
     ['#3a1030', '#6a1f4f', '#9a3070', '#c4508e', '#e07aa8', '#efabc3', '#ffd3e2', '#fff4f8'], // 12 pink
+    ['#1e0a14', '#3a1020', '#5e1a2e', '#86263c', '#ad3848', '#cf5559', '#ef8a7a', '#ffd2c2'], // 13 Sparagmos
   ];
 
-  // Juquinha, the studio's tuxedo cat, curled up asleep on the moon (36 x 19): a round back lit by the
-  // moon's glow, head resting on tucked white paws, closed eyes, pink ears, a blush. He breathes, an ear
-  // twitches now and then, and when Morfeu comes close his blush deepens and he smiles in his sleep.
+  // Juquinha, the studio's tuxedo cat, curled up asleep on the moon (48 x 22), drawn in Morfeu's style
+  // (one pixel per Morfeu block: a big round head, closed eyes, chunky paws) with the real Juquinha's
+  // markings: black ears with white tufts, a thin blaze down to a small white muzzle and pink nose, a
+  // white scarf over his neck and shoulders, a white spot on his side and white socks on black legs.
+  // He never wakes and never reacts: he only breathes, and an ear flicks now and then.
   const CAT_COLORS = {
     K: [20, 17, 32], D: [43, 40, 64], G: [60, 55, 86], H: [96, 88, 130], W: [251, 247, 240], w: [212, 202, 224],
-    P: [242, 150, 178], B: [247, 178, 198], E: [150, 140, 182], p: [176, 96, 128],
+    B: [247, 178, 198], n: [214, 128, 160], E: [176, 166, 206],
   };
-  const CAT_BODY = [
-    '', '', '', '',
-    '..........KKKKKKKK',
-    '.......KKKDDDGGGDDKKK',
-    '......KDDDGGHHHGGDDDDK',
-    '.....KDDGGHHGGDDDDDDDDK',
-    '....KDDGHHGDDDDDDDDDDDDK',
-    '...KDDGHGDDDDDDDDDDDDDDDK',
-    '...KDGGDDDDDDDDDDDDDDDDDDK',
-    '..KDDGDDDDDDDDDDDDDDDDDDDK',
-    '..KDDDDDDDDDDDDDDDDDDDDDDDK',
-    '..KDDDDDDDDDDDDDDDDDDDDDDDDK',
-    '..KDDDDDDDDDDDDDDDDDDDDDKKKWWWKKWWWK',
-    '..KKDDDDDDDDDDDDDDDDDDDKWWWWWKWWWWWK',
-    '.KGGKKKKKDDDDDDDDDKKKKKKWwWwWKWwWwWK',
-    '.KDGGGGGGKKKKKKKKKGGGGGKKKKKKKKKKKK',
-    '..KKKKKKKKKKKKKKKKKKKKKK',
+  const CAT = [
+    '................................................',
+    '.........................KKKKKKKKKK.............',
+    '.....................KKKKGGWHHHHHHHKKKK.........',
+    '...................KKWWWWWWWGGGGGGGHHHHKK.......',
+    '...K.............KKGWWWWWWWWDDDDDDDGGGGHHKK.....',
+    '..KGK...........KGKWWWWWWWWwDDDDDDDDDDDGGGGK....',
+    '..KGDK.........KDGKWWWWWWWwDDDDDDDDDDDDDDGGGK...',
+    '..KGwDK.......KDwGKWWWWWWwDDDDDDDDDDDDDDDDDGGK..',
+    '.KGDwDDKKKKKKKDDwDGKWWWWwDDDDDDDDDDDDDDDDDDDDGK.',
+    '.KGDDDDGGGGGGGDDDDGKWWWwDDDDDDDDDDDDDDDDDDDDDDGK',
+    '.KDDDDDDDDDDDDDDDDDKWWwDDDDDDDDDDDDDDDDGGGGDDDDK',
+    '.KDDDDDDDDWDDDDDDDDKwwDDDDDDDDDDDDDDDGGDDDDDDDDK',
+    '.KDDDDDDDDWDDDDDDDDKDDDDDDDDDDDWWWDDDGDDDDDDDDDK',
+    '.KDDEDDEDDWDDEDDEDDKDDDDDDDDDDWWWWWwGDDDDDDDDDDK',
+    '.KDDDEEDDDWDDDEEDDDKDDDDDDDDDDwWWWwDGDDDDDDDDDDK',
+    '.KDDDDDDDWWWDDDDDDDKDDDDDDDDDDDwwwDDGDDDDDDDDDDK',
+    '..KDDDDDWBBBWDDDDDKDDDDDDDDDDDDDDDDDGDDDDDDDDDK.',
+    '..KDDDDWWWnWWWDDDDKKDDDDDDDDDDDDDDDDDGDDDDDDDK..',
+    '..KKKDDKKKKKKKDDKKDKKKKKKDDDDDDDDDDDDDDDDDDDK...',
+    '..KDDDKWwWWwWKDDDDKWwWWwWKDDDDDDDDDDDDDDDDDK....',
+    '..KDDDKwwwwwwKDDDDKwwwwwwKDDDDDDDDDDDDDDDDK.....',
+    '..KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK.....',
   ];
-  const CAT_HEAD = [
-    '..K.........K..',
-    '.KDK.......KDK.',
-    '.KPDK.....KDPK.',
-    'KDPPDKKKKKDPPDK',
-    'KDDDDDDDDDDDDDK',
-    'KDDDDDDWDDDDDDK',
-    'KDEDDEDWDEDDEDK',
-    'KDDEEDWWWDEEDDK',
-    'KDWWWWWPWWWWWDK',
-    'KBWWWWpWpWWWWBK',
-    '.KWWWWWWWWWWWK.',
-    '..KKWWWWWWWKK..',
-    '....KKKKKKK....',
-  ];
-  const CAT_TWITCH = ['..K............', '.KDK.......KKK.'];   // the right ear flicks down
-  const CAT_CONTENT = ['KBBWWWpWpWWWBBK', '.KWWWWWpWWWWWK.'];  // deeper blush, a sleepy smile
-  const CAT_W = 36, CAT_H = 19;
+  const CAT_W = 48, CAT_H = 22, CAT_GROUND = 0;   // rows below the ground line (none: he sits on it)
+  // Patch over CAT at [x, y]; '_' clears a pixel.
+  const CAT_TWITCH = [16, 4, ['._.', 'KKK']];   // the right ear tip folds over
 
-  function catFrame(breath, twitch, content) {
+  function catFrame(breath, twitch) {
     const px = new Uint8Array(CAT_W * CAT_H * 4);
     const put = (rows, ox, oy) => rows.forEach((row, y) => [...row].forEach((ch, x) => {
-      const rgb = CAT_COLORS[ch];
-      const X = ox + x, Y = oy + y;
-      if (!rgb || X < 0 || Y < 0 || X >= CAT_W || Y >= CAT_H) return;
-      const i = (Y * CAT_W + X) * 4;
-      px[i] = rgb[0]; px[i + 1] = rgb[1]; px[i + 2] = rgb[2]; px[i + 3] = 255;
+      const i = ((oy + y) * CAT_W + ox + x) * 4;
+      if (ch === '_') px[i + 3] = 0;
+      else if (CAT_COLORS[ch]) { px.set(CAT_COLORS[ch], i); px[i + 3] = 255; }
     }));
-    put(CAT_BODY, 0, 0);
+    put(CAT, 0, 0);
     if (breath) {
       // Breathing in: the round of the back rises one pixel.
-      for (let x = 6; x <= 17; x++) {
+      for (let x = 20; x <= 44; x++) {
         let top = 0;
         while (top < CAT_H && !px[(top * CAT_W + x) * 4 + 3]) top++;
         if (top < 1 || top >= CAT_H - 1) continue;
@@ -119,10 +111,7 @@
         px.copyWithin((top * CAT_W + x) * 4, ((top + 1) * CAT_W + x) * 4, ((top + 1) * CAT_W + x) * 4 + 4);
       }
     }
-    const head = CAT_HEAD.slice();
-    if (twitch) head.splice(0, 2, ...CAT_TWITCH);
-    if (content) head.splice(9, 2, ...CAT_CONTENT);
-    put(head, 19, 2);
+    if (twitch) put(CAT_TWITCH[2], CAT_TWITCH[0], CAT_TWITCH[1]);
     return px;
   }
 
@@ -140,10 +129,9 @@ uniform vec3 uL;
 uniform float uMosaic;
 uniform vec4 uCopy;
 uniform vec4 uCopy2;
-uniform vec4 uSat[3];
-uniform vec4 uOrb[3];
+uniform vec4 uSat[${SATS.length}];
+uniform vec4 uOrb[${SATS.length}];
 uniform vec4 uFx;
-uniform vec4 uLink;
 uniform vec2 uPar;
 uniform vec2 uCat;
 uniform vec4 uDive;   // centre x, y, warp 0..1, hole radius (art px)
@@ -158,7 +146,8 @@ const int B4[16] = int[16](0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5)
 const int HEART[6] = int[6](54, 127, 127, 62, 28, 8);
 const int Z4[4] = int[4](15, 2, 4, 15);
 const int Z5[5] = int[5](31, 2, 4, 8, 31);
-const float CW = ${CAT_W}., CH = ${CAT_H}.;
+const float CW = ${CAT_W}., CH = ${CAT_H}., CG = ${CAT_GROUND}.;
+const int NSAT = ${SATS.length};
 
 float th;
 
@@ -310,10 +299,15 @@ bool satellite(int i, vec2 c, bool front, inout vec3 col) {
     float band = fract(lat * 2.2 + .3);
     base = band < .3 ? .42 : .84;
     if (band < .3 && mod(floor(c.x) + floor(c.y), 3.) < 1.) base = .28;
-  } else {
+  } else if (i == 2) {
     row = 10;
     float n = fbm(vec2(lon * 2.2, lat * 3.) + 9.);
     base = abs(n - .5) < .05 ? .86 : .32 + .3 * n;
+  } else {
+    // Sparagmos: red marble with pale veins.
+    row = 13;
+    float n = fbm(vec2(lon * 1.8, lat * 2.4) + 21.);
+    base = abs(fract(n * 5. + lat) - .5) < .07 ? .9 : .36 + .4 * n;
   }
   if (lam + (th - .5) * .14 > 0.) {
     col = ramp(row, base * (.62 + .38 * pow(max(lam, 0.), .6)) + .06);
@@ -413,14 +407,14 @@ bool cat(vec2 px, inout vec3 col) {
   vec2 l = px - uCat;
   if (l.x < -1. || l.y < -1. || l.x > CW || l.y > CH) return false;
   if (catAlpha(l) > .5) { col = texelFetch(uCatTex, ivec2(int(l.x), int(CH) - 1 - int(l.y)), 0).rgb; return true; }
-  float n = catAlpha(l + vec2(1, 0)) + catAlpha(l - vec2(1, 0)) + catAlpha(l + vec2(0, 1));
-  if (n > .5 && l.y > 1.) { col = shade(LAV, 4); return true; }
+  float side = catAlpha(l + vec2(1, 0)) + catAlpha(l - vec2(1, 0));
+  if (side + catAlpha(l + vec2(0, 1)) > .5 && (l.y > CG || side > .5)) { col = shade(LAV, 4); return true; }
   return false;
 }
 
 void heart(vec2 px, inout vec3 col) {
   if (uFx.z < 0. || uFx.z > 1.) return;
-  vec2 l = px - (uCat + vec2(23., 18. + floor(uFx.z * 9.)));
+  vec2 l = px - (uCat + vec2(7., 19. + floor(uFx.z * 9.)));
   if (l.x < 0. || l.y < 0. || l.x > 6. || l.y > 5.) return;
   if (uFx.z > .7 && th < (uFx.z - .7) / .3) return;
   if (((HEART[5 - int(l.y)] >> (6 - int(l.x))) & 1) == 1) col = shade(PINK, l.y > 3.5 && l.x < 2.5 ? 7 : 5);
@@ -431,7 +425,7 @@ void zzz(vec2 px, inout vec3 col) {
   if (uSleep.y < .5) return;
   for (int k = 0; k < 3; k++) {
     float ph = fract(uTime * .2 + float(k) / 3.);
-    vec2 o = uCat + vec2(32. + floor(ph * 8. + sin(ph * 6. + float(k) * 2.) * 1.5), 15. + floor(ph * 16.));
+    vec2 o = uCat + vec2(10. - floor(ph * 8. + sin(ph * 6. + float(k) * 2.) * 1.5), 18. + floor(ph * 16.));
     int n = ph < .45 ? 4 : 5;
     vec2 l = px - o;
     if (l.x < 0. || l.y < 0. || l.x >= float(n) || l.y >= float(n)) continue;
@@ -462,17 +456,6 @@ vec3 warp(vec2 c, vec3 col, float amt) {
   return col;
 }
 
-void link(vec2 c, inout vec3 col) {
-  if (uLink.z <= 0. || uFx.x < 0.) return;
-  vec4 s = uSat[int(uFx.x)];
-  vec2 ab = s.xy - uLink.xy;
-  float len = length(ab);
-  vec2 u = ab / len;
-  vec2 v = c - uLink.xy;
-  float along = dot(v, u), across = abs(dot(v, vec2(-u.y, u.x)));
-  if (along > 0. && along < len * uLink.z - s.z - 3. && across < .6 && mod(floor(along - uTime * 10.), 4.) < 2.) col = shade(PINK, 5);
-}
-
 void main() {
   vec2 px = floor(gl_FragCoord.xy);
   if (uMosaic > 1.) px = floor(px / uMosaic) * uMosaic + floor(uMosaic * .5);
@@ -483,17 +466,16 @@ void main() {
   col = nebula(c, col, quiet);
   col = stars(px, col, quiet);
   col = meteor(c, col);
-  for (int i = 0; i < 3; i++) orbit(i, c, false, quiet, col);
+  for (int i = 0; i < NSAT; i++) orbit(i, c, false, quiet, col);
   bool behind = false;
-  for (int i = 0; i < 3; i++) behind = satellite(i, c, false, col) || behind;
+  for (int i = 0; i < NSAT; i++) behind = satellite(i, c, false, col) || behind;
   if (uDive.z > 0.) col = warp(c, col, uDive.z);
   bigMoon(c, behind, col);
   cat(px, col);
   heart(px, col);
   zzz(px, col);
-  for (int i = 0; i < 3; i++) orbit(i, c, true, quiet, col);
-  for (int i = 0; i < 3; i++) satellite(i, c, true, col);
-  link(c, col);
+  for (int i = 0; i < NSAT; i++) orbit(i, c, true, quiet, col);
+  for (int i = 0; i < NSAT; i++) satellite(i, c, true, col);
   if (uDive.w > 0.) {
     // Through the fruit and out into the night where the studio begins.
     float hd = length(c - uDive.xy);
@@ -531,7 +513,7 @@ void main() {
     gl.enableVertexAttribArray(aPos);
     gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
     const u = {};
-    for (const name of ['uRes', 'uTime', 'uMoon', 'uL', 'uMosaic', 'uCopy', 'uCopy2', 'uSat', 'uOrb', 'uFx', 'uLink', 'uPar', 'uCat', 'uDive', 'uSleep', 'uPal', 'uCatTex']) u[name] = gl.getUniformLocation(program, name);
+    for (const name of ['uRes', 'uTime', 'uMoon', 'uL', 'uMosaic', 'uCopy', 'uCopy2', 'uSat', 'uOrb', 'uFx', 'uPar', 'uCat', 'uDive', 'uSleep', 'uPal', 'uCatTex']) u[name] = gl.getUniformLocation(program, name);
 
     function texture(unit, w, h, data) {
       const t = gl.createTexture();
@@ -550,10 +532,10 @@ void main() {
       pal[i] = parseInt(hex.slice(1, 3), 16); pal[i + 1] = parseInt(hex.slice(3, 5), 16); pal[i + 2] = parseInt(hex.slice(5, 7), 16); pal[i + 3] = 255;
     }));
     texture(0, 8, PALETTE.length, pal);
-    texture(1, CAT_W, CAT_H, catFrame(false, false, false));
+    texture(1, CAT_W, CAT_H, catFrame(false, false));
     gl.uniform1i(u.uPal, 0);
     gl.uniform1i(u.uCatTex, 1);
-    let catKey = '0,0,0';
+    let catKey = '0,0';
 
     // ---- layout: CSS pixels to art pixels (origin bottom left) ----
     let dpr = 1, P = 3, unit = 3, artW = 1, artH = 1;
@@ -577,7 +559,7 @@ void main() {
       box = inner.getBoundingClientRect();
       const s = slot.getBoundingClientRect();
       const cx = s.left - box.left + s.width / 2, cy = s.top - box.top + s.height / 2;
-      const rCss = narrow ? Math.min(w * .22, s.height * .34) : Math.min(s.width * .29, s.height * .33, 250);
+      const rCss = narrow ? Math.min(w * .19, s.height * .3) : Math.min(s.width * .21, s.height * .4, 250);   // Mangue's orbit is 2.2 radii wide on each side
       moon.r = Math.max(18, Math.round(rCss / unit));
       moon.x = Math.round(cx / unit);
       moon.y = Math.round(artH - cy / unit);
@@ -591,20 +573,17 @@ void main() {
       const q = (sel) => section.querySelector(sel);
       if (narrow) {
         toArt([q('.studio-wordmark'), q('#studio-title'), q('.studio-lede')], copyArt);
-        toArt([q('.studio-orbits'), q('.studio-cta')], copyArt2);
+        toArt([q('.studio-window'), q('.studio-cta')], copyArt2);
       } else {
         toArt([copy], copyArt);
         copyArt2.fill(-999);
       }
       SATS.forEach((sat, i) => { orbitsArt[i] = [sat.a * moon.r, sat.b * sat.a * moon.r, sat.tilt]; });
+      labels.forEach((label) => { label.halfWidth = undefined; });   // measured again in the new type size
       // The moon is the studio's link (and the portal's starting point).
       if (moonLink) Object.assign(moonLink.style, {
         left: `${(moon.x - moon.r) * unit}px`, top: `${(artH - moon.y - moon.r) * unit}px`,
         width: `${moon.r * 2 * unit}px`, height: `${moon.r * 2 * unit}px`,
-      });
-      if (caption) Object.assign(caption.style, {
-        left: `${moon.x * unit}px`,
-        top: `${(artH - moon.y + moon.r + Math.max(SATS[2].b * SATS[2].a, .5) * moon.r + 14) * unit}px`,
       });
     }
 
@@ -617,9 +596,8 @@ void main() {
     if (params.has('s-mx')) { pointer.inside = true; pointer.cssX = parseFloat(params.get('s-mx')); pointer.cssY = parseFloat(params.get('s-my')); }
     const L = [-.15, 0, -.99];
     const sats = SATS.map((s) => ({ angle: s.start, scale: 1, x: 0, y: 0, r: 0, z: 0 }));
-    let focus = params.has('s-focus') ? parseInt(params.get('s-focus'), 10) : -1;
-    let focusFrom = null;     // the list row that asked for the spotlight, if any
-    let linkGrow = 0;
+    // The spotlit project: the one in the window under the sky (js/galaxy.js).
+    let focus = params.has('s-focus') ? parseInt(params.get('s-focus'), 10) : 0;
     let heartAt = -99;
     let dive = params.has('s-dive') ? { start: (frozenAt ?? 0) - parseFloat(params.get('s-dive')), onDone: null, done: false } : null;
     const DIVE = 1.5;
@@ -652,19 +630,10 @@ void main() {
         target = lightFrom(Math.atan2(vy, vx), .1 + 2.12 * smooth(.5, 3.2, dist));
       } else target = tourLight(time - tourStart);
       const k = frozenAt !== null || reduced ? 1 : 1 - Math.exp(-dt * (dive ? 9 : arrived && intro < 2 ? 2.4 : 3.6));
-      for (let i = 0; i < 3; i++) L[i] += (target[i] - L[i]) * k;
+      for (let i = 0; i < 3; i++) L[i] += (target[i] - L[i]) * k;   // x, y, z of the light
       const n = Math.hypot(L[0], L[1], L[2]) || 1;
       L[0] /= n; L[1] /= n; L[2] /= n;
       // orbits
-      const touch = !fine.matches;
-      if (touch && arrived && !dive && !items.some((it) => it.matches(':focus')) && frozenAt === null) {
-        // Phones: the spotlight visits each project in turn.
-        const cycle = (time - tourStart - 2.5) / 4.5;
-        const next = cycle < 0 ? -1 : Math.floor(cycle) % 3;
-        if (next !== focus) items.forEach((it, i) => it.classList.toggle('is-lit', i === next));
-        focus = next;
-        focusFrom = null;
-      }
       sats.forEach((s, i) => {
         const o = SATS[i];
         if (frozenAt !== null) s.angle = o.start + o.speed * time;
@@ -681,7 +650,6 @@ void main() {
         s.r = Math.max(3, Math.round(o.size * moon.r * (1 - .1 * sin))) * s.scale;
         if (dive && s.r < 2.5) s.r = 0;   // gone, rather than a speck
       });
-      linkGrow = focus >= 0 && focusFrom ? Math.min(1, linkGrow + dt / .35) : 0;
       // the dive: the fruit swells to fill the screen, then opens onto the night
       const view = { x: moon.x, y: moon.y, r: moon.r, warp: 0, hole: 0 };
       if (dive) {
@@ -696,47 +664,51 @@ void main() {
         view.hole = open > 0 ? 2 + Math.hypot(innerWidth, innerHeight) / unit * .6 * open ** 1.5 : 0;
         if (dp >= DIVE && !dive.done) { dive.done = true; dive.onDone?.(); }
       }
-      // Juquinha: asleep. He breathes, an ear flicks now and then, and Morfeu close by makes him smile.
-      const catX = Math.round(view.x) - 18, catY = Math.round(view.y + view.r) - 2;
-      const near = !!(p && pointer.inside && Math.hypot(p[0] - (catX + 26), p[1] - (catY + 9)) < 34);
+      // Juquinha: asleep. He breathes and an ear flicks now and then; nothing wakes him.
+      const catX = Math.round(view.x) - 24, catY = Math.round(view.y + view.r) - 2 - CAT_GROUND;
       const breath = !reduced && (time % 3.4) < 1.5;
-      const twitch = !reduced && ((time % 9.5) < .22 || (near && (time % 2.1) < .18));
-      const key = `${+breath},${+twitch},${+near}`;
+      const twitch = !reduced && (time % 9.5) < .22;
+      const key = `${+breath},${+twitch}`;
       if (key !== catKey) {
         catKey = key;
         gl.activeTexture(gl.TEXTURE1);
-        gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, CAT_W, CAT_H, gl.RGBA, gl.UNSIGNED_BYTE, catFrame(breath, twitch, near));
+        gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, CAT_W, CAT_H, gl.RGBA, gl.UNSIGNED_BYTE, catFrame(breath, twitch));
       }
       return { intro, catX, catY, view };
     }
 
-    let tagSize = [0, 0];
     function place() {
-      // The invisible links ride on the small moons, so Morfeu gets curious over them.
+      // The invisible links ride on the small moons, so Morfeu gets curious over them; each moon carries
+      // its name faintly, and the spotlit one the reticle instead.
       sats.forEach((s, i) => {
+        const x = s.x * unit, y = (artH - s.y) * unit;
         const hit = hits[i];
-        if (!hit) return;
-        const size = (s.r + 4) * 2 * unit;
-        hit.style.width = hit.style.height = `${size}px`;
-        hit.style.transform = `translate(${s.x * unit - size / 2}px, ${(artH - s.y) * unit - size / 2}px)`;
-        hit.style.zIndex = s.z >= 0 ? 3 : 1;
-      });
-      if (tag) {
-        const s = dive ? null : sats[focus];
-        if (!s || s.r < 2) { tag.classList.remove('is-on'); return; }
-        const item = items[focus];
-        if (tag.dataset.for !== String(focus)) {
-          tag.dataset.for = focus;
-          tag.querySelector('b').textContent = item.dataset.name;
-          tag.querySelector('span').textContent = item.dataset.status;
-          tag.dataset.tone = item.dataset.tone;
-          tagSize = [tag.offsetWidth, tag.offsetHeight];
+        if (hit) {
+          const size = (s.r + 4) * 2 * unit;
+          hit.style.width = hit.style.height = `${size}px`;
+          hit.style.transform = `translate(${x - size / 2}px, ${y - size / 2}px)`;
+          hit.style.zIndex = s.z >= 0 ? 3 : 1;
         }
-        tag.classList.add('is-on');
-        const [tw, th] = tagSize;
-        let x = (s.x + s.r + 5) * unit;
-        if (x + tw > inner.clientWidth - 12) x = (s.x - s.r - 5) * unit - tw;
-        tag.style.transform = `translate(${Math.round(x)}px, ${Math.round((artH - s.y) * unit - th / 2)}px)`;
+        const label = labels[i];
+        if (label) {
+          // Off the fruit and inside the screen: a name over the flesh or cut by the edge reads as noise.
+          const hidden = dive || s.r < 2 || i === focus || Math.hypot(s.x - moon.x, s.y - moon.y) < moon.r + s.r + 2;
+          label.classList.toggle('is-on', !hidden);
+          if (!hidden) {
+            const half = (label.halfWidth ??= label.offsetWidth / 2);
+            const lx = Math.min(Math.max(x, half + 8), inner.clientWidth - half - 8);
+            label.style.transform = `translate(${Math.round(lx - half)}px, ${Math.round(y - (s.r + 5) * unit)}px) translateY(-100%)`;
+          }
+        }
+      });
+      if (reticle) {
+        const s = dive ? null : sats[focus];
+        reticle.classList.toggle('is-on', Boolean(s && s.r >= 2));
+        if (s && s.r >= 2) {
+          const size = Math.round((s.r + 6) * 2 * unit);
+          reticle.style.width = reticle.style.height = `${size}px`;
+          reticle.style.transform = `translate(${Math.round(s.x * unit - size / 2)}px, ${Math.round((artH - s.y) * unit - size / 2)}px)`;
+        }
       }
     }
 
@@ -761,12 +733,6 @@ void main() {
       gl.uniform4fv(u.uOrb, orbitsArt.flatMap(([a, b, tilt], i) => [a, b, tilt, reduced || frozenIntro === null && frozenAt !== null ? 1 : Math.min(1, Math.max(0, (intro - .5 - i * .15) / .5))]));
       const heartAge = (time - heartAt) / 1.1;
       gl.uniform4f(u.uFx, dive ? -1 : focus, reduced ? 1 : Math.min(1, Math.max(0, intro / 1.3)), heartAge >= 0 && heartAge <= 1 ? heartAge : -1, moonHover && !reduced && !dive ? 1 : 0);
-      let lx = 0, ly = 0;
-      if (focusFrom) {
-        const r = focusFrom.getBoundingClientRect();
-        lx = (r.right - box.left) / unit + 3; ly = artH - (r.top + r.height / 2 - box.top) / unit;
-      }
-      gl.uniform4f(u.uLink, lx, ly, dive ? 0 : linkGrow, 0);
       const par = p && pointer.inside ? [Math.round((p[0] / artW - .5) * -6), Math.round((p[1] / artH - .5) * -4)] : [0, 0];
       gl.uniform2f(u.uPar, par[0], par[1]);
       gl.uniform2f(u.uCat, catX, catY);
@@ -778,7 +744,8 @@ void main() {
       else if (frozenAt !== null) window.__studioFrame = (window.__studioFrame || 0) + 1;
     }
 
-    const isActive = () => document.body.dataset.section === 'estudio';
+    // Under the open galaxy the sky rests.
+    const isActive = () => document.body.dataset.section === 'estudio' && !document.documentElement.classList.contains('galaxy-open');
     function running() { return frozenAt === null && !reduced && !document.hidden && (isActive() || performance.now() < keepUntil); }
     function kick() { if (!raf) { last = performance.now(); pace.reset(); raf = requestAnimationFrame(draw); } }
     function arrive() {
@@ -807,7 +774,7 @@ void main() {
     section.addEventListener('pointerdown', (event) => {
       const p = pointerArt();
       if (event.pointerType !== 'mouse' || !p) return;
-      const cx = moon.x + 4, cy = moon.y + moon.r + 7;   // Juquinha, between his back and his head
+      const cx = moon.x, cy = moon.y + moon.r + 5;   // Juquinha, between his back and his head
       if (Math.hypot(p[0] - cx, p[1] - cy) < 30) { heartAt = time; invalidate(); }
     }, { passive: true });
     inner.parentElement.addEventListener('scroll', () => { box = inner.getBoundingClientRect(); }, { passive: true });
@@ -815,20 +782,19 @@ void main() {
       moonLink.addEventListener('pointerenter', () => { moonHover = true; });
       moonLink.addEventListener('pointerleave', () => { moonHover = false; });
     }
-    const spotlight = (i, from) => { focus = i; focusFrom = from; if (!from) linkGrow = 0; invalidate(); };
-    const release = (i) => { if (focus === i) { focus = -1; focusFrom = null; invalidate(); } };
-    items.forEach((item, i) => {
-      item.addEventListener('pointerenter', () => spotlight(i, item));
-      item.addEventListener('pointerleave', () => release(i));
-      item.addEventListener('focus', () => spotlight(i, item));
-      item.addEventListener('blur', () => release(i));
-    });
-    hits.forEach((hit, i) => {
-      hit.addEventListener('pointerenter', () => { spotlight(i, null); items[i]?.classList.add('is-lit'); });
-      hit.addEventListener('pointerleave', () => { release(i); items[i]?.classList.remove('is-lit'); });
+    // Pointing at a moon brings it to the window; the window's arrows move the spotlight.
+    hits.forEach((hit, i) => hit.addEventListener('pointerenter', () => {
+      if (focus === i || dive) return;
+      focus = i;
+      invalidate();
+      document.dispatchEvent(new CustomEvent('studio:select', { detail: { index: i, from: 'scene' } }));
+    }));
+    document.addEventListener('studio:select', (event) => {
+      if (event.detail.from !== 'scene') { focus = event.detail.index; invalidate(); }
     });
 
     document.addEventListener('portfolio:sectionchange', sync);
+    document.addEventListener('galaxy:toggle', sync);
     document.addEventListener('visibilitychange', sync);
     new ResizeObserver(() => { layout(); invalidate(); if (!raf && isActive()) kick(); }).observe(inner);
     document.fonts?.ready.then(() => { layout(); invalidate(); });

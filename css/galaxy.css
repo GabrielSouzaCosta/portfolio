@@ -1,0 +1,280 @@
+/* The galaxy (js/galaxy.js): where the dive into the guava lands. One project at a time; the planets on the
+   orbit are the menu. The sky is one baked image (assets/images/galaxy.webp, 1440 x 900) that covers the
+   screen from the bottom, so the planets keep their places on its orbit; the words sit on a darker night. */
+.galaxy {
+  --gl-night: #0b0920;
+  --gl-cream: #fff4dc;
+  --gl-text: #f6f0fa;
+  --gl-muted: #d6cce8;
+  --gl-pink: #efabc3;
+  --gl-pink-hot: #ffc8db;
+  --gl-magenta: #8a2f6b;
+  --gl-lime: #e2db84;
+  --gl-lav: #cca7f1;
+  --gl-pixel: "VT323", monospace;
+  --s: 1;
+  --zone: 205px;   /* the strip of orbit along the bottom, in stage px */
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  overflow: hidden;
+  background: var(--gl-night);
+  color: var(--gl-text);
+}
+.galaxy[hidden] { display: none; }
+.galaxy [hidden] { display: none !important; }
+[data-tone="live"] { --tone: var(--gl-lime); }
+[data-tone="preview"] { --tone: var(--gl-pink); }
+[data-tone="soon"] { --tone: var(--gl-lav); }
+
+/* ---- the stage: the baked sky and the planets on its orbit ---- */
+.gx-stage {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 1440px;
+  height: 900px;
+  transform: translateX(-50%) scale(var(--s));
+  transform-origin: 50% 100%;
+}
+.gx-bg { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+/* The night deepens behind the words, so stars never sit under a letter. */
+.gx-scrim {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 56% 60% at 23% 40%, #0b0920f2 0%, #0b0920d9 42%, #0b092000 100%);
+  pointer-events: none;
+}
+.gx-planets { position: absolute; inset: 0; }
+.gx-planet {
+  position: absolute;
+  left: calc(var(--x) * 1px);
+  top: calc(var(--y) * 1px);
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--gl-muted);
+  font: 400 22px/1 var(--gl-pixel);
+  letter-spacing: .06em;
+  transform: translate(-50%, -50%);
+  -webkit-tap-highlight-color: transparent;
+}
+.gx-planet img { display: block; width: auto; height: 48px; transition: transform .2s steps(2); }
+.gx-planet span {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 12px);
+  transform: translateX(-50%);
+  white-space: nowrap;
+  text-shadow: 0 2px 0 var(--gl-night), 0 0 10px var(--gl-night), 0 0 4px var(--gl-night);
+}
+.gx-planet:hover img { transform: translateY(-4px); }
+.gx-planet:hover { color: var(--gl-cream); }
+.gx-planet[aria-pressed="true"] { color: var(--gl-cream); }
+.gx-planet[aria-pressed="true"] img { height: 64px; }
+.gx-planet[aria-pressed="true"] span { bottom: calc(100% + 30px); font-size: 25px; }
+.gx-planet:focus-visible { outline: 2px dashed var(--gl-pink); outline-offset: 12px; }
+.gx-reticle { left: 50%; top: 50%; width: 104px; height: 104px; --t: 5px; --l: 20px; transform: translate(-50%, -50%); }
+.gx-slot {
+  position: absolute;
+  left: 1240px;
+  top: 844px;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 12px;
+  font: 400 20px/1 var(--gl-pixel);
+  letter-spacing: .06em;
+  white-space: nowrap;
+  color: #b9add3;
+  text-shadow: 0 2px 0 var(--gl-night), 0 0 10px var(--gl-night);
+  transform: translate(-50%, calc(-100% + 22px));
+}
+.gx-slot i { width: 44px; height: 44px; border: 3px dashed #cca7f1b3; border-radius: 50%; }
+
+/* ---- the frame ---- */
+.gx-top {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 26px clamp(20px, 3.9vw, 56px);
+}
+.gx-mark { margin: 0 auto 0 0; font: 400 42px/1 var(--gl-pixel); color: var(--gl-cream); text-shadow: 0 .06em 0 var(--gl-magenta); white-space: nowrap; }
+.gx-mark em { font-style: normal; color: var(--gl-pink); }
+.gx-site { display: inline-flex; align-items: center; gap: 10px; font: 400 25px/1 var(--gl-pixel); letter-spacing: .04em; color: var(--gl-lav); text-shadow: 0 2px 0 var(--gl-night); }
+.gx-site .px-ne { width: 17px; height: 17px; }
+.gx-site:hover { color: var(--gl-pink-hot); }
+.gx-close {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 48px;
+  padding: 0 16px 2px 14px;
+  border: 3px solid var(--gl-lav);
+  background: var(--gl-night);
+  color: var(--gl-cream);
+  font: 400 27px/1 var(--gl-pixel);
+  letter-spacing: .04em;
+}
+.gx-close .px-x { width: 16px; height: 16px; }
+.gx-close kbd { font: inherit; font-size: 18px; color: #b9add3; }
+.gx-close:hover { border-color: var(--gl-pink); }
+.galaxy :focus-visible { outline: 2px dashed var(--gl-pink); outline-offset: 5px; }
+
+/* ---- one project ---- */
+.gx-projects {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: calc(var(--zone) * var(--s));
+  z-index: 2;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #cca7f155 transparent;
+}
+.gx-project {
+  display: grid;
+  grid-template-columns: minmax(0, 500px) minmax(0, 1fr);
+  column-gap: clamp(32px, 5vw, 80px);
+  align-items: center;
+  min-height: 100%;
+  padding: 104px clamp(24px, 4.4vw, 64px) 12px clamp(24px, 8.3vw, 120px);
+}
+.gx-copy { text-shadow: 0 2px 0 var(--gl-night); }
+.gx-count { font: 400 26px/1 var(--gl-pixel); letter-spacing: .12em; color: var(--gl-lav); }
+.gx-count span { color: #b9add3; }
+.gx-name { display: flex; align-items: center; gap: 24px; margin: 10px 0 0; font: 400 clamp(64px, 11.5dvh, 108px)/.9 var(--gl-pixel); color: var(--gl-cream); overflow-wrap: anywhere; }
+.gx-name img { flex: none; width: auto; height: 64px; }
+.gx-name:focus { outline: none; }
+.gx-status { display: flex; align-items: center; gap: 10px; margin-top: 14px; font: 400 26px/1 var(--gl-pixel); letter-spacing: .08em; text-transform: uppercase; color: var(--tone); }
+.gx-status i { width: 10px; height: 10px; background: currentColor; }
+[data-tone="live"] .gx-status i { animation: gl-blink 1.6s steps(1) infinite; }
+.gx-tagline { margin-top: 22px; font: 400 clamp(38px, 5.6dvh, 50px)/1 var(--gl-pixel); color: var(--gl-cream); }
+.gx-body {
+  max-width: 470px;
+  margin-top: 18px;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.65;
+  color: var(--gl-text);
+  text-shadow: 0 1px 0 var(--gl-night), 0 0 14px var(--gl-night);
+}
+.gx-features { margin-top: 16px; font: 400 26px/1.15 var(--gl-pixel); letter-spacing: .02em; color: #e2d0fb; }
+.gx-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 32px; margin-top: 30px; }
+.gx-visit {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  min-height: 58px;
+  padding: 0 20px 2px 22px;
+  background: var(--gl-pink);
+  color: #2a1238;
+  font: 400 29px/1 var(--gl-pixel);
+  text-shadow: none;
+  box-shadow: 0 6px 0 var(--gl-magenta);
+  transition: transform 90ms steps(2), box-shadow 90ms steps(2);
+}
+.gx-visit:hover { background: var(--gl-pink-hot); transform: translateY(-2px); box-shadow: 0 8px 0 var(--gl-magenta); }
+.gx-visit:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--gl-magenta); }
+.gx-soon { padding: 12px 16px 14px; border: 3px dashed #cca7f199; font: 400 25px/1 var(--gl-pixel); color: var(--gl-lav); }
+.gx-next { display: inline-flex; align-items: center; gap: 10px; padding: 8px 0; border: 0; background: none; color: var(--gl-cream); font: 400 28px/1 var(--gl-pixel); text-shadow: inherit; }
+.gx-next-name { display: none; }
+.gx-next:hover { color: var(--gl-pink-hot); }
+.gx-next:hover .px-arrow { animation: gl-nudge-x .6s steps(2) infinite; }
+
+/* ---- the screens, in pixel windows ---- */
+.gx-shots { position: relative; display: flex; align-items: flex-start; justify-content: center; gap: 22px; }
+.gx-win { flex: none; margin: 0; background: #120d2e; border: 3px solid var(--gl-lav); }
+.gx-win figcaption { height: 30px; padding: 3px 10px 0; background: var(--gl-lav); color: var(--gl-night); font: 400 22px/1 var(--gl-pixel); }
+.gx-win img { display: block; width: auto; height: var(--shot-h); }
+.gx-shots[data-layout="phones"] { --shot-h: clamp(220px, calc(100dvh - var(--zone) * var(--s) - 250px), 437px); }
+.gx-shots[data-layout="phones"] .gx-win:nth-child(2) { margin-top: -32px; }
+/* A wide screen in front, a second one tucked under its corner. */
+.gx-shots[data-layout="web"] { display: block; padding-bottom: 56px; --shot-h: auto; }
+.gx-shots[data-layout="web"] .gx-win:first-child { width: min(88%, 620px, calc((100dvh - var(--zone) * var(--s) - 260px) * 1.6)); }
+.gx-shots[data-layout="web"] .gx-win:first-child img { width: 100%; height: auto; }
+.gx-shots[data-layout="web"] .gx-win:nth-child(2) { position: absolute; right: 0; bottom: 0; }
+.gx-shots[data-layout="web"] .gx-win.is-web:nth-child(2) { width: min(52%, 380px); }
+.gx-shots[data-layout="web"] .gx-win.is-web:nth-child(2) img { width: 100%; height: auto; }
+.gx-shots[data-layout="web"] .gx-win.is-phone:nth-child(2) img { height: clamp(200px, calc(100dvh - var(--zone) * var(--s) - 330px), 380px); }
+
+/* ---- arriving, and moving between worlds ---- */
+@media (prefers-reduced-motion: no-preference) {
+  .galaxy.is-landing::after { content: ""; position: absolute; inset: 0; z-index: 5; background: var(--gl-night); pointer-events: none; animation: gx-dawn .45s steps(4) forwards; }
+  .galaxy.is-landing .gx-project:not([hidden]) :is(.gx-copy, .gx-shots),
+  .gx-project.is-entering :is(.gx-copy, .gx-shots) { animation: gl-rise .4s steps(4) both; }
+  .galaxy.is-landing .gx-project:not([hidden]) .gx-copy { animation-delay: .3s; }
+  .galaxy.is-landing .gx-project:not([hidden]) .gx-shots { animation-delay: .45s; }
+  .gx-project.is-entering .gx-shots { animation-delay: .1s; }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-tone="live"] .gx-status i { animation: none; }
+  .gx-planet img { transition: none; }
+}
+@keyframes gx-dawn { to { opacity: 0; } }
+@keyframes gl-nudge-x { 50% { transform: translateX(3px); } }
+
+/* ---- shorter and narrower desktops ---- */
+@media (max-width: 1180px) and (min-width: 761px) {
+  .gx-project { grid-template-columns: minmax(0, 420px) minmax(0, 1fr); padding-left: clamp(24px, 5vw, 64px); }
+  .gx-shots[data-layout="phones"] { gap: 14px; --shot-h: clamp(200px, calc(100dvh - var(--zone) * var(--s) - 270px), 360px); }
+  .gx-shots[data-layout="phones"] .gx-win:nth-child(3) { display: none; }
+}
+@media (min-width: 761px) and (max-height: 780px) {
+  .galaxy { --zone: 222px; }
+  .gx-planet[aria-pressed="true"] span { display: none; }   /* the name is already large above it */
+  .gx-top { padding-block: 18px; }
+  .gx-project { grid-template-columns: minmax(0, 580px) minmax(0, 1fr); padding-top: 76px; }
+  .gx-name { font-size: clamp(60px, 10dvh, 80px); }
+  .gx-features { display: none; }   /* the body already names them; the buttons must stay above the orbit */
+  .gx-tagline { margin-top: 14px; }
+  .gx-body { margin-top: 12px; font-size: 17px; line-height: 1.55; }
+  .gx-features { margin-top: 10px; }
+  .gx-actions { margin-top: 20px; }
+}
+
+/* ---- phones: the little system on top, the story below, the screens in a strip ---- */
+@media (max-width: 760px) {
+  .galaxy { overflow-y: auto; overscroll-behavior: contain; }
+  .gx-stage { left: 0; bottom: auto; top: 0; width: 390px; height: 1500px; transform: scale(var(--s)); transform-origin: 0 0; }
+  .gx-scrim, .gx-slot { display: none; }
+  .gx-planet { left: calc(var(--mx) * 1px); top: calc(var(--my) * 1px); }
+  .gx-planet img { height: 32px; }
+  .gx-planet[aria-pressed="true"] img { height: 48px; }
+  .gx-planet span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .gx-reticle { width: 80px; height: 80px; --t: 4px; --l: 14px; }
+  .gx-top { position: sticky; z-index: 4; gap: 12px; padding: 14px 16px 18px; background: linear-gradient(#0b0920f0 55%, #0b092000); }
+  .gx-mark { font-size: 32px; }
+  .gx-site { display: none; }
+  .gx-close { height: 44px; padding-inline: 12px; font-size: 24px; }
+  .gx-close kbd { display: none; }
+  .gx-projects { position: relative; inset: auto; overflow: visible; padding-top: calc(300px * var(--s) - 76px); }
+  .gx-project { display: flex; flex-direction: column; align-items: stretch; min-height: 0; padding: 0 16px 40px; }
+  .gx-copy { display: contents; }
+  .gx-count { font-size: 22px; }
+  .gx-name { gap: 16px; font-size: 74px; }
+  .gx-name img { height: 48px; }
+  .gx-status { font-size: 22px; }
+  .gx-tagline { font-size: 36px; }
+  .gx-body { font-size: 16.5px; line-height: 1.6; }
+  .gx-features { font-size: 23px; }
+  .gx-shots,
+  .gx-shots[data-layout] { order: 1; display: flex; align-items: flex-start; gap: 14px; margin: 26px -16px 0; padding: 4px 16px 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .gx-win { scroll-snap-align: start; }
+  .gx-shots[data-layout] .gx-win:nth-child(n) { position: static; display: block; width: auto; margin: 0; }
+  .gx-shots[data-layout] .gx-win img { width: auto; height: 300px; }
+  .gx-shots[data-layout] .gx-win.is-web img { height: 200px; }
+  .gx-actions { order: 2; flex-direction: column; align-items: stretch; gap: 18px; margin-top: 26px; }
+  .gx-visit { justify-content: space-between; font-size: 27px; }
+  .gx-soon { text-align: center; }
+  .gx-next { justify-content: space-between; font-size: 24px; }
+  .gx-next-name { display: inline; }
+}

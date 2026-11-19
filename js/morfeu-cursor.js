@@ -120,7 +120,7 @@
   function canShow(event) {
     return event.pointerType === 'mouse' && fine.matches && !reduced.matches &&
       !document.hidden && document.body.dataset.section === 'estudio' &&
-      event.target instanceof Element && studio.contains(event.target);
+      event.target instanceof Element && Boolean(event.target.closest('#estudio, #galaxia'));
   }
 
   function follow(event) {

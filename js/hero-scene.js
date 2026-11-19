@@ -315,6 +315,7 @@
   const copy = hero.querySelector('.hero-copy');
   const h1 = hero.querySelector('#hero-title');
   const lede = hero.querySelector('.hero-description');
+  const contents = hero.querySelector('.hero-contents');
   const tag = hero.querySelector('.hero-tag');
   const art = hero.querySelector('.hero-art');
   const gl = canvas.getContext('webgl2', { antialias: false, premultipliedAlpha: false });
@@ -363,14 +364,16 @@
     dpr = Math.max(Math.min(1, sharpest), sharpest * pace.scale);
     h1.style.fontSize = '';
     lede.style.maxWidth = '';
+    contents.style.maxWidth = '';
     canvas.style.top = canvas.style.height = '';
     const W = hero.clientWidth, H = hero.clientHeight;
     const left = copy.offsetLeft;
     let scale, x0, y0, w = W, h = H;
     if (!stacked) {
-      const tx = Math.max(W * .41, left + 360); // the tear lands here
+      const tx = Math.max(W * .44, left + 400); // the tear lands here, past the contents rows
       fitHeadline(tx - left - 80, 104);
       lede.style.maxWidth = Math.max(260, Math.min(420, tx - left - 70)) + 'px';
+      contents.style.maxWidth = Math.max(300, Math.min(470, tx - left - 30)) + 'px';
       scale = Math.max(H / IMG_H, (W - tx) / (IMG_W - SAFE_X));
       x0 = tx - SAFE_X * scale;
       y0 = Math.min(0, Math.max(H - IMG_H * scale, H * .5 - IMG_H * .5 * scale));
@@ -497,6 +500,7 @@
     if (e.pointerType !== 'mouse' || !introDone || !isActive()) return;
     auto = false;
     startTourSoon();
+    if (e.target.closest('.hero-contents')) return;   // the contents rows light their own worlds
     const r = canvas.getBoundingClientRect();
     const inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
     const [px, py] = toPlate(e.clientX, e.clientY);
@@ -507,6 +511,15 @@
     if (s) want(s.mode, [px, py], 90);
     else want(0, [px, py], 380);
   }, { passive: true });
+  // The contents page: pointing at a chapter lights its world in the plate.
+  copy.querySelectorAll('.hero-contents a[data-world]').forEach(link => link.addEventListener('pointerenter', e => {
+    if (e.pointerType !== 'mouse' || !introDone || !isActive()) return;
+    const s = SPOTS.find(sp => sp.mode === +link.dataset.world);
+    auto = false;
+    want(s.mode, [s.x, s.y], 60);
+    const [cx, cy] = toScreen(s.x, s.y);
+    showTag({ la: link.querySelector('span').textContent, pt: link.querySelector('small').textContent }, cx, cy);
+  }));
   hero.addEventListener('pointerdown', e => {
     if (e.pointerType === 'mouse' || !introDone || e.target.closest('a, button')) return;
     auto = false;

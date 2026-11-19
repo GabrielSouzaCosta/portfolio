@@ -15,7 +15,6 @@
   const slot = section.querySelector('.ess-slot');
   const canvas = section.querySelector('.ess-gl');
   const hit = section.querySelector('.ess-wheel-hit');
-  const hint = section.querySelector('.ess-hint');
   const steps = [...section.querySelectorAll('.ess-step button')];
 
   const params = new URLSearchParams(location.search);
@@ -43,7 +42,7 @@
 
   function fillHouse(h) {
     section.dataset.house = String(h);
-    steps.forEach((s, i) => s.setAttribute('aria-expanded', String(i === h)));
+    steps.forEach((s, i) => s.setAttribute('aria-pressed', String(i === h)));
   }
 
   /* ---------------- GL ---------------- */
@@ -55,7 +54,7 @@
       const img = document.createElement('img');
       img.src = 'assets/images/volvella-plate.webp'; img.alt = ''; img.className = 'ess-fallback';
       slot.prepend(img);
-      hit.remove(); hint.remove();
+      hit.remove();
       steps.forEach((s, i) => s.addEventListener('click', () => fillHouse(i)));
       return;
     }
@@ -417,16 +416,14 @@
     function layout() {
       W = inner.clientWidth; H = inner.clientHeight;
       const ib = inner.getBoundingClientRect(), sb = slot.getBoundingClientRect();
-      const hintRoom = 44;
-      R = Math.max(120, Math.min(sb.width * 0.47, (sb.height - hintRoom) * 0.47, 420));
+      R = Math.max(120, Math.min(sb.width * 0.47, sb.height * 0.47, 420));
       cx = sb.left - ib.left + sb.width / 2;
-      cy = sb.top - ib.top + (sb.height - hintRoom * 0.5) / 2;
+      cy = sb.top - ib.top + sb.height / 2;
       const sharpest = Math.min(window.devicePixelRatio || 1, 2);
       dpr = Math.max(Math.min(1, sharpest), sharpest * pace.scale);
       canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
       const lx = cx - (sb.left - ib.left), ly = cy - (sb.top - ib.top);
       Object.assign(hit.style, { left: (lx - R) + 'px', top: (ly - R) + 'px', width: 2 * R + 'px', height: 2 * R + 'px' });
-      Object.assign(hint.style, { left: lx + 'px', top: (ly + R + 18) + 'px' });
       if (!mouse.has) { lamp.x = cx - R * 0.55; lamp.y = cy - R * 0.85; }
     }
 
